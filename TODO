@@ -1,0 +1,16 @@
+5. Web player
+6. Homepage
+7. Settings
+8. Search
+9. Discover
+
+
+## Global UI
+    * What happens when JS is off?
+        => https://www.allantatter.com/react-js-and-progressive-enhancement/
+
+## Miscellaneous
+    * See TODOs in the code
+    * https://facebook.github.io/immutable-js/ ?
+    * Web workers?
+    * Accessibility and semantics

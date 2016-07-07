@@ -1,0 +1,153 @@
+/*
+ * Sidebar
+ */
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #333;
+    color: white;
+    border-right: 1px solid #eee;
+}
+/* Sidebar elements */
+.sidebar a {
+    color: white;
+}
+.sidebar h1 {
+    margin: 0;
+    margin-bottom: 20px;
+}
+.sidebar h1 img {
+    height: 46px;
+}
+.sidebar h1 a {
+    text-decoration: none;
+}
+/* Sidebar navigation */
+.nav-sidebar {
+    margin-right: -21px; /* 20px padding + 1px border */
+    margin-bottom: 20px;
+    margin-left: -20px;
+}
+.nav-sidebar > li > a {
+    padding-right: 20px;
+    padding-left: 20px;
+}
+.nav-sidebar .nav-sidebar {
+    margin-bottom: 0;  /* No margin bottom for nested nav-sidebar. */
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus,
+.nav>li>a:hover {
+    color: #fff;
+    background-color: #222;
+}
+.icon-navbar {
+    background-color: #555;
+    font-size: 1.25em;
+}
+.icon-navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+  text-align: center;
+}
+
+
+/*
+ * Main content
+ */
+.main-panel {
+    padding: 20px;
+}
+@media (min-width: 768px) {
+    .main-panel {
+        padding-right: 40px;
+        padding-left: 40px;
+    }
+}
+
+
+/*
+ * Filtering field
+ */
+div.filter {
+    margin-bottom: 34px;
+}
+.filter-legend {
+    text-align: right;
+    line-height: 34px;
+}
+@media (max-width: 767px) {
+    .filter-legend {
+        text-align: center;
+    }
+}
+@media (min-width: 767px) {
+    .filter .form-group {
+        width: 75%;
+    }
+}
+
+
+/*
+ * Placeholder dashboard ideas
+ */
+.placeholders {
+    margin-bottom: 30px;
+    text-align: center;
+}
+.placeholders h4 {
+    margin-bottom: 0;
+}
+.placeholder img:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+
+/**
+ * Pager
+ */
+.pagination-nav {
+    text-align: center;
+}
+.pagination>li>span {
+    cursor: pointer;
+}
+
+/**
+ * Login screen
+ */
+.login h1 img {
+    height: 46px;
+}
+@media (max-width: 767px) {
+    .login .submit {
+        text-align: center;
+    }
+}
+
+/**
+ * Misc
+ */
+
+.art {
+    display: inline-block;
+    border-radius: 50%;
+    margin-bottom: .5em;
+    width: 75%;
+    height: auto;
+}
+
+
+.albumRow {
+    margin-top: 30px;
+}
