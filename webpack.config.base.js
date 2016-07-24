@@ -1,6 +1,10 @@
 var path = require("path");
 var webpack = require("webpack");
 
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var precss = require("precss");
+var autoprefixer = require("autoprefixer");
+
 module.exports = {
     entry: {
         "index": "./index.js",
@@ -10,22 +14,62 @@ module.exports = {
     output: {
         path: path.join(__dirname, "app/dist"),
         filename: "[name].js",
-        publicPath: "/app/dist/"
+        publicPath: "./"
     },
 
     module: {
         loaders: [
+            // Handle JS/JSX files
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
                 loaders: ["babel"],
                 include: __dirname
+            },
+            {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader!postcss-loader")
+            },
+            {
+                test: /\.less$/,
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
+            },
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader")
+            },
+            {
+                test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+                loader: "file?name=fonts/[name].[ext]"
+            },
+            {
+                test: /\.(woff|woff2)$/,
+                loader:"url?name=fonts/[name].[ext]&limit=5000"
+            },
+            {
+                test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+                loader: "url?name=fonts/[name].[ext]&limit=10000&mimetype=application/octet-stream"
+            },
+            {
+                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+                loader: "url?name=img/[name].[ext]&limit=10000&mimetype=image/svg+xml"
             }
         ]
     },
 
     plugins: [
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        }),
+        new ExtractTextPlugin("style.css", { allChunks: true })
     ],
+
+    postcss: function () {
+        return [precss, autoprefixer({
+            browsers: ["last 3 versions"]
+        })];
+    },
 
     resolve: {
         // Include empty string "" to resolve files by their explicit extension
@@ -38,6 +82,6 @@ module.exports = {
         alias: {
             "masonry": "masonry-layout",
             "isotope": "isotope-layout"
-        }
+        },
     }
 };

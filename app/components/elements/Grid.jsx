@@ -4,7 +4,6 @@ import imagesLoaded from "imagesloaded";
 import Isotope from "isotope-layout";
 import Fuse from "fuse.js";
 import _ from "lodash";
-import $ from "jquery";
 
 import FilterBar from "./FilterBar";
 import Pagination from "./Pagination";

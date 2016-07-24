@@ -1,5 +1,7 @@
-// Export libs used elsewhere
-export * from "jquery";
+// Export
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.css";
+import "./app/styles/ampache.css";
 
 // Handle app init
 import React from "react";

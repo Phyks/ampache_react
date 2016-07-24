@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 /**
  * Shake animation.
  *

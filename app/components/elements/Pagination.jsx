@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from "react";
 import { Link, withRouter } from "react-router";
-import $ from "jquery";
 
 export class Pagination extends Component {
     constructor(props) {
