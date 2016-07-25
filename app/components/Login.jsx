@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from "react";
 
 export class LoginForm extends Component {
     constructor (props) {
-        super(props)
+        super(props);
 
-        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     setError (formGroup, error) {
@@ -30,11 +30,11 @@ export class LoginForm extends Component {
         hasError |= this.setError(this.refs.endpointFormGroup, !endpoint);
 
         if (!hasError) {
-            this.props.onSubmit(username, password, endpoint, rememberMe)
+            this.props.onSubmit(username, password, endpoint, rememberMe);
         }
     }
 
-    componentDidUpdate (prevProps) {
+    componentDidUpdate () {
         if (this.props.error) {
             $(this.refs.loginForm).shake(3, 10, 300);
             this.setError(this.refs.usernameFormGroup, this.props.error);

@@ -4,13 +4,25 @@
 8. Search
 9. Discover
 
+# CSS
+    * Sidebar responsiveness
+    * Songs on iPhone 5
+    * Set sidebar .active
+    * /artist/:id and /album/:id arts in responsive view
+    * Scroll horizontal sidebar
+    * Move CSS in modules
+
 
 ## Global UI
     * What happens when JS is off?
         => https://www.allantatter.com/react-js-and-progressive-enhancement/
+    * Back button?
 
 ## Miscellaneous
     * See TODOs in the code
     * https://facebook.github.io/immutable-js/ ?
     * Web workers?
     * Accessibility and semantics
+
+    * Uncaught TypeError: this.props.tracks.forEach is not a function
+        => Be more robust, after, getHostNode is null

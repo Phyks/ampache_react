@@ -16,7 +16,8 @@ to the correct URL :)
 The supported browsers should be:
 
 * `IE >= 9` (previous versions of IE are no longer supported by Microsoft)
-* Any recent version of any other browser.
+* Any last three versions of major browsers (> 1% net share).
+* No support provided for Opera Mini.
 
 If you experience any issue, please report :)
 

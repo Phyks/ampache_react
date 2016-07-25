@@ -2,8 +2,12 @@ var path = require("path");
 var webpack = require("webpack");
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var postcssReporter = require("postcss-reporter");
+var doiuse = require("doiuse");
+var stylelint = require("stylelint");
 var precss = require("precss");
 var autoprefixer = require("autoprefixer");
+var browsers = ["ie >= 9", "> 1%", "last 3 versions", "not op_mini all"];
 
 module.exports = {
     entry: {
@@ -18,6 +22,13 @@ module.exports = {
     },
 
     module: {
+        preLoaders: [
+            {
+                test: /\.jsx?$/,
+                loader: "eslint-loader?{failOnError: true}",
+                exclude: /node_modules/
+            }
+        ],
         loaders: [
             // Handle JS/JSX files
             {
@@ -26,9 +37,16 @@ module.exports = {
                 loaders: ["babel"],
                 include: __dirname
             },
+            // Do not postcss vendor modules
             {
                 test: /\.css$/,
+                exclude: /node_modules/,
                 loader: ExtractTextPlugin.extract("style-loader", "css-loader!postcss-loader")
+            },
+            {
+                test: /\.css$/,
+                exclude: /app/,
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader")
             },
             {
                 test: /\.less$/,
@@ -66,9 +84,7 @@ module.exports = {
     ],
 
     postcss: function () {
-        return [precss, autoprefixer({
-            browsers: ["last 3 versions"]
-        })];
+        return [doiuse({ browsers: browsers }), stylelint, precss, autoprefixer({ browsers: browsers }), postcssReporter({ throwError: true, clearMessages: true })];
     },
 
     resolve: {

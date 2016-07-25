@@ -2,8 +2,6 @@ import React, { Component, PropTypes } from "react";
 
 import { AlbumRow } from "./Album";
 
-// TODO: Songs without associated album
-
 export default class Artist extends Component {
     render () {
         var albumsRows = [];

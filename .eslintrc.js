@@ -3,6 +3,13 @@ module.exports = {
         "browser": true,
         "es6": true
     },
+    "globals": {
+        "$": false,
+        "jQuery": false,
+        "process": false,
+        "module": true,
+        "require": false
+    },
     "extends": "eslint:recommended",
     "installedESLint": true,
     "parserOptions": {

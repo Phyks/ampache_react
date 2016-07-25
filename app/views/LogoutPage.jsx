@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
@@ -16,11 +16,8 @@ export class LogoutPage extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-});
-
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators(actionCreators, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogoutPage);
+export default connect(null, mapDispatchToProps)(LogoutPage);

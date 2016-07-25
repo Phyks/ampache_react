@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# TODO: Rebuild only if needed
-
 # Get against which ref to diff
 if git rev-parse --verify HEAD >/dev/null 2>&1
 then
@@ -24,21 +22,6 @@ if [ -z "$js_files" ]
 then
     exit 0
 fi
-
-
-# ESLint modified files
-if [ -e "./node_modules/eslint/bin/eslint.js" ]
-then
-    ESLINT="node ./node_modules/eslint/bin/eslint.js"
-elif hash eslint
-then
-    ESLINT="eslint"
-else
-    exit "You should install ESLint."
-fi
-
-echo "Running ESLint on your code…"
-$ESLINT $js_files
 
 
 # Run webpack

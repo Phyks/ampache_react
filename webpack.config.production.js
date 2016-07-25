@@ -3,7 +3,6 @@ var config = require("./webpack.config.base.js");
 
 // Report first error as hard error
 config.bail = true;
-// Switch to debug mode
 config.debug = false;
 // Do not capture timing information for each module
 config.profile = false;
@@ -11,6 +10,7 @@ config.profile = false;
 config.devtool = "#source-map";
 
 config.plugins = config.plugins.concat([
+    new webpack.NoErrorsPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
