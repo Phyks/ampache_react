@@ -51,7 +51,7 @@ export class AlbumRow extends Component {
                 </div>
                 <div className="row">
                     <div className="col-md-2">
-                        <p className="text-center"><img src={this.props.album.art} width="200" height="200" className="img-responsive art" alt={this.props.album.name} /></p>
+                        <p className="text-center"><img src={this.props.album.art} width="200" height="200" className="img-responsive img-circle art" alt={this.props.album.name} /></p>
                     </div>
                     <div className="col-md-10">
                         <AlbumTracksTable tracks={this.props.album.tracks} />

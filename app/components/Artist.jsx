@@ -19,7 +19,7 @@ export default class Artist extends Component {
                         <p>{this.props.artist.summary}</p>
                     </div>
                     <div className="col-md-3">
-                        <p><img src={this.props.artist.art} width="200" height="200" className="img-responsive art" alt={this.props.artist.name}/></p>
+                        <p><img src={this.props.artist.art} width="200" height="200" className="img-responsive img-circle art" alt={this.props.artist.name}/></p>
                     </div>
                 </div>
                 { albumsRows }
