@@ -1,4 +1,5 @@
 // TODO: Refactor using normalizr
+// TODO: https://facebook.github.io/immutable-js/ ?
 import "babel-polyfill";
 import fetch from "isomorphic-fetch";
 import humps from "humps";

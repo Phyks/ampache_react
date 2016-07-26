@@ -43,6 +43,9 @@ module.exports = {
             "error",
         ],
         "react/jsx-uses-react": "error",
-        "react/jsx-uses-vars": "error"
+        "react/jsx-uses-vars": "error",
+
+        // Disable no-console rule in production
+        "no-console": process.env.NODE_ENV !== "production" ? "off" : ["error"]
     }
 };

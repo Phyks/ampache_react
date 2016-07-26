@@ -1,6 +1,6 @@
 import { createReducer } from "../utils";
 
-export const DEFAULT_LIMIT = 30;  /** Default max number of elements to retrieve. */
+export const DEFAULT_LIMIT = 1;  /** Default max number of elements to retrieve. */
 
 const initialState = {
     isFetching: false,

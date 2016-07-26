@@ -50,7 +50,9 @@ export class LoginForm extends Component {
                     this.props.error ?
                         <div className="row">
                             <div className="alert alert-danger">
-                                <span className="glyphicon glyphicon-exclamation-sign"></span> { this.props.error }
+                                <p id="loginFormError">
+                                    <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> { this.props.error }
+                                </p>
                             </div>
                         </div>
                         : null
@@ -58,40 +60,40 @@ export class LoginForm extends Component {
                 {
                     this.props.info ?
                         <div className="row">
-                            <div className="alert alert-info">
-                                { this.props.info }
+                            <div className="alert alert-info" id="loginFormInfo">
+                                <p>{ this.props.info }</p>
                             </div>
                         </div>
                         : null
                 }
                 <div className="row">
-                    <form className="col-sm-9 col-sm-offset-1 col-md-6 col-md-offset-3 text-left form-horizontal login" onSubmit={this.handleSubmit} ref="loginForm">
+                    <form className="col-sm-9 col-sm-offset-1 col-md-6 col-md-offset-3 text-left form-horizontal login" onSubmit={this.handleSubmit} ref="loginForm" aria-describedby="loginFormInfo loginFormError">
                         <div className="row">
                             <div className="form-group" ref="usernameFormGroup">
                                 <div className="col-xs-12">
-                                    <input type="text" className="form-control" ref="username" placeholder="Username" autoFocus defaultValue={this.props.username} />
+                                    <input type="text" className="form-control" ref="username" aria-label="Username" placeholder="Username" autoFocus defaultValue={this.props.username} />
                                 </div>
                             </div>
                             <div className="form-group" ref="passwordFormGroup">
                                 <div className="col-xs-12">
-                                    <input type="password" className="form-control" ref="password" placeholder="Password" />
+                                    <input type="password" className="form-control" ref="password" aria-label="Password" placeholder="Password" />
                                 </div>
                             </div>
                             <div className="form-group" ref="endpointFormGroup">
                                 <div className="col-xs-12">
-                                    <input type="text" className="form-control" ref="endpoint" placeholder="http://ampache.example.com" defaultValue={this.props.endpoint} />
+                                    <input type="text" className="form-control" ref="endpoint" aria-label="URL of your Ampache instance (e.g. http://ampache.example.com)" placeholder="http://ampache.example.com" defaultValue={this.props.endpoint} />
                                 </div>
                             </div>
                             <div className="form-group">
                                 <div className="col-xs-12">
                                     <div className="row">
                                         <div className="col-sm-6 col-xs-12 checkbox">
-                                            <label>
-                                                <input type="checkbox" ref="rememberMe" defaultChecked={this.props.rememberMe} /> Remember me
+                                            <label id="rememberMeLabel">
+                                                <input type="checkbox" ref="rememberMe" defaultChecked={this.props.rememberMe} aria-labelledby="rememberMeLabel" /> Remember me
                                             </label>
                                         </div>
                                         <div className="col-sm-6 col-sm-12 submit text-right">
-                                            <input type="submit" className="btn btn-default" defaultValue="Sign in" disabled={this.props.isAuthenticating} />
+                                            <input type="submit" className="btn btn-default" aria-label="Sign in" defaultValue="Sign in" disabled={this.props.isAuthenticating} />
                                         </div>
                                     </div>
                                 </div>

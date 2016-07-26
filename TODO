@@ -11,6 +11,14 @@
     * /artist/:id and /album/:id arts in responsive view
     * Scroll horizontal sidebar
     * Move CSS in modules
+        => https://github.com/gajus/react-css-modules
+
+# API middleware
+    * https://github.com/reactjs/redux/issues/1824#issuecomment-228609501
+    * https://medium.com/@adamrackis/querying-a-redux-store-37db8c7f3b0f#.eezt3dano
+    * https://github.com/reactjs/redux/issues/644
+    * https://github.com/peterpme/redux-crud-api-middleware/blob/master/README.md
+    * https://github.com/madou/armory-front/tree/master/src/app/reducers
 
 
 ## Global UI
@@ -20,9 +28,5 @@
 
 ## Miscellaneous
     * See TODOs in the code
-    * https://facebook.github.io/immutable-js/ ?
-    * Web workers?
-    * Accessibility and semantics
-
     * Uncaught TypeError: this.props.tracks.forEach is not a function
-        => Be more robust, after, getHostNode is null
+        => Be more robust, else, getHostNode is null after

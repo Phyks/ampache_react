@@ -20,10 +20,11 @@ export class GridItem extends Component {
         }
         const to = "/" + this.props.itemsType.rstrip("s") + "/" + this.props.item.id;
         const id = "grid-item-" + this.props.item.type + "/" + this.props.item.id;
+        const title = "Go to " + this.props.itemsType.rstrip("s") + " page";
         return (
             <div className="grid-item col-xs-6 col-sm-3 placeholders" id={id}>
                 <div className="grid-item-content placeholder text-center">
-                    <Link to={to}><img src={this.props.item.art} width="200" height="200" className="img-responsive art" alt={this.props.item.name}/></Link>
+                    <Link title={title} to={to}><img src={this.props.item.art} width="200" height="200" className="img-responsive img-circle art" alt={this.props.item.name}/></Link>
                     <h4 className="name">{this.props.item.name}</h4>
                     <span className="sub-items text-muted"><span className="n-sub-items">{nSubItems}</span> <span className="sub-items-type">{subItemsLabel}</span></span>
                 </div>

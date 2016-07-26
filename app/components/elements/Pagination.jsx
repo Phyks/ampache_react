@@ -38,8 +38,26 @@ export class Pagination extends Component {
 
     goToPage() {
         const pageNumber = parseInt(this.refs.pageInput.value);
-        $("#paginationModal").modal("hide");
-        this.props.router.push(this.buildLinkTo(pageNumber));
+        $(this.refs.paginationModal).modal("hide");
+        if (pageNumber) {
+            this.props.router.push(this.buildLinkTo(pageNumber));
+        }
+    }
+
+    dotsOnClick() {
+        $(this.refs.paginationModal).modal();
+    }
+
+    dotsOnKeyDown(ev) {
+        ev.preventDefault;
+        const code = ev.keyCode || ev.which;
+        if (code == 13 || code == 32) {  // Enter or Space key
+            this.dotsOnClick();  // Fire same event as onClick
+        }
+    }
+
+    cancelModalBox() {
+        $(this.refs.paginationModal).modal("hide");
     }
 
     render () {
@@ -50,7 +68,7 @@ export class Pagination extends Component {
             // Push first page
             pagesButton.push(
                 <li className="page-item" key={key}>
-                    <Link className="page-link" to={this.buildLinkTo(1)}>1</Link>
+                    <Link className="page-link" title="Go to page 1" to={this.buildLinkTo(1)}><span className="sr-only">Go to page </span>1</Link>
                 </li>
             );
             key++;
@@ -58,7 +76,7 @@ export class Pagination extends Component {
                 // Eventually push "…"
                 pagesButton.push(
                     <li className="page-item" key={key}>
-                        <span onClick={() => $("#paginationModal").modal() }>…</span>
+                        <span tabIndex="0" role="button" onKeyDown={this.dotsOnKeyDown.bind(this)} onClick={this.dotsOnClick.bind(this)}>&hellip;</span>
                     </li>
                 );
                 key++;
@@ -67,12 +85,15 @@ export class Pagination extends Component {
         var i = 0;
         for (i = lowerLimit; i < upperLimit; i++) {
             var className = "page-item";
+            var currentSpan = null;
             if (this.props.currentPage == i) {
                 className += " active";
+                currentSpan = <span className="sr-only">(current)</span>;
             }
+            const title = "Go to page " + i;
             pagesButton.push(
                 <li className={className} key={key}>
-                    <Link className="page-link" to={this.buildLinkTo(i)}>{i}</Link>
+                    <Link className="page-link" title={title} to={this.buildLinkTo(i)}><span className="sr-only">Go to page </span>{i} {currentSpan}</Link>
                 </li>
             );
             key++;
@@ -82,40 +103,41 @@ export class Pagination extends Component {
                 // Eventually push "…"
                 pagesButton.push(
                     <li className="page-item" key={key}>
-                        <span onClick={() => $("#paginationModal").modal() }>…</span>
+                        <span tabIndex="0" role="button" onKeyDown={this.dotsOnKeyDown.bind(this)} onClick={this.dotsOnClick.bind(this)}>&hellip;</span>
                     </li>
                 );
                 key++;
             }
+            const title = "Go to page " + this.props.nPages;
             // Push last page
             pagesButton.push(
                 <li className="page-item" key={key}>
-                    <Link className="page-link" to={this.buildLinkTo(this.props.nPages)}>{this.props.nPages}</Link>
+                    <Link className="page-link" title={title} to={this.buildLinkTo(this.props.nPages)}><span className="sr-only">Go to page </span>{this.props.nPages}</Link>
                 </li>
             );
         }
         if (pagesButton.length > 1) {
             return (
                 <div>
-                    <nav className="pagination-nav">
+                    <nav className="pagination-nav" aria-label="Page navigation">
                         <ul className="pagination">
                             { pagesButton }
                         </ul>
                     </nav>
-                    <div className="modal fade" id="paginationModal" tabIndex="-1" role="dialog" aria-hidden="false">
-                        <div className="modal-dialog">
+                    <div className="modal fade" ref="paginationModal" tabIndex="-1" role="dialog" aria-labelledby="paginationModalLabel">
+                        <div className="modal-dialog" role="document">
                             <div className="modal-content">
                                 <div className="modal-header">
-                                    <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    <h4 className="modal-title">Page to go to?</h4>
+                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                                    <h4 className="modal-title" id="paginationModalLabel">Page to go to?</h4>
                                 </div>
                                 <div className="modal-body">
                                     <form>
-                                        <input className="form-control" autoComplete="off" type="number" ref="pageInput" />
+                                        <input className="form-control" autoComplete="off" type="number" ref="pageInput" aria-label="Page number to go to" />
                                     </form>
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-default" onClick={ () => $("#paginationModal").modal("hide") }>Cancel</button>
+                                    <button type="button" className="btn btn-default" onClick={this.cancelModalBox.bind(this)}>Cancel</button>
                                     <button type="button" className="btn btn-primary" onClick={this.goToPage.bind(this)}>OK</button>
                                 </div>
                             </div>
