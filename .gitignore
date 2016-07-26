@@ -1,3 +1,5 @@
 node_modules
 app/dist/eventsourcePolyfill.js
 app/dist/webpackHotMiddlewareClient.js
+app/dist/*.hot-update.json
+app/dist/*.hot-update.js

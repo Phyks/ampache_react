@@ -16,9 +16,9 @@ module.exports = {
     },
 
     output: {
-        path: path.join(__dirname, "app/dist"),
+        path: path.join(__dirname, "app/dist/"),
         filename: "[name].js",
-        publicPath: "/app/dist"
+        publicPath: "./"
     },
 
     module: {

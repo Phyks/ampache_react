@@ -8,7 +8,7 @@
   "repository": "git+https://github.com/Phyks/ampache_react.git",
   "scripts": {
     "build": "./node_modules/webpack/bin/webpack.js --progress",
-    "serve": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress  --hot"
+    "watch": "./node_modules/webpack/bin/webpack.js --progress  --watch"
   },
   "dependencies": {
     "babel-polyfill": "^6.9.1",
