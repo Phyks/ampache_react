@@ -6,6 +6,10 @@
   "license": "MIT",
   "homepage": "https://github.com/Phyks/ampache_react",
   "repository": "git+https://github.com/Phyks/ampache_react.git",
+  "scripts": {
+    "build": "./node_modules/webpack/bin/webpack.js --progress",
+    "serve": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress  --hot"
+  },
   "dependencies": {
     "babel-polyfill": "^6.9.1",
     "babel-preset-es2015": "^6.9.0",
@@ -39,6 +43,7 @@
     "eslint": "^3.1.1",
     "eslint-loader": "^1.4.1",
     "eslint-plugin-react": "^5.2.2",
+    "eventsource-polyfill": "^0.9.6",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
     "postcss": "^5.1.0",
@@ -46,11 +51,14 @@
     "postcss-reporter": "^1.4.1",
     "precss": "^1.4.0",
     "react-a11y": "^0.3.3",
+    "redbox-react": "^1.2.10",
     "redux-logger": "^2.6.1",
     "style-loader": "^0.13.1",
     "stylelint": "^7.0.3",
     "stylelint-config-standard": "^11.0.0",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-hot-middleware": "^2.12.1"
   }
 }

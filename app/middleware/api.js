@@ -242,7 +242,7 @@ export default store => next => reduxAction => {
         },
         error => {
             if (failureDispatch) {
-                store.dispatch(failureDispatch(error));
+                store.dispatch(failureDispatch(error.message));
             }
         }
     );

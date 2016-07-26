@@ -11,6 +11,11 @@ config.devtool = "#source-map";
 
 config.plugins = config.plugins.concat([
     new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
+        'process.env': {
+            'NODE_ENV': JSON.stringify('production')
+        }
+    }),
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
