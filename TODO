@@ -1,8 +1,10 @@
+4. Refactor API + Handle failures
 5. Web player
 6. Homepage
 7. Settings
 8. Search
 9. Discover
+
 
 # CSS
     * Sidebar responsiveness
@@ -24,5 +26,4 @@
 
 ## Miscellaneous
     * See TODOs in the code
-    * Uncaught TypeError: this.props.tracks.forEach is not a function
-        => Be more robust, else, getHostNode is null after
+    * Babel transform runtime

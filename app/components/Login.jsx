@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from "react";
+import { FormattedMessage } from "react-intl";
 
 export class LoginForm extends Component {
     constructor (props) {
@@ -89,7 +90,7 @@ export class LoginForm extends Component {
                                     <div className="row">
                                         <div className="col-sm-6 col-xs-12 checkbox">
                                             <label id="rememberMeLabel">
-                                                <input type="checkbox" ref="rememberMe" defaultChecked={this.props.rememberMe} aria-labelledby="rememberMeLabel" /> Remember me
+                                                <input type="checkbox" ref="rememberMe" defaultChecked={this.props.rememberMe} aria-labelledby="rememberMeLabel" /> <FormattedMessage id="app.login.rememberMe" description="Remember me checkbox label" defaultMessage="Remember me" />
                                             </label>
                                         </div>
                                         <div className="col-sm-6 col-sm-12 submit text-right">
@@ -123,7 +124,7 @@ export default class Login extends Component {
             <div className="login text-center container-fluid">
                 <h1><img src="./app/assets/img/ampache-blue.png" alt="A"/>mpache</h1>
                 <hr/>
-                <p>Welcome back on Ampache, let"s go!</p>
+                <p><FormattedMessage id="app.login.greeting" description="Greeting to welcome the user to the app" defaultMessage="Welcome back on Ampache, let's go!" /></p>
                 <div className="col-sm-9 col-sm-offset-2 col-md-6 col-md-offset-3">
                     <LoginForm onSubmit={this.props.onSubmit} username={this.props.username} endpoint={this.props.endpoint} rememberMe={this.props.rememberMe} isAuthenticating={this.props.isAuthenticating} error={this.props.error} info={this.props.info} />
                 </div>

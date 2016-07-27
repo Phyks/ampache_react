@@ -1,6 +1,7 @@
 var path = require("path");
 var webpack = require("webpack");
 
+var ReactIntlPlugin=require("react-intl-webpack-plugin");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var postcssReporter = require("postcss-reporter");
 var doiuse = require("doiuse");
@@ -11,7 +12,7 @@ var browsers = ["ie >= 9", "> 1%", "last 3 versions", "not op_mini all"];
 
 module.exports = {
     entry: {
-        "index": "./index.js",
+        "index": ["babel-polyfill", "./index.js"],
         "fix.ie9": "./fix.ie9.js"
     },
 
@@ -34,7 +35,10 @@ module.exports = {
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
-                loaders: ["babel"],
+                loader: "babel",
+                query: {
+                    "cacheDirectory": true
+                },
                 include: __dirname
             },
             // Do not postcss vendor modules
@@ -76,6 +80,7 @@ module.exports = {
     },
 
     plugins: [
+        new ReactIntlPlugin(),
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery"
