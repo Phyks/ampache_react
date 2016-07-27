@@ -6,8 +6,6 @@
 
 # CSS
     * Sidebar responsiveness
-    * Songs on iPhone 5
-    * /artist/:id and /album/:id responsiveness
     * Move CSS in modules
         => https://github.com/gajus/react-css-modules
 

@@ -44,18 +44,14 @@ export class AlbumRow extends Component {
     render () {
         return (
             <div className="row albumRow">
-                <div className="row">
-                    <div className="col-md-offset-2 col-md-10">
-                        <h2>{this.props.album.name}</h2>
-                    </div>
+                <div className="col-sm-offset-2 col-xs-10 albumRowName">
+                    <h2>{this.props.album.name}</h2>
                 </div>
-                <div className="row">
-                    <div className="col-md-2">
-                        <p className="text-center"><img src={this.props.album.art} width="200" height="200" className="img-responsive img-circle art" alt={this.props.album.name} /></p>
-                    </div>
-                    <div className="col-md-10">
-                        <AlbumTracksTable tracks={this.props.album.tracks} />
-                    </div>
+                <div className="col-xs-2 albumRowArt">
+                    <p className="text-center"><img src={this.props.album.art} width="200" height="200" className="img-responsive img-circle art" alt={this.props.album.name} /></p>
+                </div>
+                <div className="col-sm-10 table-responsive">
+                    <AlbumTracksTable tracks={this.props.album.tracks} />
                 </div>
             </div>
         );

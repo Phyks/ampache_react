@@ -50,19 +50,21 @@ export class SongsTable extends Component {
             rows.push(<SongsTableRow song={song} key={song.id} />);
         });
         return (
-            <table className="table table-hover songs">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Title</th>
-                        <th>Artist</th>
-                        <th>Album</th>
-                        <th>Genre</th>
-                        <th>Length</th>
-                    </tr>
-                </thead>
-                <tbody>{rows}</tbody>
-            </table>
+            <div className="table-responsive">
+                <table className="table table-hover songs">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Title</th>
+                            <th>Artist</th>
+                            <th>Album</th>
+                            <th>Genre</th>
+                            <th>Length</th>
+                        </tr>
+                    </thead>
+                    <tbody>{rows}</tbody>
+                </table>
+            </div>
         );
     }
 }

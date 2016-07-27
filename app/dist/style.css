@@ -6758,6 +6758,13 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
+/* Firefox hack for responsive table */
+@-moz-document url-prefix() {
+    fieldset {
+        display: table-cell;
+    }
+}
+
 /*
  * Sidebar
  */
@@ -6948,12 +6955,50 @@ div.filter {
 
 .art {
     display: inline-block;
-    margin-bottom: 0.5em;
+    margin-bottom: 10px;
     width: 75%;
     height: auto;
-    max-width: 200px;
+
+    /* doiuse-disable viewport-units */
+
+    max-width: 25vw;
+    max-height: 25vw;
+
+    /* doiuse-enable viewport-units */
 }
 
 .albumRow {
     margin-top: 30px;
 }
+
+.artistNameRow h1 {
+    margin-bottom: 0;
+}
+
+.artistNameRow hr {
+    margin-top: 0.5em;  /* Default value. */
+}
+
+@media (max-width: 767px) {
+    .table-responsive {
+        border: none;
+    }
+
+    .albumRowName h2 {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .albumRowArt p, .albumRowArt img {
+        margin: 0;
+    }
+
+    .albumRowName, .albumRowArt {
+        float: none;
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 10px;
+    }
+}
+
+/* TODO: Use table-condensed if xs screen */

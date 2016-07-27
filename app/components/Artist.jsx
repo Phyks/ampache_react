@@ -12,13 +12,17 @@ export default class Artist extends Component {
         }
         return (
             <div>
-                <div className="row">
-                    <div className="col-md-9">
-                        <h1 className="text-right">{this.props.artist.name}</h1>
+                <div className="row artistNameRow">
+                    <div className="col-sm-12">
+                        <h1>{this.props.artist.name}</h1>
                         <hr/>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-sm-9">
                         <p>{this.props.artist.summary}</p>
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-sm-3 text-center">
                         <p><img src={this.props.artist.art} width="200" height="200" className="img-responsive img-circle art" alt={this.props.artist.name}/></p>
                     </div>
                 </div>
