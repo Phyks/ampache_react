@@ -120,7 +120,7 @@ LoginForm.propTypes = {
 export default class Login extends Component {
     render () {
         return (
-            <div className="login text-center">
+            <div className="login text-center container-fluid">
                 <h1><img src="./app/assets/img/ampache-blue.png" alt="A"/>mpache</h1>
                 <hr/>
                 <p>Welcome back on Ampache, let"s go!</p>
