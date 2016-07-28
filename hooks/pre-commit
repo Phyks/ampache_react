@@ -1,21 +1,14 @@
-#!/bin/sh
-
 # Get against which ref to diff
 if git rev-parse --verify HEAD >/dev/null 2>&1
 then
 	against=HEAD
 else
-	# Initial commit: diff against an empty tree object
-	against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
+	# Initial commit
+    # TODO
+    exit 1
 fi
 
-js_files=""
-for file in $(git diff-index --name-only $against); do
-    if [[ $file == "*.js" ]] || [[ $file == "*.jsx" ]]
-    then
-        js_files="$js_files $file"
-    fi
-done
+js_files=$(git diff-index --name-only $against | grep -e ".jsx\?$" | grep -v "^app/dist")
 
 # Nothing more to do if no JS files was committed
 if [ -z "$js_files" ]
@@ -23,18 +16,6 @@ then
     exit 0
 fi
 
-
-# Run webpack
-if [ -e "./node_modules/webpack/bin/webpack.js" ]
-then
-    WEBPACK="node ./node_modules/webpack/bin/webpack.js"
-elif hash webpack
-then
-    WEBPACK="webpack"
-else
-    exit "You should install webpack."
-fi
-
 echo "Rebuilding dist JavaScript files…"
-NODE_ENV=production $WEBPACK
+NODE_ENV=production npm run build
 git add app/dist

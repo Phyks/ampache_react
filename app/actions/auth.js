@@ -13,7 +13,7 @@ function _cleanEndpoint (endpoint) {
             !endpoint.startsWith("http://") &&
         !endpoint.startsWith("https://"))
     {
-        endpoint = "http://" + endpoint;
+        endpoint = window.location.protocol + "//" + endpoint;
     }
     // Remove trailing slash and store endpoint
     endpoint = endpoint.replace(/\/$/, "");

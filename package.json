@@ -16,7 +16,6 @@
   "dependencies": {
     "babel-polyfill": "^6.9.1",
     "babel-preset-es2015": "^6.9.0",
-    "babel-runtime": "^6.11.6",
     "bootstrap": "^3.3.6",
     "fuse.js": "^2.3.0",
     "html5shiv": "^3.7.3",

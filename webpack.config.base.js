@@ -1,7 +1,6 @@
 var path = require("path");
 var webpack = require("webpack");
 
-var ReactIntlPlugin=require("react-intl-webpack-plugin");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var postcssReporter = require("postcss-reporter");
 var doiuse = require("doiuse");
@@ -80,7 +79,6 @@ module.exports = {
     },
 
     plugins: [
-        new ReactIntlPlugin(),
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery"

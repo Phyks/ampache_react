@@ -26,6 +26,10 @@ class LoginFormIntl extends Component {
 
     handleSubmit (e) {
         e.preventDefault();
+        if (this.props.isAuthenticating) {
+            // Don't handle submit if already logging in
+            return;
+        }
         const username = this.refs.username.value.trim();
         const password = this.refs.password.value.trim();
         const endpoint = this.refs.endpoint.value.trim();
