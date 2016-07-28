@@ -6,7 +6,6 @@ import { messagesMap } from "../../utils";
 import commonMessages from "../../locales/messagesDescriptors/common";
 import messages from "../../locales/messagesDescriptors/layouts/Sidebar";
 
-// TODO: i18n for artist / album / songs
 const sidebarLayoutMessages = defineMessages(messagesMap(Array.concat([], commonMessages, messages)));
 
 export default class SidebarLayoutIntl extends Component {
@@ -80,22 +79,32 @@ export default class SidebarLayoutIntl extends Component {
                                     <li>
                                         <Link to="/artists" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseArtists"])} className={isActive.artists}>
                                             <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                            <span className="sr-only">Artists</span>
-                                            <span className="hidden-sm"> Artists</span>
+                                            <span className="sr-only">
+                                                <FormattedMessage {...sidebarLayoutMessages["app.common.artist"]} values={{itemCount: 42}} />
+                                            </span>
+                                            <span className="hidden-sm">
+                                                &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.common.artist"]} values={{itemCount: 42}} />
+                                            </span>
                                         </Link>
                                     </li>
                                     <li>
                                         <Link to="/albums" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseAlbums"])} className={isActive.albums}>
                                             <span className="glyphicon glyphicon-cd" aria-hidden="true"></span>
-                                            <span className="sr-only">Albums</span>
-                                            <span className="hidden-sm"> Albums</span>
+                                            <span className="sr-only"><FormattedMessage {...sidebarLayoutMessages["app.common.album"]} values={{itemCount: 42}} /></span>
+                                            <span className="hidden-sm">
+                                                &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.common.album"]} values={{itemCount: 42}} />
+                                            </span>
                                         </Link>
                                     </li>
                                     <li>
                                         <Link to="/songs" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseSongs"])} className={isActive.songs}>
                                             <span className="glyphicon glyphicon-music" aria-hidden="true"></span>
-                                            <span className="sr-only">Songs</span>
-                                            <span className="hidden-sm"> Songs</span>
+                                            <span className="sr-only">
+                                                <FormattedMessage {...sidebarLayoutMessages["app.common.song"]} values={{itemCount: 42}} />
+                                            </span>
+                                            <span className="hidden-sm">
+                                                &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.common.song"]} values={{itemCount: 42}} />
+                                            </span>
                                         </Link>
                                     </li>
                                 </ul>

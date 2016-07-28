@@ -5,11 +5,6 @@ const messages = [
         "defaultMessage": "Title"
     },
     {
-        "id": "app.songs.album",
-        "description": "Album (song)",
-        "defaultMessage": "Album"
-    },
-    {
         "id": "app.songs.genre",
         "description": "Genre (song)",
         "defaultMessage": "Genre"

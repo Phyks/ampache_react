@@ -1,7 +1,7 @@
 const messages = [
     {
         id: "app.pagination.goToPage",
-        defaultMessage: "<span className=\"sr-only\">Go to page </span>{pageNumber}",
+        defaultMessage: "<span class=\"sr-only\">Go to page </span>{pageNumber}",
         description: "Link content to go to page N. span is here for screen-readers"
     },
     {

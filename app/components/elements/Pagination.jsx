@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import { Link, withRouter } from "react-router";
-import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-intl";
+import { defineMessages, injectIntl, intlShape, FormattedMessage, FormattedHTMLMessage } from "react-intl";
 
 import { messagesMap } from "../../utils";
 import commonMessages from "../../locales/messagesDescriptors/common";
@@ -77,7 +77,7 @@ export class PaginationIntl extends Component {
             pagesButton.push(
                 <li className="page-item" key={key}>
                     <Link className="page-link" title={formatMessage(paginationMessages["app.pagination.goToPageWithoutMarkup"], { pageNumber: 1})} to={this.buildLinkTo(1)}>
-                        <FormattedMessage {...paginationMessages["app.pagination.goToPage"]} values={{ pageNumber: 1 }} />
+                        <FormattedHTMLMessage {...paginationMessages["app.pagination.goToPage"]} values={{ pageNumber: 1 }} />
                     </Link>
                 </li>
             );
@@ -104,7 +104,7 @@ export class PaginationIntl extends Component {
             pagesButton.push(
                 <li className={className} key={key}>
                     <Link className="page-link" title={title} to={this.buildLinkTo(i)}>
-                        <FormattedMessage {...paginationMessages["app.pagination.goToPage"]} values={{ pageNumber: i }} />
+                        <FormattedHTMLMessage {...paginationMessages["app.pagination.goToPage"]} values={{ pageNumber: i }} />
                         {currentSpan}
                     </Link>
                 </li>
@@ -126,7 +126,7 @@ export class PaginationIntl extends Component {
             pagesButton.push(
                 <li className="page-item" key={key}>
                     <Link className="page-link" title={title} to={this.buildLinkTo(this.props.nPages)}>
-                        <FormattedMessage {...paginationMessages["app.pagination.goToPage"]} values={{ pageNumber: this.props.nPages }} />
+                        <FormattedHTMLMessage {...paginationMessages["app.pagination.goToPage"]} values={{ pageNumber: this.props.nPages }} />
                     </Link>
                 </li>
             );
