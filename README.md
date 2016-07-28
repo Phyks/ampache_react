@@ -36,6 +36,15 @@ Please use the Git hooks (in `hooks` folder) to automatically make a build
 before comitting, as commit should always contain an up to date production
 build.
 
+Compilation cache is stored in `.cache` at the root of this repo. Remember to
+clean it in case of compilation issues.
+
+
+## Contributing
+
+See `CONTRIBUTING.md` file for extra infos.
+
+
 ## License
 
 This code is distributed under an MIT license.

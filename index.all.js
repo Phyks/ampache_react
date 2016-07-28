@@ -25,7 +25,7 @@ const history = syncHistoryWithStore(hashHistory, store);
 const rootElement = document.getElementById("root");
 
 // i18n
-const onWindowIntl = () => {
+export const onWindowIntl = () => {
     addLocaleData([...en, ...fr]);
     const locale = getBrowserLocale();
     var strings = rawMessages[locale] ? rawMessages[locale] : rawMessages["en-US"];
@@ -39,43 +39,22 @@ const onWindowIntl = () => {
         );
     };
 
-    if (module.hot) {
-        // Support hot reloading of components
-        // and display an overlay for runtime errors
-        const renderApp = render;
-        const renderError = (error) => {
-            const RedBox = require("redbox-react");
-            ReactDOM.render(
-                <RedBox error={error} />,
-                rootElement
-            );
-        };
-        render = () => {
-            try {
-                renderApp();
-            } catch (error) {
-                renderError(error);
-            }
-        };
-        module.hot.accept("./app/containers/Root", () => {
-            setTimeout(render);
-        });
-    }
-
-    render();
+    return render;
 };
 
-if (!window.Intl) {
-    require.ensure([
-        "intl",
-        "intl/locale-data/jsonp/en.js",
-        "intl/locale-data/jsonp/fr.js"
-    ], function (require) {
-        require("intl");
-        require("intl/locale-data/jsonp/en.js");
-        require("intl/locale-data/jsonp/fr.js");
-        onWindowIntl();
-    });
-} else {
-    onWindowIntl();
-}
+export const Intl = (render) => {
+    if (!window.Intl) {
+        require.ensure([
+            "intl",
+            "intl/locale-data/jsonp/en.js",
+            "intl/locale-data/jsonp/fr.js"
+        ], function (require) {
+            require("intl");
+            require("intl/locale-data/jsonp/en.js");
+            require("intl/locale-data/jsonp/fr.js");
+            render();
+        });
+    } else {
+        render();
+    }
+};

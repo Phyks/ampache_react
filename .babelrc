@@ -1,9 +1,3 @@
 {
-    "presets": ["es2015", "react"],
-    "plugins": [
-        ["react-intl", {
-            "messagesDir": "./app/dist/i18n/",
-            "enforceDescriptions": true
-        }]
-    ]
+    "presets": ["es2015", "react"]
 }

@@ -4,4 +4,4 @@ app/dist/webpackHotMiddlewareClient.js
 app/dist/*.hot-update.json
 app/dist/*.hot-update.js
 app/dist/i18n/
-app/dist/3.3.js
+.cache

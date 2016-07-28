@@ -1,0 +1,34 @@
+const messages = [
+    {
+        id: "app.login.username",
+        defaultMessage: "Username",
+        description: "Username input placeholder"
+    },
+    {
+        id: "app.login.password",
+        defaultMessage: "Password",
+        description: "Password input placeholder"
+    },
+    {
+        id: "app.login.signIn",
+        defaultMessage: "Sign in",
+        description: "Sign in"
+    },
+    {
+        id: "app.login.endpointInputAriaLabel",
+        defaultMessage: "URL of your Ampache instance (e.g. http://ampache.example.com)",
+        description: "ARIA label for the endpoint input"
+    },
+    {
+        id: "app.login.rememberMe",
+        description: "Remember me checkbox label",
+        defaultMessage: "Remember me"
+    },
+    {
+        id: "app.login.greeting",
+        description: "Greeting to welcome the user to the app",
+        defaultMessage: "Welcome back on Ampache, let's go!"
+    }
+];
+
+export default messages;

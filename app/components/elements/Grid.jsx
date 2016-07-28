@@ -14,12 +14,17 @@ export class GridItem extends Component {
         if (Array.isArray(nSubItems)) {
             nSubItems = nSubItems.length;
         }
+
+        // TODO: i18n
         var subItemsLabel = this.props.subItemsType;
         if (nSubItems < 2) {
             subItemsLabel = subItemsLabel.rstrip("s");
         }
+
         const to = "/" + this.props.itemsType.rstrip("s") + "/" + this.props.item.id;
         const id = "grid-item-" + this.props.item.type + "/" + this.props.item.id;
+
+        // TODO: i18n
         const title = "Go to " + this.props.itemsType.rstrip("s") + " page";
         return (
             <div className="grid-item col-xs-6 col-sm-3 placeholders" id={id}>

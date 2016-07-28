@@ -1,8 +1,17 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 import { IndexLink, Link} from "react-router";
+import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-intl";
 
-export default class SidebarLayout extends Component {
+import { messagesMap } from "../../utils";
+import commonMessages from "../../locales/messagesDescriptors/common";
+import messages from "../../locales/messagesDescriptors/layouts/Sidebar";
+
+// TODO: i18n for artist / album / songs
+const sidebarLayoutMessages = defineMessages(messagesMap(Array.concat([], commonMessages, messages)));
+
+export default class SidebarLayoutIntl extends Component {
     render () {
+        const { formatMessage } = this.props.intl;
         const isActive = {
             discover: (this.props.location.pathname == "/discover") ? "active" : "",
             browse: (this.props.location.pathname == "/browse") ? "active" : "",
@@ -20,26 +29,32 @@ export default class SidebarLayout extends Component {
                             <span className="hidden-sm">mpache</span>
                         </IndexLink>
                     </h1>
-                    <nav aria-label="Main navigation menu">
+                    <nav aria-label={formatMessage(sidebarLayoutMessages["app.sidebarLayout.mainNavigationMenu"])}>
                         <div className="navbar text-center icon-navbar">
                             <div className="container-fluid">
                                 <ul className="nav navbar-nav icon-navbar-nav">
                                     <li>
-                                        <Link to="/" title="Home">
+                                        <Link to="/" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.home"])}>
                                             <span className="glyphicon glyphicon-home" aria-hidden="true"></span>
-                                            <span className="sr-only">Home</span>
+                                            <span className="sr-only">
+                                                <FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.home"]} />
+                                            </span>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/settings" title="Settings">
+                                        <Link to="/settings" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.settings"])}>
                                             <span className="glyphicon glyphicon-wrench" aria-hidden="true"></span>
-                                            <span className="sr-only">Settings</span>
+                                            <span className="sr-only">
+                                                <FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.settings"]} />
+                                            </span>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/logout" title="Logout">
+                                        <Link to="/logout" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.logout"])}>
                                             <span className="glyphicon glyphicon-off" aria-hidden="true"></span>
-                                            <span className="sr-only">Logout</span>
+                                            <span className="sr-only">
+                                                <FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.logout"]} />
+                                            </span>
                                         </Link>
                                     </li>
                                 </ul>
@@ -47,33 +62,37 @@ export default class SidebarLayout extends Component {
                         </div>
                         <ul className="nav nav-sidebar">
                             <li>
-                                <Link to="/discover" title="Discover" className={isActive.discover}>
+                                <Link to="/discover" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.discover"])} className={isActive.discover}>
                                     <span className="glyphicon glyphicon-globe" aria-hidden="true"></span>
-                                    <span className="hidden-sm"> Discover</span>
+                                    <span className="hidden-sm">
+                                        &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.discover"]} />
+                                    </span>
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/browse" title="Browse" className={isActive.browse}>
+                                <Link to="/browse" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browse"])} className={isActive.browse}>
                                     <span className="glyphicon glyphicon-headphones" aria-hidden="true"></span>
-                                    <span className="hidden-sm"> Browse</span>
+                                    <span className="hidden-sm">
+                                        &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.browse"]} />
+                                    </span>
                                 </Link>
                                 <ul className="nav nav-list text-center">
                                     <li>
-                                        <Link to="/artists" title="Browse artists" className={isActive.artists}>
+                                        <Link to="/artists" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseArtists"])} className={isActive.artists}>
                                             <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
                                             <span className="sr-only">Artists</span>
                                             <span className="hidden-sm"> Artists</span>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/albums" title="Browse albums" className={isActive.albums}>
+                                        <Link to="/albums" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseAlbums"])} className={isActive.albums}>
                                             <span className="glyphicon glyphicon-cd" aria-hidden="true"></span>
                                             <span className="sr-only">Albums</span>
                                             <span className="hidden-sm"> Albums</span>
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/songs" title="Browse songs" className={isActive.songs}>
+                                        <Link to="/songs" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseSongs"])} className={isActive.songs}>
                                             <span className="glyphicon glyphicon-music" aria-hidden="true"></span>
                                             <span className="sr-only">Songs</span>
                                             <span className="hidden-sm"> Songs</span>
@@ -82,9 +101,11 @@ export default class SidebarLayout extends Component {
                                 </ul>
                             </li>
                             <li>
-                                <Link to="/search" title="Search" className={isActive.search}>
+                                <Link to="/search" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.search"])} className={isActive.search}>
                                     <span className="glyphicon glyphicon-search" aria-hidden="true"></span>
-                                    <span className="hidden-sm"> Search</span>
+                                    <span className="hidden-sm">
+                                        &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.search"]} />
+                                    </span>
                                 </Link>
                             </li>
                         </ul>
@@ -98,3 +119,12 @@ export default class SidebarLayout extends Component {
         );
     }
 }
+
+
+SidebarLayoutIntl.propTypes = {
+    children: PropTypes.node,
+    intl: intlShape.isRequired
+};
+
+export let SidebarLayout = injectIntl(SidebarLayoutIntl);
+export default SidebarLayout;

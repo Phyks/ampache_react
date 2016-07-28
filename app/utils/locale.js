@@ -19,3 +19,13 @@ export function getBrowserLocale () {
 
     return locale;
 }
+
+export function messagesMap(messagesDescriptorsArray) {
+    var messagesDescriptorsMap = {};
+
+    messagesDescriptorsArray.forEach(function (item) {
+        messagesDescriptorsMap[item.id] = item;
+    });
+
+    return messagesDescriptorsMap;
+}

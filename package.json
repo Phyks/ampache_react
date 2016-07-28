@@ -7,8 +7,11 @@
   "homepage": "https://github.com/Phyks/ampache_react",
   "repository": "git+https://github.com/Phyks/ampache_react.git",
   "scripts": {
-    "build": "./node_modules/webpack/bin/webpack.js --progress",
-    "watch": "./node_modules/webpack/bin/webpack.js --progress  --watch"
+    "build": "./node_modules/.bin/webpack --progress",
+    "watch": "./node_modules/.bin/webpack --progress  --watch",
+    "prod": "NODE_ENV=production ./node_modules/.bin/webpack --progress",
+    "extractTranslations": "./node_modules/.bin/babel-node scripts/extractTranslations.js",
+    "clean": "./node_modules/.bin/rimraf app/dist"
   },
   "dependencies": {
     "babel-polyfill": "^6.9.1",
@@ -38,6 +41,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.3.7",
+    "babel-cli": "^6.11.4",
     "babel-core": "^6.10.4",
     "babel-loader": "^6.2.4",
     "babel-plugin-react-intl": "^2.1.3",
@@ -51,6 +55,7 @@
     "eventsource-polyfill": "^0.9.6",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
+    "glob": "^7.0.5",
     "postcss": "^5.1.0",
     "postcss-loader": "^0.9.1",
     "postcss-reporter": "^1.4.1",
@@ -59,6 +64,7 @@
     "react-intl-webpack-plugin": "0.0.3",
     "redbox-react": "^1.2.10",
     "redux-logger": "^2.6.1",
+    "rimraf": "^2.5.4",
     "style-loader": "^0.13.1",
     "stylelint": "^7.0.3",
     "stylelint-config-standard": "^11.0.0",

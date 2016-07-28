@@ -1,7 +1,14 @@
 import React, { Component, PropTypes } from "react";
 import { Link, withRouter } from "react-router";
+import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-intl";
 
-export class Pagination extends Component {
+import { messagesMap } from "../../utils";
+import commonMessages from "../../locales/messagesDescriptors/common";
+import messages from "../../locales/messagesDescriptors/elements/Pagination";
+
+const paginationMessages = defineMessages(messagesMap(Array.concat([], commonMessages, messages)));
+
+export class PaginationIntl extends Component {
     constructor(props) {
         super(props);
         this.buildLinkTo.bind(this);
@@ -61,6 +68,7 @@ export class Pagination extends Component {
     }
 
     render () {
+        const { formatMessage } = this.props.intl;
         const { lowerLimit, upperLimit } = this.computePaginationBounds(this.props.currentPage, this.props.nPages);
         var pagesButton = [];
         var key = 0;  // key increment to ensure correct ordering
@@ -68,7 +76,9 @@ export class Pagination extends Component {
             // Push first page
             pagesButton.push(
                 <li className="page-item" key={key}>
-                    <Link className="page-link" title="Go to page 1" to={this.buildLinkTo(1)}><span className="sr-only">Go to page </span>1</Link>
+                    <Link className="page-link" title={formatMessage(paginationMessages["app.pagination.goToPageWithoutMarkup"], { pageNumber: 1})} to={this.buildLinkTo(1)}>
+                        <FormattedMessage {...paginationMessages["app.pagination.goToPage"]} values={{ pageNumber: 1 }} />
+                    </Link>
                 </li>
             );
             key++;
@@ -88,12 +98,15 @@ export class Pagination extends Component {
             var currentSpan = null;
             if (this.props.currentPage == i) {
                 className += " active";
-                currentSpan = <span className="sr-only">(current)</span>;
+                currentSpan = <span className="sr-only">(<FormattedMessage {...paginationMessages["app.pagination.current"]} />)</span>;
             }
-            const title = "Go to page " + i;
+            const title = formatMessage(paginationMessages["app.pagination.goToPageWithoutMarkup"], { pageNumber: i });
             pagesButton.push(
                 <li className={className} key={key}>
-                    <Link className="page-link" title={title} to={this.buildLinkTo(i)}><span className="sr-only">Go to page </span>{i} {currentSpan}</Link>
+                    <Link className="page-link" title={title} to={this.buildLinkTo(i)}>
+                        <FormattedMessage {...paginationMessages["app.pagination.goToPage"]} values={{ pageNumber: i }} />
+                        {currentSpan}
+                    </Link>
                 </li>
             );
             key++;
@@ -108,18 +121,20 @@ export class Pagination extends Component {
                 );
                 key++;
             }
-            const title = "Go to page " + this.props.nPages;
+            const title = formatMessage(paginationMessages["app.pagination.goToPageWithoutMarkup"], { pageNumber: this.props.nPages });
             // Push last page
             pagesButton.push(
                 <li className="page-item" key={key}>
-                    <Link className="page-link" title={title} to={this.buildLinkTo(this.props.nPages)}><span className="sr-only">Go to page </span>{this.props.nPages}</Link>
+                    <Link className="page-link" title={title} to={this.buildLinkTo(this.props.nPages)}>
+                        <FormattedMessage {...paginationMessages["app.pagination.goToPage"]} values={{ pageNumber: this.props.nPages }} />
+                    </Link>
                 </li>
             );
         }
         if (pagesButton.length > 1) {
             return (
                 <div>
-                    <nav className="pagination-nav" aria-label="Page navigation">
+                    <nav className="pagination-nav" aria-label={formatMessage(paginationMessages["app.pagination.pageNavigation"])}>
                         <ul className="pagination">
                             { pagesButton }
                         </ul>
@@ -128,17 +143,23 @@ export class Pagination extends Component {
                         <div className="modal-dialog" role="document">
                             <div className="modal-content">
                                 <div className="modal-header">
-                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">&times;</button>
-                                    <h4 className="modal-title" id="paginationModalLabel">Page to go to?</h4>
+                                    <button type="button" className="close" data-dismiss="modal" aria-label={formatMessage(paginationMessages["app.common.close"])}>&times;</button>
+                                    <h4 className="modal-title" id="paginationModalLabel">
+                                        <FormattedMessage {...paginationMessages["app.pagination.pageToGoTo"]} />
+                                    </h4>
                                 </div>
                                 <div className="modal-body">
                                     <form>
-                                        <input className="form-control" autoComplete="off" type="number" ref="pageInput" aria-label="Page number to go to" />
+                                        <input className="form-control" autoComplete="off" type="number" ref="pageInput" aria-label={formatMessage(paginationMessages["app.pagination.pageToGoTo"])} />
                                     </form>
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-default" onClick={this.cancelModalBox.bind(this)}>Cancel</button>
-                                    <button type="button" className="btn btn-primary" onClick={this.goToPage.bind(this)}>OK</button>
+                                    <button type="button" className="btn btn-default" onClick={this.cancelModalBox.bind(this)}>
+                                        <FormattedMessage {...paginationMessages["app.common.cancel"]} />
+                                    </button>
+                                    <button type="button" className="btn btn-primary" onClick={this.goToPage.bind(this)}>
+                                        <FormattedMessage {...paginationMessages["app.common.go"]} />
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -150,10 +171,12 @@ export class Pagination extends Component {
     }
 }
 
-Pagination.propTypes = {
+PaginationIntl.propTypes = {
     currentPage: PropTypes.number.isRequired,
     location: PropTypes.object.isRequired,
-    nPages: PropTypes.number.isRequired
+    nPages: PropTypes.number.isRequired,
+    intl: intlShape.isRequired,
 };
 
-export default withRouter(Pagination);
+export let Pagination = withRouter(injectIntl(PaginationIntl));
+export default Pagination;

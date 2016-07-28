@@ -37,7 +37,7 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: "babel",
                 query: {
-                    "cacheDirectory": true
+                    "cacheDirectory": ".cache/"
                 },
                 include: __dirname
             },

@@ -1,10 +1,16 @@
 import React, { Component, PropTypes } from "react";
 import { Link} from "react-router";
+import { defineMessages, FormattedMessage } from "react-intl";
 import Fuse from "fuse.js";
 
 import FilterBar from "./elements/FilterBar";
 import Pagination from "./elements/Pagination";
-import { formatLength} from "../utils";
+import { formatLength, messagesMap } from "../utils";
+
+import commonMessages from "../locales/messagesDescriptors/common";
+import messages from "../locales/messagesDescriptors/Songs";
+
+const songsMessages = defineMessages(messagesMap(Array.concat([], commonMessages, messages)));
 
 export class SongsTableRow extends Component {
     render () {
@@ -55,11 +61,21 @@ export class SongsTable extends Component {
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Title</th>
-                            <th>Artist</th>
-                            <th>Album</th>
-                            <th>Genre</th>
-                            <th>Length</th>
+                            <th>
+                                <FormattedMessage {...songsMessages["app.songs.title"]} />
+                            </th>
+                            <th>
+                                <FormattedMessage {...songsMessages["app.common.artist"]} />
+                            </th>
+                            <th>
+                                <FormattedMessage {...songsMessages["app.common.album"]} />
+                            </th>
+                            <th>
+                                <FormattedMessage {...songsMessages["app.common.genre"]} />
+                            </th>
+                            <th>
+                                <FormattedMessage {...songsMessages["app.songs.length"]} />
+                            </th>
                         </tr>
                     </thead>
                     <tbody>{rows}</tbody>

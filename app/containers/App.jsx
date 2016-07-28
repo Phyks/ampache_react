@@ -13,6 +13,5 @@ export default class App extends Component {
 }
 
 App.propTypes = {
-    // Injected by React Router
     children: PropTypes.node,
 };
