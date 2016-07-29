@@ -7,10 +7,10 @@ else
     exit 1
 fi
 
-js_files=$(git diff-index --name-only $against | grep -e ".jsx\?$" | grep -v "^app/dist")
+css_js_files=$(git diff-index --name-only $against | grep -e '.\(jsx\?\)\|\(s\?css\)$' | grep -v "^app/dist")
 
 # Nothing more to do if no JS files was committed
-if [ -z "$js_files" ]
+if [ -z "$css_js_files" ]
 then
     exit 0
 fi
