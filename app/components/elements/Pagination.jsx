@@ -1,14 +1,17 @@
 import React, { Component, PropTypes } from "react";
 import { Link, withRouter } from "react-router";
+import CSSModules from "react-css-modules";
 import { defineMessages, injectIntl, intlShape, FormattedMessage, FormattedHTMLMessage } from "react-intl";
 
 import { messagesMap } from "../../utils";
 import commonMessages from "../../locales/messagesDescriptors/common";
 import messages from "../../locales/messagesDescriptors/elements/Pagination";
 
+import css from "../../styles/elements/Pagination.scss";
+
 const paginationMessages = defineMessages(messagesMap(Array.concat([], commonMessages, messages)));
 
-export class PaginationIntl extends Component {
+class PaginationCSSIntl extends Component {
     constructor(props) {
         super(props);
         this.buildLinkTo.bind(this);
@@ -134,8 +137,8 @@ export class PaginationIntl extends Component {
         if (pagesButton.length > 1) {
             return (
                 <div>
-                    <nav className="pagination-nav" aria-label={formatMessage(paginationMessages["app.pagination.pageNavigation"])}>
-                        <ul className="pagination">
+                    <nav className="pagination-nav" styleName="nav" aria-label={formatMessage(paginationMessages["app.pagination.pageNavigation"])}>
+                        <ul className="pagination" styleName="pointer">
                             { pagesButton }
                         </ul>
                     </nav>
@@ -171,12 +174,11 @@ export class PaginationIntl extends Component {
     }
 }
 
-PaginationIntl.propTypes = {
+PaginationCSSIntl.propTypes = {
     currentPage: PropTypes.number.isRequired,
     location: PropTypes.object.isRequired,
     nPages: PropTypes.number.isRequired,
     intl: intlShape.isRequired,
 };
 
-export let Pagination = withRouter(injectIntl(PaginationIntl));
-export default Pagination;
+export default withRouter(injectIntl(CSSModules(PaginationCSSIntl, css)));

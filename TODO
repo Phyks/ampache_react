@@ -5,12 +5,8 @@
 8. Search
 9. Discover
 
-
 # CSS
-    * Sidebar responsiveness
-    * Move CSS in modules
-        => https://github.com/gajus/react-css-modules
-
+    * Focus stays on navbar
 
 # API middleware
     * https://github.com/reactjs/redux/issues/1824#issuecomment-228609501
@@ -18,6 +14,7 @@
     * https://github.com/reactjs/redux/issues/644
     * https://github.com/peterpme/redux-crud-api-middleware/blob/master/README.md
     * https://github.com/madou/armory-front/tree/master/src/app/reducers
+    * https://github.com/erikras/multireducer
     * Immutable.js (?) + get rid of lodash
 
 

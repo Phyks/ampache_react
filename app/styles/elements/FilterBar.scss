@@ -1,0 +1,20 @@
+.filter {
+    margin-bottom: 34px;
+}
+
+.legend {
+    text-align: right;
+    line-height: 34px;
+}
+
+@media (max-width: 767px) {
+    .legend {
+        text-align: center;
+    }
+}
+
+@media (min-width: 767px) {
+    .form-group {
+        width: 75%;
+    }
+}

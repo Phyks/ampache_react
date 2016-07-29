@@ -4,7 +4,6 @@ then
 	against=HEAD
 else
 	# Initial commit
-    # TODO
     exit 1
 fi
 
@@ -17,5 +16,7 @@ then
 fi
 
 echo "Rebuilding dist JavaScript files…"
-NODE_ENV=production npm run build
+export NODE_ENV=production
+npm run clean
+npm run build
 git add app/dist

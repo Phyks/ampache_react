@@ -1,0 +1,13 @@
+.name > h1 {
+    margin-bottom: 0;
+}
+
+.name > hr {
+    margin-top: 0.5em;  /* Default value. */
+}
+
+.art {
+    composes: art from "./elements/Grid.scss";
+}
+
+/* TODO: Use table-condensed if xs screen */

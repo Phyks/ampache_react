@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import { Link} from "react-router";
+import CSSModules from "react-css-modules";
 import imagesLoaded from "imagesloaded";
 import Isotope from "isotope-layout";
 import Fuse from "fuse.js";
@@ -8,7 +9,9 @@ import _ from "lodash";
 import FilterBar from "./FilterBar";
 import Pagination from "./Pagination";
 
-export class GridItem extends Component {
+import css from "../../styles/elements/Grid.scss";
+
+class GridItemCSS extends Component {
     render () {
         var nSubItems = this.props.item[this.props.subItemsType];
         if (Array.isArray(nSubItems)) {
@@ -27,10 +30,10 @@ export class GridItem extends Component {
         // TODO: i18n
         const title = "Go to " + this.props.itemsType.rstrip("s") + " page";
         return (
-            <div className="grid-item col-xs-6 col-sm-3 placeholders" id={id}>
-                <div className="grid-item-content placeholder text-center">
-                    <Link title={title} to={to}><img src={this.props.item.art} width="200" height="200" className="img-responsive img-circle art" alt={this.props.item.name}/></Link>
-                    <h4 className="name">{this.props.item.name}</h4>
+            <div className="grid-item col-xs-6 col-sm-3" styleName="placeholders" id={id}>
+                <div className="grid-item-content text-center">
+                    <Link title={title} to={to}><img src={this.props.item.art} width="200" height="200" className="img-responsive img-circle art" styleName="art" alt={this.props.item.name}/></Link>
+                    <h4 className="name" styleName="name">{this.props.item.name}</h4>
                     <span className="sub-items text-muted"><span className="n-sub-items">{nSubItems}</span> <span className="sub-items-type">{subItemsLabel}</span></span>
                 </div>
             </div>
@@ -38,11 +41,13 @@ export class GridItem extends Component {
     }
 }
 
-GridItem.propTypes = {
+GridItemCSS.propTypes = {
     item: PropTypes.object.isRequired,
     itemsType: PropTypes.string.isRequired,
     subItemsType: PropTypes.string.isRequired
 };
+
+export let GridItem = CSSModules(GridItemCSS, css);
 
 
 const ISOTOPE_OPTIONS = {  /** Default options for Isotope grid layout. */
@@ -93,9 +98,9 @@ export class Grid extends Component {
 
         // Apply filter on grid
         this.iso.arrange({
-            filter: function () {
-                var name = $(this).find(".name").text();
-                return result.find(function (item) { return item.item.name == name; });
+            filter: function (item) {
+                var name = $(item).find(".name").text();
+                return result.find(function (i) { return i.item.name == name; });
             },
             transitionDuration: "0.4s",
             getSortData: {

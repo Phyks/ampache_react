@@ -1,0 +1,27 @@
+.row {
+    margin-top: 30px;
+}
+
+.art {
+    composes: art from "./elements/Grid.scss";
+}
+
+@media (max-width: 767px) {
+    .nameRow h2 {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .artRow p,
+    .artRow img {
+        margin: 0;
+    }
+
+    .nameRow,
+    .artRow {
+        float: none;
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 10px;
+    }
+}

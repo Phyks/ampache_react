@@ -1,0 +1,26 @@
+.placeholders {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.name {
+    margin-bottom: 0;
+}
+
+.art {
+    display: inline-block;
+    margin-bottom: 10px;
+    width: 75%;
+    height: auto;
+
+    /* doiuse-disable viewport-units */
+
+    max-width: 25vw;
+
+    /* doiuse-enable viewport-units */
+}
+
+.art:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}

@@ -65,13 +65,13 @@ export class SongsTable extends Component {
                                 <FormattedMessage {...songsMessages["app.songs.title"]} />
                             </th>
                             <th>
-                                <FormattedMessage {...songsMessages["app.common.artist"]} />
+                                <FormattedMessage {...songsMessages["app.common.artist"]} values={{itemCount: 1}} />
                             </th>
                             <th>
-                                <FormattedMessage {...songsMessages["app.common.album"]} />
+                                <FormattedMessage {...songsMessages["app.common.album"]} values={{itemCount: 1}} />
                             </th>
                             <th>
-                                <FormattedMessage {...songsMessages["app.common.genre"]} />
+                                <FormattedMessage {...songsMessages["app.songs.genre"]} />
                             </th>
                             <th>
                                 <FormattedMessage {...songsMessages["app.songs.length"]} />

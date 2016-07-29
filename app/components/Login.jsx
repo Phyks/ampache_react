@@ -1,12 +1,15 @@
 import React, { Component, PropTypes } from "react";
+import CSSModules from "react-css-modules";
 import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-intl";
 
 import { messagesMap } from "../utils";
 import messages from "../locales/messagesDescriptors/Login";
 
+import css from "../styles/Login.scss";
+
 const loginMessages = defineMessages(messagesMap(messages));
 
-class LoginFormIntl extends Component {
+class LoginFormCSSIntl extends Component {
     constructor (props) {
         super(props);
 
@@ -61,8 +64,8 @@ class LoginFormIntl extends Component {
                 {
                     this.props.error ?
                         <div className="row">
-                            <div className="alert alert-danger">
-                                <p id="loginFormError">
+                            <div className="alert alert-danger" id="loginFormError">
+                                <p>
                                     <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> { this.props.error }
                                 </p>
                             </div>
@@ -105,7 +108,7 @@ class LoginFormIntl extends Component {
                                                 <FormattedMessage {...loginMessages["app.login.rememberMe"]} />
                                             </label>
                                         </div>
-                                        <div className="col-sm-6 col-sm-12 submit text-right">
+                                        <div className="col-sm-6 col-xs-12 text-right" styleName="submit">
                                             <input type="submit" className="btn btn-default" aria-label={formatMessage(loginMessages["app.login.signIn"])} defaultValue={formatMessage(loginMessages["app.login.signIn"])} disabled={this.props.isAuthenticating} />
                                         </div>
                                     </div>
@@ -119,7 +122,7 @@ class LoginFormIntl extends Component {
     }
 }
 
-LoginFormIntl.propTypes = {
+LoginFormCSSIntl.propTypes = {
     username: PropTypes.string,
     endpoint: PropTypes.string,
     rememberMe: PropTypes.bool,
@@ -130,10 +133,10 @@ LoginFormIntl.propTypes = {
     intl: intlShape.isRequired,
 };
 
-export let LoginForm = injectIntl(LoginFormIntl);
+export let LoginForm = injectIntl(CSSModules(LoginFormCSSIntl, css));
 
 
-export default class Login extends Component {
+class Login extends Component {
     render () {
         const greeting = (
             <p>
@@ -141,8 +144,8 @@ export default class Login extends Component {
             </p>
         );
         return (
-            <div className="login text-center container-fluid">
-                <h1><img src="./app/assets/img/ampache-blue.png" alt="A"/>mpache</h1>
+            <div className="text-center container-fluid">
+                <h1><img styleName="titleImage" src="./app/assets/img/ampache-blue.png" alt="A"/>mpache</h1>
                 <hr/>
                 {(!this.props.error && !this.props.info) ? greeting : null}
                 <div className="col-sm-9 col-sm-offset-2 col-md-6 col-md-offset-3">
@@ -162,3 +165,5 @@ Login.propTypes = {
     error: PropTypes.string,
     info: PropTypes.string
 };
+
+export default CSSModules(Login, css);

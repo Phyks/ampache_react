@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from "react";
+import CSSModules from "react-css-modules";
 
 import { formatLength } from "../utils";
+
+import css from "../styles/Album.scss";
 
 export class AlbumTrackRow extends Component {
     render () {
@@ -40,27 +43,33 @@ AlbumTracksTable.propTypes = {
     tracks: PropTypes.array.isRequired
 };
 
-export class AlbumRow extends Component {
+class AlbumRowCSS extends Component {
     render () {
         return (
-            <div className="row albumRow">
-                <div className="col-sm-offset-2 col-xs-10 albumRowName">
+            <div className="row" styleName="row">
+                <div className="col-sm-offset-2 col-xs-10" styleName="nameRow">
                     <h2>{this.props.album.name}</h2>
                 </div>
-                <div className="col-xs-2 albumRowArt">
-                    <p className="text-center"><img src={this.props.album.art} width="200" height="200" className="img-responsive img-circle art" alt={this.props.album.name} /></p>
+                <div className="col-xs-2" styleName="artRow">
+                    <p className="text-center"><img src={this.props.album.art} width="200" height="200" className="img-responsive img-circle" styleName="art" alt={this.props.album.name} /></p>
                 </div>
                 <div className="col-sm-10 table-responsive">
-                    <AlbumTracksTable tracks={this.props.album.tracks} />
+                    {
+                        Array.isArray(this.props.album.tracks) ?
+                            <AlbumTracksTable tracks={this.props.album.tracks} /> :
+                            null
+                    }
                 </div>
             </div>
         );
     }
 }
 
-AlbumRow.propTypes = {
+AlbumRowCSS.propTypes = {
     album: PropTypes.object.isRequired
 };
+
+export let AlbumRow = CSSModules(AlbumRowCSS, css);
 
 export default class Album extends Component {
     render () {

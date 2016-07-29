@@ -21,13 +21,13 @@ A few `npm` scripts are provided:
 
 Translations are handled by [react-intl](https://github.com/yahoo/react-intl/).
 
-`npm run extractTranslations` output a file containing all the english
+`npm run --silent extractTranslations` output a file containing all the english
 translations, in the expected form. It is a mapping of ids and strings to
 translate, with an extra description provided as a comment at the end of the
 line, for some translation context.
 
 Typically, if you want to translate to another `$LOCALE` (say `fr-FR`), create
 a folder `./app/locales/$LOCALE`, put inside the generated file from `npm run
-extractTranslations`, called `index.js`. Copy the lines in
+--silent extractTranslations`, called `index.js`. Copy the lines in
 `./app/locales/index.js` to include your new translation and translate all the
 strings in the `./app/locales/$LOCALE/index.js` file you have just created.
