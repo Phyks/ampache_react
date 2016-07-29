@@ -25,15 +25,22 @@ $lightgrey: #eee;
     text-decoration: none;
 }
 
-.link:hover,
+.link:hover {
+    color: $foreground;
+    background-color: $hoverBackground !important;
+}
+
 .link:focus {
     color: $foreground;
-    background-color: $hoverBackground !important;  /* TODO: important */
+    background-color: transparent !important;
 }
 
 .active {
     composes: link;
-    background-color: $activeBackground;
+    background-color: $activeBackground !important;
+}
+.active:focus {
+    background-color: $activeBackground !important;
 }
 
 .title {

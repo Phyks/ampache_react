@@ -5,9 +5,6 @@
 8. Search
 9. Discover
 
-# CSS
-    * Focus stays on navbar
-
 # API middleware
     * https://github.com/reactjs/redux/issues/1824#issuecomment-228609501
     * https://medium.com/@adamrackis/querying-a-redux-store-37db8c7f3b0f#.eezt3dano
