@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import { Link} from "react-router";
+import CSSModules from "react-css-modules";
 import { defineMessages, FormattedMessage } from "react-intl";
 import Fuse from "fuse.js";
 
@@ -9,6 +10,8 @@ import { formatLength, messagesMap } from "../utils";
 
 import commonMessages from "../locales/messagesDescriptors/common";
 import messages from "../locales/messagesDescriptors/Songs";
+
+import css from "../styles/Songs.scss";
 
 const songsMessages = defineMessages(messagesMap(Array.concat([], commonMessages, messages)));
 
@@ -35,7 +38,7 @@ SongsTableRow.propTypes = {
 };
 
 
-export class SongsTable extends Component {
+class SongsTableCSS extends Component {
     render () {
         var displayedSongs = this.props.songs;
         if (this.props.filterText) {
@@ -57,7 +60,7 @@ export class SongsTable extends Component {
         });
         return (
             <div className="table-responsive">
-                <table className="table table-hover songs">
+                <table className="table table-hover" styleName="songs">
                     <thead>
                         <tr>
                             <th></th>
@@ -85,10 +88,12 @@ export class SongsTable extends Component {
     }
 }
 
-SongsTable.propTypes = {
+SongsTableCSS.propTypes = {
     songs: PropTypes.array.isRequired,
     filterText: PropTypes.string
 };
+
+export let SongsTable = CSSModules(SongsTableCSS, css);
 
 
 export default class FilterablePaginatedSongsTable extends Component {

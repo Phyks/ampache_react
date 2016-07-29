@@ -23,14 +23,14 @@ AlbumTrackRow.propTypes = {
 };
 
 
-export class AlbumTracksTable extends Component {
+class AlbumTracksTableCSS extends Component {
     render () {
         var rows = [];
         this.props.tracks.forEach(function (item) {
             rows.push(<AlbumTrackRow track={item} key={item.id} />);
         });
         return (
-            <table className="table table-hover songs">
+            <table className="table table-hover" styleName="songs">
                 <tbody>
                     {rows}
                 </tbody>
@@ -39,9 +39,11 @@ export class AlbumTracksTable extends Component {
     }
 }
 
-AlbumTracksTable.propTypes = {
+AlbumTracksTableCSS.propTypes = {
     tracks: PropTypes.array.isRequired
 };
+
+export let AlbumTracksTable = CSSModules(AlbumTracksTableCSS, css);
 
 class AlbumRowCSS extends Component {
     render () {

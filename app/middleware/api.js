@@ -1,5 +1,3 @@
-// TODO: Refactor using normalizr
-// TODO: https://facebook.github.io/immutable-js/ ?
 import fetch from "isomorphic-fetch";
 import humps from "humps";
 import X2JS from "x2js";

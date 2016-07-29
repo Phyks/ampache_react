@@ -24,4 +24,17 @@
         vertical-align: middle;
         margin-bottom: 10px;
     }
+
+    .songs {
+        > thead,
+        > tbody,
+        > tfoot {
+            > tr {
+                > th,
+                > td {
+                    padding: 5px;
+                }
+            }
+        }
+    }
 }
