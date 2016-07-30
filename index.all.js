@@ -22,7 +22,7 @@ export const rootElement = document.getElementById("root");
 // i18n
 export const onWindowIntl = () => {
     addLocaleData([...en, ...fr]);
-    const locale = getBrowserLocale();
+    const locale = getBrowserLocale();  // TODO: Get navigator.languages as array and match
     var strings = rawMessages[locale] ? rawMessages[locale] : rawMessages["en-US"];
     strings = Object.assign(rawMessages["en-US"], strings);
 

@@ -7,11 +7,14 @@ module.exports = {
     "app.common.song": "{itemCount, plural, one {Piste} other {Pistes}}",  // Song
     "app.filter.filter": "Filtrer…",  // Filtering input placeholder
     "app.filter.whatAreWeListeningToToday": "Que voulez-vous écouter aujourd'hui\u00a0?",  // Description for the filter bar
+    "app.login.byebye": "À bientôt\u00a0!",  // Info message on successful logout
+    "app.login.connecting": "Connexion…",  // Info message while trying to connect
     "app.login.endpointInputAriaLabel": "URL de votre Ampache (e.g. http://ampache.example.com)",  // ARIA label for the endpoint input
     "app.login.greeting": "Bon retour sur Ampache, c'est parti\u00a0!",  // Greeting to welcome the user to the app
     "app.login.password": "Mot de passe",  // Password input placeholder
     "app.login.rememberMe": "Se souvenir",  // Remember me checkbox label
     "app.login.signIn": "Connexion",  // Sign in
+    "app.login.success": "Connecté en tant que { username }\u00a0!",  // Info message on successful login.
     "app.login.username": "Utilisateur",  // Username input placeholder
     "app.pagination.current": "actuelle",  // Current (page)
     "app.pagination.goToPage": "<span class=\"sr-only\">Aller à la page </span>{pageNumber}",  // Link content to go to page N. span is here for screen-readers

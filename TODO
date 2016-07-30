@@ -16,9 +16,15 @@
 
 
 ## Global UI
+    * Filter does not work on github.io
     * What happens when JS is off?
         => https://www.allantatter.com/react-js-and-progressive-enhancement/
 
 
 ## Miscellaneous
     * Webpack chunks?
+
+
+* Stocker pagination dans le store
+* error / info: null
+* refondre reducers

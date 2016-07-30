@@ -28,6 +28,23 @@ const messages = [
         id: "app.login.greeting",
         description: "Greeting to welcome the user to the app",
         defaultMessage: "Welcome back on Ampache, let's go!"
+    },
+
+    // From the auth reducer
+    {
+        id: "app.login.connecting",
+        defaultMessage: "Connecting…",
+        description: "Info message while trying to connect"
+    },
+    {
+        id: "app.login.success",
+        defaultMessage: "Successfully logged in as { username }!",
+        description: "Info message on successful login."
+    },
+    {
+        id: "app.login.byebye",
+        defaultMessage: "See you soon!",
+        description: "Info message on successful logout"
     }
 ];
 

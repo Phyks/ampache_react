@@ -27,7 +27,10 @@ export default createReducer(initialState, {
     [LOGIN_USER_REQUEST]: (state) => {
         return Object.assign({}, state, {
             isAuthenticating: true,
-            info: "Connecting…",
+            info: {
+                id: "app.login.connecting",
+                values: {}
+            },
             error: "",
             timerID: null
         });
@@ -40,7 +43,10 @@ export default createReducer(initialState, {
             username: payload.username,
             endpoint: payload.endpoint,
             rememberMe: payload.rememberMe,
-            info: "Successfully logged in as " + payload.username + "!",
+            info: {
+                id: "app.login.success",
+                values: { username: payload.username}
+            },
             error: "",
             timerID: payload.timerID
         });
@@ -66,7 +72,10 @@ export default createReducer(initialState, {
             username: "",
             endpoint: "",
             rememberMe: false,
-            info: "See you soon!",
+            info: {
+                id: "app.login.byebye",
+                values: {}
+            },
             error: "",
             timerID: 0
         });

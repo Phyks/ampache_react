@@ -58,9 +58,16 @@ class LoginFormCSSIntl extends Component {
 
     render () {
         const {formatMessage} = this.props.intl;
+        var infoMessage = "";
+        if (typeof this.props.info === "object") {
+            infoMessage = (
+                <FormattedMessage {...loginMessages[this.props.info.id]} values={ this.props.info.values} />
+            );
+        } else {
+            infoMessage = this.props.info;
+        }
         return (
             <div>
-                { /* TODO: info/error translation */ }
                 {
                     this.props.error ?
                         <div className="row">
@@ -76,7 +83,7 @@ class LoginFormCSSIntl extends Component {
                     this.props.info ?
                         <div className="row">
                             <div className="alert alert-info" id="loginFormInfo">
-                                <p>{ this.props.info }</p>
+                                <p>{ infoMessage }</p>
                             </div>
                         </div>
                         : null
@@ -129,7 +136,7 @@ LoginFormCSSIntl.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     isAuthenticating: PropTypes.bool,
     error: PropTypes.string,
-    info: PropTypes.string,
+    info: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     intl: intlShape.isRequired,
 };
 
@@ -163,7 +170,7 @@ Login.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     isAuthenticating: PropTypes.bool,
     error: PropTypes.string,
-    info: PropTypes.string
+    info: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 };
 
 export default CSSModules(Login, css);
