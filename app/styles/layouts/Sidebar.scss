@@ -46,23 +46,33 @@ $lightgrey: #eee;
 .title {
     margin: 0;
     margin-bottom: 20px;
+    font-size: 26px;
 }
 
 .imgTitle {
-    height: 46px;
+    height: 36px;
 }
 
 /* Sidebar navigation */
 .icon-navbar {
     background-color: #555;
-    font-size: 1.25em;
+    font-size: 1.2em;
     border: none;
+
+    .container-fluid {
+        padding-left: 0;
+        padding-right: 0;
+    }
 
     .nav {
         display: inline-block;
         float: none;
         vertical-align: top;
         text-align: center;
+
+        li {
+            float: left;
+        }
     }
 }
 
@@ -75,33 +85,32 @@ $lightgrey: #eee;
 
 /*
  * Media queries
- * TODO: Sidebar responsiveness
  */
-/*@media (max-width: 991px) {
-    .sidebar,
-    .sidebar .navbar .container-fluid {
-        padding-left: 5px;
-        padding-right: 5px;
+@media (min-width: 992px) and (max-width: 1199px) {
+    .icon-navbar {
+        .nav {
+            li {
+                float: none;
+            }
+        }
     }
 
-    .sidebar .nav-list {
+    .nav-list {
         text-align: right;
     }
 
-    .sidebar .nav-sidebar > li > a {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
-    .sidebar .nav-list > li > a {
-        padding-left: 20px;
-        padding-right: 20px;
+    .nav {
+        li {
+            a {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
     }
 }
 
-@media (min-width: 768px) {
-    .main-panel {
-        padding-right: 40px;
-        padding-left: 40px;
+@media (max-width: 991px) {
+    .sidebar {
+        position: static;
     }
-}*/
+}

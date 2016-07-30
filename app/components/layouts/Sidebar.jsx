@@ -24,16 +24,16 @@ class SidebarLayoutIntl extends Component {
         };
         return (
             <div>
-                <div className="col-sm-1 col-md-2 hidden-xs" styleName="sidebar">
+                <div className="col-xs-12 col-md-1 col-lg-2" styleName="sidebar">
                     <h1 className="text-center" styleName="title">
                         <IndexLink to="/" styleName="link">
                             <img alt="A" src="./app/assets/img/ampache-blue.png" styleName="imgTitle" />
-                            <span className="hidden-sm">mpache</span>
+                            <span className="hidden-md">mpache</span>
                         </IndexLink>
                     </h1>
                     <nav aria-label={formatMessage(sidebarLayoutMessages["app.sidebarLayout.mainNavigationMenu"])}>
                         <div className="navbar text-center" styleName="icon-navbar">
-                            <div className="container-fluid">
+                            <div className="container-fluid" styleName="container-fluid">
                                 <ul className="nav navbar-nav" styleName="nav">
                                     <li>
                                         <Link to="/" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.home"])} styleName="link">
@@ -66,7 +66,7 @@ class SidebarLayoutIntl extends Component {
                             <li>
                                 <Link to="/discover" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.discover"])} styleName={isActive.discover}>
                                     <span className="glyphicon glyphicon-globe" aria-hidden="true"></span>
-                                    <span className="hidden-sm">
+                                    <span className="hidden-md">
                                         &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.discover"]} />
                                     </span>
                                 </Link>
@@ -74,18 +74,18 @@ class SidebarLayoutIntl extends Component {
                             <li>
                                 <Link to="/browse" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browse"])} styleName={isActive.browse}>
                                     <span className="glyphicon glyphicon-headphones" aria-hidden="true"></span>
-                                    <span className="hidden-sm">
+                                    <span className="hidden-md">
                                         &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.browse"]} />
                                     </span>
                                 </Link>
-                                <ul className="nav nav-list text-center">
+                                <ul className="nav text-center" styleName="nav-list">
                                     <li>
                                         <Link to="/artists" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseArtists"])} styleName={isActive.artists}>
                                             <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
                                             <span className="sr-only">
                                                 <FormattedMessage {...sidebarLayoutMessages["app.common.artist"]} values={{itemCount: 42}} />
                                             </span>
-                                            <span className="hidden-sm">
+                                            <span className="hidden-md">
                                                 &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.common.artist"]} values={{itemCount: 42}} />
                                             </span>
                                         </Link>
@@ -94,7 +94,7 @@ class SidebarLayoutIntl extends Component {
                                         <Link to="/albums" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseAlbums"])} styleName={isActive.albums}>
                                             <span className="glyphicon glyphicon-cd" aria-hidden="true"></span>
                                             <span className="sr-only"><FormattedMessage {...sidebarLayoutMessages["app.common.album"]} values={{itemCount: 42}} /></span>
-                                            <span className="hidden-sm">
+                                            <span className="hidden-md">
                                                 &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.common.album"]} values={{itemCount: 42}} />
                                             </span>
                                         </Link>
@@ -105,7 +105,7 @@ class SidebarLayoutIntl extends Component {
                                             <span className="sr-only">
                                                 <FormattedMessage {...sidebarLayoutMessages["app.common.song"]} values={{itemCount: 42}} />
                                             </span>
-                                            <span className="hidden-sm">
+                                            <span className="hidden-md">
                                                 &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.common.song"]} values={{itemCount: 42}} />
                                             </span>
                                         </Link>
@@ -115,7 +115,7 @@ class SidebarLayoutIntl extends Component {
                             <li>
                                 <Link to="/search" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.search"])} styleName={isActive.search}>
                                     <span className="glyphicon glyphicon-search" aria-hidden="true"></span>
-                                    <span className="hidden-sm">
+                                    <span className="hidden-md">
                                         &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.search"]} />
                                     </span>
                                 </Link>
