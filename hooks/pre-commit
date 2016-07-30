@@ -16,7 +16,7 @@ then
 fi
 
 echo "Rebuilding dist JavaScript files…"
-export NODE_ENV=production
 npm run clean
-npm run build
+npm run build:prod
+npm test
 git add app/dist

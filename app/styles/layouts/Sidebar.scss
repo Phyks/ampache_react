@@ -39,6 +39,7 @@ $lightgrey: #eee;
     composes: link;
     background-color: $activeBackground !important;
 }
+
 .active:focus {
     background-color: $activeBackground !important;
 }

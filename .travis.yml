@@ -1,0 +1,13 @@
+---
+sudo: required
+dist: trusty
+language: node_js
+node_js:
+    - 4
+install:
+    - npm install
+script:
+    - "npm run build:dev"
+    - "npm run clean"
+    - "npm run build:prod"
+    - "npm test"

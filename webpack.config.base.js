@@ -3,9 +3,6 @@ var webpack = require("webpack");
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var postcssReporter = require("postcss-reporter");
-var doiuse = require("doiuse");
-var stylelint = require("stylelint");
-var precss = require("precss");
 var autoprefixer = require("autoprefixer");
 var browsers = ["ie >= 9", "> 1%", "last 3 versions", "not op_mini all"];
 
@@ -53,7 +50,7 @@ module.exports = {
                 loader: ExtractTextPlugin.extract(
                     "style-loader",
                     "css-loader?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:5]" +
-                    // TODO: "!postcss-loader" +
+                    "!postcss-loader" +
                     "!sass-loader"
                 )
             },
@@ -84,7 +81,7 @@ module.exports = {
         new ExtractTextPlugin("style.css", { allChunks: true })
     ],
 
-    postcss: [doiuse({ browsers: browsers }), stylelint, precss, autoprefixer({ browsers: browsers }), postcssReporter({ throwError: true, clearMessages: true })],
+    postcss: [autoprefixer({ browsers: browsers }), postcssReporter({ throwError: true, clearMessages: true })],
 
     resolve: {
         // Include empty string "" to resolve files by their explicit extension

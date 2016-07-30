@@ -7,11 +7,18 @@
   "homepage": "https://github.com/Phyks/ampache_react",
   "repository": "git+https://github.com/Phyks/ampache_react.git",
   "scripts": {
-    "build": "./node_modules/.bin/webpack --progress",
-    "watch": "./node_modules/.bin/webpack --progress  --watch",
-    "prod": "NODE_ENV=production ./node_modules/.bin/webpack --progress",
-    "extractTranslations": "./node_modules/.bin/babel-node scripts/extractTranslations.js",
-    "clean": "./node_modules/.bin/rimraf .cache && ./node_modules/.bin/rimraf app/dist"
+    "clean": "rimraf .cache && rimraf app/dist",
+    "build:dev": "webpack --progress",
+    "build:prod": "NODE_ENV=production webpack --progress",
+    "watch:dev": "webpack --progress --watch",
+    "watch:prod": "NODE_ENV=production webpack --progress --watch",
+
+    "extractTranslations": "babel-node scripts/extractTranslations.js",
+
+    "lint:scss": "stylelint './app/**/*.scss' --syntax scss",
+    "lint:js": "eslint './app/**/*.js' './app/**/*.jsx'",
+
+    "test": "npm run lint:scss && npm run lint:js"
   },
   "dependencies": {
     "babel-polyfill": "^6.9.1",
@@ -60,7 +67,6 @@
     "postcss": "^5.1.0",
     "postcss-loader": "^0.9.1",
     "postcss-reporter": "^1.4.1",
-    "precss": "^1.4.0",
     "react-a11y": "^0.3.3",
     "react-intl-webpack-plugin": "0.0.3",
     "redbox-react": "^1.2.10",
