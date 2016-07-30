@@ -8,7 +8,12 @@ var browsers = ["ie >= 9", "> 1%", "last 3 versions", "not op_mini all"];
 
 module.exports = {
     entry: {
-        "index": ["babel-polyfill", "bootstrap-loader", "./app/styles/common/index.js", "./index.js"],
+        "index": [
+            "babel-polyfill",
+            "bootstrap-loader",
+            "./app/styles/common/index.js",
+            "./app/utils/common/index.js",
+            "./index.js"],
         "fix.ie9": "./fix.ie9.js"
     },
 
@@ -19,13 +24,6 @@ module.exports = {
     },
 
     module: {
-        preLoaders: [
-            {
-                test: /\.jsx?$/,
-                loader: "eslint-loader?{failOnError: true}",
-                exclude: /node_modules/
-            }
-        ],
         loaders: [
             // Handle JS/JSX files
             {

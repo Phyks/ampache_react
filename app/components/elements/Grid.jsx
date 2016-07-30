@@ -4,7 +4,7 @@ import CSSModules from "react-css-modules";
 import imagesLoaded from "imagesloaded";
 import Isotope from "isotope-layout";
 import Fuse from "fuse.js";
-import _ from "lodash";
+import shallowCompare from "react-addons-shallow-compare";
 
 import FilterBar from "./FilterBar";
 import Pagination from "./Pagination";
@@ -121,11 +121,11 @@ export class Grid extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return !_.isEqual(this.props, nextProps) || !_.isEqual(this.state, nextState);
+        return shallowCompare(this, nextProps, nextState);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!_.isEqual(nextProps.filterText, this.props.filterText)) {
+        if (nextProps.filterText !== this.props.filterText) {
             this.handleFiltering(nextProps);
         }
     }
@@ -134,34 +134,34 @@ export class Grid extends Component {
         // Setup grid
         this.createIsotopeContainer();
         // Only arrange if there are elements to arrange
-        if (_.get(this, "props.items.length", 0) > 0) {
+        const length = this.props.items.length || 0;
+        if (length > 0) {
             this.iso.arrange();
         }
     }
 
     componentDidUpdate(prevProps) {
         // The list of keys seen in the previous render
-        let currentKeys = _.map(
-            prevProps.items,
+        let currentKeys = prevProps.items.map(
             (n) => "grid-item-" + n.type + "/" + n.id);
 
         // The latest list of keys that have been rendered
-        let newKeys = _.map(
-            this.props.items,
+        let newKeys = this.props.items.map(
             (n) => "grid-item-" + n.type + "/" + n.id);
 
         // Find which keys are new between the current set of keys and any new children passed to this component
-        let addKeys = _.difference(newKeys, currentKeys);
+        let addKeys = newKeys.diff(currentKeys);
 
         // Find which keys have been removed between the current set of keys and any new children passed to this component
-        let removeKeys = _.difference(currentKeys, newKeys);
+        let removeKeys = currentKeys.diff(newKeys);
 
         if (removeKeys.length > 0) {
-            _.each(removeKeys, removeKey => this.iso.remove(document.getElementById(removeKey)));
+            removeKeys.forEach(removeKey => this.iso.remove(document.getElementById(removeKey)));
             this.iso.arrange();
         }
         if (addKeys.length > 0) {
-            this.iso.addItems(_.map(addKeys, (addKey) => document.getElementById(addKey)));
+            const itemsToAdd = addKeys.map((addKey) => document.getElementById(addKey));
+            this.iso.addItems(itemsToAdd);
             this.iso.arrange();
         }
 

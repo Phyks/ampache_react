@@ -17,7 +17,7 @@ import rawMessages from "./app/locales";
 const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
 
-const rootElement = document.getElementById("root");
+export const rootElement = document.getElementById("root");
 
 // i18n
 export const onWindowIntl = () => {

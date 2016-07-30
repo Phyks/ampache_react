@@ -12,7 +12,7 @@
     * https://github.com/peterpme/redux-crud-api-middleware/blob/master/README.md
     * https://github.com/madou/armory-front/tree/master/src/app/reducers
     * https://github.com/erikras/multireducer
-    * Immutable.js (?) + get rid of lodash
+    * Immutable.js (?)
 
 
 ## Global UI

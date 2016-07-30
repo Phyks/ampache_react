@@ -12,7 +12,7 @@ if (process.env.NODE_ENV !== "production" && module.hot) {
     // and display an overlay for runtime errors
     const renderApp = render;
     const renderError = (error) => {
-        const RedBox = require("redbox-react");
+        const RedBox = require("redbox-react").default;
         ReactDOM.render(
             <RedBox error={error} />,
             index.rootElement
