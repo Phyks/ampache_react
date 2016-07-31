@@ -1,5 +1,7 @@
+$titleImage-size: $font-size-h1 + 10px;
+
 .titleImage {
-    height: 46px;
+    height: $titleImage-size;
 }
 
 @media (max-width: 767px) {

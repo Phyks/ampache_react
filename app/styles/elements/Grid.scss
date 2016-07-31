@@ -1,5 +1,8 @@
+$marginBottom: 30px;
+$artMarginBottom: 10px;
+
 .placeholders {
-    margin-bottom: 30px;
+    margin-bottom: $marginBottom;
     text-align: center;
 }
 
@@ -9,7 +12,7 @@
 
 .art {
     display: inline-block;
-    margin-bottom: 10px;
+    margin-bottom: $artMarginBottom;
     width: 75%;
     height: auto;
 

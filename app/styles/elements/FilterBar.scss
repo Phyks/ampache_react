@@ -1,10 +1,12 @@
+$marginBottom: 34px;
+
 .filter {
-    margin-bottom: 34px;
+    margin-bottom: $marginBottom;
 }
 
 .legend {
     text-align: right;
-    line-height: 34px;
+    line-height: $marginBottom;
 }
 
 @media (max-width: 767px) {

@@ -3,6 +3,10 @@ $hoverBackground: #222;
 $activeBackground: $hoverBackground;
 $foreground: white;
 $lightgrey: #eee;
+$titleFontSize: $font-size-h1 - 10px;
+$titleMarginBottom: 20px;
+$mainPadding: 20px;
+$condensedNavPadding: 5px;
 
 .sidebar {
     position: fixed;
@@ -46,12 +50,12 @@ $lightgrey: #eee;
 
 .title {
     margin: 0;
-    margin-bottom: 20px;
-    font-size: 26px;
+    margin-bottom: $titleMarginBottom;
+    font-size: $titleFontSize;
 }
 
 .imgTitle {
-    height: 36px;
+    height: $font-size-h1;
 }
 
 /* Sidebar navigation */
@@ -81,7 +85,7 @@ $lightgrey: #eee;
  * Main content
  */
 .main-panel {
-    padding: 20px;
+    padding: $mainPadding;
 }
 
 /*
@@ -103,8 +107,8 @@ $lightgrey: #eee;
     .nav {
         li {
             a {
-                padding-left: 5px;
-                padding-right: 5px;
+                padding-left: $condensedNavPadding;
+                padding-right: $condensedNavPadding;
             }
         }
     }

@@ -49,7 +49,8 @@ module.exports = {
                     "style-loader",
                     "css-loader?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:5]" +
                     "!postcss-loader" +
-                    "!sass-loader"
+                    "!sass-loader" +
+                    "!sass-resources-loader"
                 )
             },
             {
@@ -80,6 +81,8 @@ module.exports = {
     ],
 
     postcss: [autoprefixer({ browsers: browsers }), postcssReporter({ throwError: true, clearMessages: true })],
+
+    sassResources: "./app/styles/variables.scss",
 
     resolve: {
         // Include empty string "" to resolve files by their explicit extension
