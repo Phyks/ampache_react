@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { Link} from "react-router";
 import CSSModules from "react-css-modules";
 import { defineMessages, FormattedMessage } from "react-intl";
+import Immutable from "immutable";
 import Fuse from "fuse.js";
 
 import FilterBar from "./elements/FilterBar";
@@ -25,7 +26,7 @@ export class SongsTableRow extends Component {
                 <td></td>
                 <td className="title">{this.props.song.name}</td>
                 <td className="artist"><Link to={linkToArtist}>{this.props.song.artist.name}</Link></td>
-                <td className="artist"><Link to={linkToAlbum}>{this.props.song.album.name}</Link></td>
+                <td className="album"><Link to={linkToAlbum}>{this.props.song.album.name}</Link></td>
                 <td className="genre">{this.props.song.genre}</td>
                 <td className="length">{length}</td>
             </tr>
@@ -58,6 +59,15 @@ class SongsTableCSS extends Component {
         displayedSongs.forEach(function (song) {
             rows.push(<SongsTableRow song={song} key={song.id} />);
         });
+        var loading = null;
+        if (rows.length == 0 && this.props.isFetching) {
+            // If we are fetching and there is nothing to show
+            loading = (
+                <p className="text-center">
+                    <FormattedMessage {...songsMessages["app.common.loading"]} />
+                </p>
+            );
+        }
         return (
             <div className="table-responsive">
                 <table className="table table-hover" styleName="songs">
@@ -67,10 +77,10 @@ class SongsTableCSS extends Component {
                             <th>
                                 <FormattedMessage {...songsMessages["app.songs.title"]} />
                             </th>
-                            <th>
+                            <th className="text-capitalize">
                                 <FormattedMessage {...songsMessages["app.common.artist"]} values={{itemCount: 1}} />
                             </th>
-                            <th>
+                            <th className="text-capitalize">
                                 <FormattedMessage {...songsMessages["app.common.album"]} values={{itemCount: 1}} />
                             </th>
                             <th>
@@ -83,13 +93,14 @@ class SongsTableCSS extends Component {
                     </thead>
                     <tbody>{rows}</tbody>
                 </table>
+                {loading}
             </div>
         );
     }
 }
 
 SongsTableCSS.propTypes = {
-    songs: PropTypes.array.isRequired,
+    songs: PropTypes.instanceOf(Immutable.List).isRequired,
     filterText: PropTypes.string
 };
 
@@ -113,21 +124,18 @@ export default class FilterablePaginatedSongsTable extends Component {
     }
 
     render () {
-        const nPages = Math.ceil(this.props.songsTotalCount / this.props.songsPerPage);
         return (
             <div>
                 <FilterBar filterText={this.state.filterText} onUserInput={this.handleUserInput} />
-                <SongsTable songs={this.props.songs} filterText={this.state.filterText} />
-                <Pagination nPages={nPages} currentPage={this.props.currentPage} location={this.props.location} />
+                <SongsTable isFetching={this.props.isFetching} songs={this.props.songs} filterText={this.state.filterText} />
+                <Pagination {...this.props.pagination} />
             </div>
         );
     }
 }
 
 FilterablePaginatedSongsTable.propTypes = {
-    songs: PropTypes.array.isRequired,
-    songsTotalCount: PropTypes.number.isRequired,
-    songsPerPage: PropTypes.number.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    location: PropTypes.object.isRequired
+    isFetching: PropTypes.bool.isRequired,
+    songs: PropTypes.instanceOf(Immutable.List).isRequired,
+    pagination: PropTypes.object.isRequired
 };

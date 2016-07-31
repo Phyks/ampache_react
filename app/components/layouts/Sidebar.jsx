@@ -82,10 +82,10 @@ class SidebarLayoutIntl extends Component {
                                     <li>
                                         <Link to="/artists" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseArtists"])} styleName={isActive.artists}>
                                             <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                            <span className="sr-only">
+                                            <span className="sr-only text-capitalize">
                                                 <FormattedMessage {...sidebarLayoutMessages["app.common.artist"]} values={{itemCount: 42}} />
                                             </span>
-                                            <span className="hidden-md">
+                                            <span className="hidden-md text-capitalize">
                                                 &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.common.artist"]} values={{itemCount: 42}} />
                                             </span>
                                         </Link>
@@ -93,8 +93,10 @@ class SidebarLayoutIntl extends Component {
                                     <li>
                                         <Link to="/albums" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseAlbums"])} styleName={isActive.albums}>
                                             <span className="glyphicon glyphicon-cd" aria-hidden="true"></span>
-                                            <span className="sr-only"><FormattedMessage {...sidebarLayoutMessages["app.common.album"]} values={{itemCount: 42}} /></span>
-                                            <span className="hidden-md">
+                                            <span className="sr-only text-capitalize">
+                                                <FormattedMessage {...sidebarLayoutMessages["app.common.album"]} values={{itemCount: 42}} />
+                                            </span>
+                                            <span className="hidden-md text-capitalize">
                                                 &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.common.album"]} values={{itemCount: 42}} />
                                             </span>
                                         </Link>
@@ -102,11 +104,11 @@ class SidebarLayoutIntl extends Component {
                                     <li>
                                         <Link to="/songs" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseSongs"])} styleName={isActive.songs}>
                                             <span className="glyphicon glyphicon-music" aria-hidden="true"></span>
-                                            <span className="sr-only">
-                                                <FormattedMessage {...sidebarLayoutMessages["app.common.song"]} values={{itemCount: 42}} />
+                                            <span className="sr-only text-capitalize">
+                                                <FormattedMessage {...sidebarLayoutMessages["app.common.track"]} values={{itemCount: 42}} />
                                             </span>
-                                            <span className="hidden-md">
-                                                &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.common.song"]} values={{itemCount: 42}} />
+                                            <span className="hidden-md text-capitalize">
+                                                &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.common.track"]} values={{itemCount: 42}} />
                                             </span>
                                         </Link>
                                     </li>

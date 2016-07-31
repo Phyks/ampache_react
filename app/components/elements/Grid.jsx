@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from "react";
 import { Link} from "react-router";
 import CSSModules from "react-css-modules";
+import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-intl";
+import Immutable from "immutable";
 import imagesLoaded from "imagesloaded";
 import Isotope from "isotope-layout";
 import Fuse from "fuse.js";
@@ -8,27 +10,30 @@ import shallowCompare from "react-addons-shallow-compare";
 
 import FilterBar from "./FilterBar";
 import Pagination from "./Pagination";
+import { immutableDiff, messagesMap } from "../../utils/";
+
+import commonMessages from "../../locales/messagesDescriptors/common";
+import messages from "../../locales/messagesDescriptors/grid";
 
 import css from "../../styles/elements/Grid.scss";
 
-class GridItemCSS extends Component {
+const gridMessages = defineMessages(messagesMap(Array.concat([], commonMessages, messages)));
+
+class GridItemCSSIntl extends Component {
     render () {
+        const {formatMessage} = this.props.intl;
+
         var nSubItems = this.props.item[this.props.subItemsType];
         if (Array.isArray(nSubItems)) {
             nSubItems = nSubItems.length;
         }
 
-        // TODO: i18n
-        var subItemsLabel = this.props.subItemsType;
-        if (nSubItems < 2) {
-            subItemsLabel = subItemsLabel.rstrip("s");
-        }
+        var subItemsLabel = formatMessage(gridMessages[this.props.subItemsLabel], { itemCount: nSubItems });
 
-        const to = "/" + this.props.itemsType.rstrip("s") + "/" + this.props.item.id;
+        const to = "/" + this.props.item.type + "/" + this.props.item.id;
         const id = "grid-item-" + this.props.item.type + "/" + this.props.item.id;
 
-        // TODO: i18n
-        const title = "Go to " + this.props.itemsType.rstrip("s") + " page";
+        const title = formatMessage(gridMessages["app.grid.goTo" + this.props.item.type.capitalize() + "Page"]);
         return (
             <div className="grid-item col-xs-6 col-sm-3" styleName="placeholders" id={id}>
                 <div className="grid-item-content text-center">
@@ -41,13 +46,15 @@ class GridItemCSS extends Component {
     }
 }
 
-GridItemCSS.propTypes = {
+GridItemCSSIntl.propTypes = {
     item: PropTypes.object.isRequired,
-    itemsType: PropTypes.string.isRequired,
-    subItemsType: PropTypes.string.isRequired
+    itemsLabel: PropTypes.string.isRequired,
+    subItemsType: PropTypes.string.isRequired,
+    subItemsLabel: PropTypes.string.isRequired,
+    intl: intlShape.isRequired
 };
 
-export let GridItem = CSSModules(GridItemCSS, css);
+export let GridItem = injectIntl(CSSModules(GridItemCSSIntl, css));
 
 
 const ISOTOPE_OPTIONS = {  /** Default options for Isotope grid layout. */
@@ -150,17 +157,17 @@ export class Grid extends Component {
             (n) => "grid-item-" + n.type + "/" + n.id);
 
         // Find which keys are new between the current set of keys and any new children passed to this component
-        let addKeys = newKeys.diff(currentKeys);
+        let addKeys = immutableDiff(newKeys, currentKeys);
 
         // Find which keys have been removed between the current set of keys and any new children passed to this component
-        let removeKeys = currentKeys.diff(newKeys);
+        let removeKeys = immutableDiff(currentKeys, newKeys);
 
-        if (removeKeys.length > 0) {
+        if (removeKeys.count() > 0) {
             removeKeys.forEach(removeKey => this.iso.remove(document.getElementById(removeKey)));
             this.iso.arrange();
         }
-        if (addKeys.length > 0) {
-            const itemsToAdd = addKeys.map((addKey) => document.getElementById(addKey));
+        if (addKeys.count() > 0) {
+            const itemsToAdd = addKeys.map((addKey) => document.getElementById(addKey)).toArray();
             this.iso.addItems(itemsToAdd);
             this.iso.arrange();
         }
@@ -178,18 +185,32 @@ export class Grid extends Component {
 
     render () {
         var gridItems = [];
-        const itemsType = this.props.itemsType;
+        const itemsLabel = this.props.itemsLabel;
         const subItemsType = this.props.subItemsType;
+        const subItemsLabel = this.props.subItemsLabel;
         this.props.items.forEach(function (item) {
-            gridItems.push(<GridItem item={item} itemsType={itemsType} subItemsType={subItemsType} key={item.id} />);
+            gridItems.push(<GridItem item={item} itemsLabel={itemsLabel} subItemsType={subItemsType} subItemsLabel={subItemsLabel} key={item.id} />);
         });
+        var loading = null;
+        if (gridItems.length == 0 && this.props.isFetching) {
+            loading = (
+                <div className="row text-center">
+                    <p>
+                        <FormattedMessage {...gridMessages["app.common.loading"]} />
+                    </p>
+                </div>
+            );
+        }
         return (
-            <div className="row">
-                <div className="grid" ref="grid">
-                    {/* Sizing element */}
-                    <div className="grid-sizer col-xs-6 col-sm-3"></div>
-                    {/* Other items */}
-                    { gridItems }
+            <div>
+                { loading }
+                <div className="row">
+                    <div className="grid" ref="grid">
+                        {/* Sizing element */}
+                        <div className="grid-sizer col-xs-6 col-sm-3"></div>
+                        {/* Other items */}
+                        { gridItems }
+                    </div>
                 </div>
             </div>
         );
@@ -197,8 +218,9 @@ export class Grid extends Component {
 }
 
 Grid.propTypes = {
-    items: PropTypes.array.isRequired,
-    itemsType: PropTypes.string.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    items: PropTypes.instanceOf(Immutable.List).isRequired,
+    itemsLabel: PropTypes.string.isRequired,
     subItemsType: PropTypes.string.isRequired,
     filterText: PropTypes.string
 };
@@ -220,23 +242,17 @@ export default class FilterablePaginatedGrid extends Component {
     }
 
     render () {
-        const nPages = Math.ceil(this.props.itemsTotalCount / this.props.itemsPerPage);
         return (
             <div>
                 <FilterBar filterText={this.state.filterText} onUserInput={this.handleUserInput} />
-                <Grid items={this.props.items} itemsType={this.props.itemsType} subItemsType={this.props.subItemsType} filterText={this.state.filterText} />
-                <Pagination nPages={nPages} currentPage={this.props.currentPage} location={this.props.location} />
+                <Grid filterText={this.state.filterText} {...this.props.grid} />
+                <Pagination {...this.props.pagination} />
             </div>
         );
     }
 }
 
 FilterablePaginatedGrid.propTypes = {
-    items: PropTypes.array.isRequired,
-    itemsTotalCount: PropTypes.number.isRequired,
-    itemsPerPage: PropTypes.number.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    location: PropTypes.object.isRequired,
-    itemsType: PropTypes.string.isRequired,
-    subItemsType: PropTypes.string.isRequired
+    grid: PropTypes.object.isRequired,
+    pagination: PropTypes.object.isRequired
 };

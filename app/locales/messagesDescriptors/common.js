@@ -17,17 +17,22 @@ const messages = [
     {
         id: "app.common.artist",
         description: "Artist",
-        defaultMessage: "{itemCount, plural, one {Artist} other {Artists}}"
+        defaultMessage: "{itemCount, plural, one {artist} other {artists}}"
     },
     {
         id: "app.common.album",
         description: "Album",
-        defaultMessage: "{itemCount, plural, one {Album} other {Albums}}"
+        defaultMessage: "{itemCount, plural, one {album} other {albums}}"
     },
     {
-        id: "app.common.song",
-        description: "Song",
-        defaultMessage: "{itemCount, plural, one {Song} other {Songs}}"
+        id: "app.common.track",
+        description: "Track",
+        defaultMessage: "{itemCount, plural, one {track} other {tracks}}"
+    },
+    {
+        id: "app.common.loading",
+        description: "Loading indicator",
+        defaultMessage: "Loading…"
     },
 ];
 

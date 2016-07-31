@@ -1,13 +1,19 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { defineMessages, injectIntl, intlShape } from "react-intl";
 
 import * as actionCreators from "../actions";
-import { DEFAULT_LIMIT } from "../reducers/paginate";
+import { i18nRecord } from "../models/i18n";
+import { buildPaginationObject, messagesMap } from "../utils";
 
 import Songs from "../components/Songs";
 
-export class SongsPage extends Component {
+import APIMessages from "../locales/messagesDescriptors/api";
+
+const songsMessages = defineMessages(messagesMap(APIMessages));
+
+class SongsPageIntl extends Component {
     componentWillMount () {
         const currentPage = parseInt(this.props.location.query.page) || 1;
         // Load the data
@@ -24,20 +30,40 @@ export class SongsPage extends Component {
     }
 
     render () {
-        const currentPage = parseInt(this.props.location.query.page) || 1;
+        const {formatMessage} = this.props.intl;
+        if (this.props.error) {
+            var errorMessage = this.props.error;
+            if (this.props.error instanceof i18nRecord) {
+                errorMessage = formatMessage(songsMessages[this.props.error.id], this.props.error.values);
+            }
+            alert(errorMessage);
+            this.context.router.replace("/");
+            return null;
+        }
+        const pagination = buildPaginationObject(this.props.location, this.props.currentPage, this.props.nPages, this.props.actions.goToPageAction);
         return (
-            <Songs songs={this.props.songsList} songsTotalCount={this.props.songsCount} songsPerPage={DEFAULT_LIMIT} currentPage={currentPage} location={this.props.location} />
+            <Songs isFetching={this.props.isFetching} songs={this.props.songsList} pagination={pagination} />
         );
     }
 }
 
+SongsPageIntl.contextTypes = {
+    router: PropTypes.object.isRequired
+};
+
+SongsPageIntl.propTypes = {
+    intl: intlShape.isRequired,
+};
+
 const mapStateToProps = (state) => ({
+    isFetching: state.pagination.songs.isFetching,
     songsList: state.pagination.songs.items,
-    songsCount: state.pagination.songs.total
+    currentPage: state.pagination.songs.currentPage,
+    nPages: state.pagination.songs.nPages
 });
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators(actionCreators, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SongsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(SongsPageIntl));

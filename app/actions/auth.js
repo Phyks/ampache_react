@@ -4,6 +4,8 @@ import Cookies from "js-cookie";
 
 import { CALL_API } from "../middleware/api";
 
+import { i18nRecord } from "../models/i18n";
+
 export const DEFAULT_SESSION_INTERVAL = 1800 * 1000;  // 30 mins default
 
 function _cleanEndpoint (endpoint) {
@@ -46,7 +48,7 @@ export function loginKeepAlive(username, token, endpoint) {
                 null,
                 null,
                 error => dispatch => {
-                    dispatch(loginUserFailure(error || "Your session expired… =("));
+                    dispatch(loginUserFailure(error || new i18nRecord({ id: "app.login.expired", values: {}})));
                 }
             ],
             action: "ping",
@@ -141,7 +143,7 @@ export function loginUser(username, passwordOrToken, endpoint, rememberMe, redir
                 loginUserRequest,
                 jsonData => dispatch => {
                     if (!jsonData.auth || !jsonData.sessionExpire) {
-                        return Promise.reject("API error.");
+                        return Promise.reject(new i18nRecord({ id: "app.api.error", values: {} }));
                     }
                     const token = {
                         token: jsonData.auth,

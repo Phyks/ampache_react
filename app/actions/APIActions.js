@@ -1,16 +1,19 @@
 import humps from "humps";
 
 import { CALL_API } from "../middleware/api";
-import { DEFAULT_LIMIT } from "../reducers/paginate";
+
+export const DEFAULT_LIMIT = 30;  /** Default max number of elements to retrieve. */
 
 export default function (action, requestType, successType, failureType) {
     const itemName = action.rstrip("s");
-    const fetchItemsSuccess = function (itemsList, itemsCount) {
+    const fetchItemsSuccess = function (itemsList, itemsCount, pageNumber) {
+        const nPages = Math.ceil(itemsCount / DEFAULT_LIMIT);
         return {
             type: successType,
             payload: {
                 items: itemsList,
-                total: itemsCount
+                nPages: nPages,
+                currentPage: pageNumber
             }
         };
     };
@@ -29,7 +32,8 @@ export default function (action, requestType, successType, failureType) {
             }
         };
     };
-    const fetchItems = function (endpoint, username, passphrase, filter, offset, include = [], limit=DEFAULT_LIMIT) {
+    const fetchItems = function (endpoint, username, passphrase, filter, pageNumber, include = [], limit=DEFAULT_LIMIT) {
+        const offset = (pageNumber - 1) * DEFAULT_LIMIT;
         var extraParams = {
             offset: offset,
             limit: limit
@@ -47,7 +51,7 @@ export default function (action, requestType, successType, failureType) {
                 dispatch: [
                     fetchItemsRequest,
                     jsonData => dispatch => {
-                        dispatch(fetchItemsSuccess(jsonData[itemName], jsonData[action]));
+                        dispatch(fetchItemsSuccess(jsonData[itemName], jsonData[action], pageNumber));
                     },
                     fetchItemsFailure
                 ],
@@ -61,8 +65,7 @@ export default function (action, requestType, successType, failureType) {
     const loadItems = function({ pageNumber = 1, filter = null, include = [] } = {}) {
         return (dispatch, getState) => {
             const { auth } = getState();
-            const offset = (pageNumber - 1) * DEFAULT_LIMIT;
-            dispatch(fetchItems(auth.endpoint, auth.username, auth.token.token, filter, offset, include));
+            dispatch(fetchItems(auth.endpoint, auth.username, auth.token.token, filter, pageNumber, include));
         };
     };
 

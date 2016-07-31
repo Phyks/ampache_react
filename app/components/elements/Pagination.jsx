@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from "react";
-import { Link, withRouter } from "react-router";
+import { Link } from "react-router";
 import CSSModules from "react-css-modules";
 import { defineMessages, injectIntl, intlShape, FormattedMessage, FormattedHTMLMessage } from "react-intl";
 
@@ -12,11 +12,6 @@ import css from "../../styles/elements/Pagination.scss";
 const paginationMessages = defineMessages(messagesMap(Array.concat([], commonMessages, messages)));
 
 class PaginationCSSIntl extends Component {
-    constructor(props) {
-        super(props);
-        this.buildLinkTo.bind(this);
-    }
-
     computePaginationBounds(currentPage, nPages, maxNumberPagesShown=5) {
         // Taken from http://stackoverflow.com/a/8608998/2626416
         var lowerLimit = currentPage;
@@ -39,18 +34,12 @@ class PaginationCSSIntl extends Component {
         };
     }
 
-    buildLinkTo(pageNumber) {
-        return {
-            pathname: this.props.location.pathname,
-            query: Object.assign({}, this.props.location.query, { page: pageNumber })
-        };
-    }
-
-    goToPage() {
+    goToPage(ev) {
+        ev.preventDefault();
         const pageNumber = parseInt(this.refs.pageInput.value);
         $(this.refs.paginationModal).modal("hide");
         if (pageNumber) {
-            this.props.router.push(this.buildLinkTo(pageNumber));
+            this.props.goToPage(pageNumber);
         }
     }
 
@@ -79,7 +68,7 @@ class PaginationCSSIntl extends Component {
             // Push first page
             pagesButton.push(
                 <li className="page-item" key={key}>
-                    <Link className="page-link" title={formatMessage(paginationMessages["app.pagination.goToPageWithoutMarkup"], { pageNumber: 1})} to={this.buildLinkTo(1)}>
+                    <Link className="page-link" title={formatMessage(paginationMessages["app.pagination.goToPageWithoutMarkup"], { pageNumber: 1})} to={this.props.buildLinkToPage(1)}>
                         <FormattedHTMLMessage {...paginationMessages["app.pagination.goToPage"]} values={{ pageNumber: 1 }} />
                     </Link>
                 </li>
@@ -106,7 +95,7 @@ class PaginationCSSIntl extends Component {
             const title = formatMessage(paginationMessages["app.pagination.goToPageWithoutMarkup"], { pageNumber: i });
             pagesButton.push(
                 <li className={className} key={key}>
-                    <Link className="page-link" title={title} to={this.buildLinkTo(i)}>
+                    <Link className="page-link" title={title} to={this.props.buildLinkToPage(i)}>
                         <FormattedHTMLMessage {...paginationMessages["app.pagination.goToPage"]} values={{ pageNumber: i }} />
                         {currentSpan}
                     </Link>
@@ -128,7 +117,7 @@ class PaginationCSSIntl extends Component {
             // Push last page
             pagesButton.push(
                 <li className="page-item" key={key}>
-                    <Link className="page-link" title={title} to={this.buildLinkTo(this.props.nPages)}>
+                    <Link className="page-link" title={title} to={this.props.buildLinkToPage(this.props.nPages)}>
                         <FormattedHTMLMessage {...paginationMessages["app.pagination.goToPage"]} values={{ pageNumber: this.props.nPages }} />
                     </Link>
                 </li>
@@ -152,8 +141,8 @@ class PaginationCSSIntl extends Component {
                                     </h4>
                                 </div>
                                 <div className="modal-body">
-                                    <form>
-                                        <input className="form-control" autoComplete="off" type="number" ref="pageInput" aria-label={formatMessage(paginationMessages["app.pagination.pageToGoTo"])} />
+                                    <form onSubmit={this.goToPage.bind(this)}>
+                                        <input className="form-control" autoComplete="off" type="number" ref="pageInput" aria-label={formatMessage(paginationMessages["app.pagination.pageToGoTo"])} autoFocus />
                                     </form>
                                 </div>
                                 <div className="modal-footer">
@@ -176,9 +165,10 @@ class PaginationCSSIntl extends Component {
 
 PaginationCSSIntl.propTypes = {
     currentPage: PropTypes.number.isRequired,
-    location: PropTypes.object.isRequired,
+    goToPage: PropTypes.func.isRequired,
+    buildLinkToPage: PropTypes.func.isRequired,
     nPages: PropTypes.number.isRequired,
     intl: intlShape.isRequired,
 };
 
-export default withRouter(injectIntl(CSSModules(PaginationCSSIntl, css)));
+export default injectIntl(CSSModules(PaginationCSSIntl, css));

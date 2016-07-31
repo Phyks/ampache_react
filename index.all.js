@@ -11,7 +11,7 @@ import fr from "react-intl/locale-data/fr";
 
 import configureStore from "./app/store/configureStore";
 
-import { getBrowserLocale } from "./app/utils";
+import { getBrowserLocales } from "./app/utils";
 import rawMessages from "./app/locales";
 
 const store = configureStore();
@@ -22,8 +22,17 @@ export const rootElement = document.getElementById("root");
 // i18n
 export const onWindowIntl = () => {
     addLocaleData([...en, ...fr]);
-    const locale = getBrowserLocale();  // TODO: Get navigator.languages as array and match
-    var strings = rawMessages[locale] ? rawMessages[locale] : rawMessages["en-US"];
+    const locales = getBrowserLocales();
+
+    var locale = "en-US";
+    var strings = {};
+    for (var i = 0; i < locales.length; ++i) {
+        if (rawMessages[locales[i]]) {
+            locale = locales[i];
+            strings = rawMessages[locale];
+            break;
+        }
+    }
     strings = Object.assign(rawMessages["en-US"], strings);
 
     let render = () => {

@@ -2,82 +2,82 @@ import Cookies from "js-cookie";
 
 import {LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER} from "../actions";
 import { createReducer } from "../utils";
+import { i18nRecord } from "../models/i18n";
+import { tokenRecord, stateRecord } from "../models/auth";
 
-var initialToken = Cookies.getJSON("token");
+/**
+ * Initial state
+ */
+
+var initialState = new stateRecord();
+const initialToken = Cookies.getJSON("token");
 if (initialToken) {
     initialToken.expires = new Date(initialToken.expires);
+    initialState = initialState.set(
+        "token",
+        new tokenRecord({ token: initialToken.token, expires: new Date(initialToken.expires) })
+    );
+}
+const initialUsername = Cookies.get("username");
+if (initialUsername) {
+    initialState = initialState.set(
+        "username",
+        initialUsername
+    );
+}
+const initialEndpoint = Cookies.get("endpoint");
+if (initialEndpoint) {
+    initialState = initialState.set(
+        "endpoint",
+        initialEndpoint
+    );
+}
+if (initialUsername && initialEndpoint) {
+    initialState = initialState.set(
+        "rememberMe",
+        true
+    );
 }
 
-const initialState = {
-    token: initialToken || {
-        token: "",
-        expires: null
-    },
-    username: Cookies.get("username"),
-    endpoint: Cookies.get("endpoint"),
-    rememberMe: Boolean(Cookies.get("username") && Cookies.get("endpoint")),
-    isAuthenticated: false,
-    isAuthenticating: false,
-    error: "",
-    info: "",
-    timerID: null
-};
+/**
+ * Reducers
+ */
 
 export default createReducer(initialState, {
-    [LOGIN_USER_REQUEST]: (state) => {
-        return Object.assign({}, state, {
+    [LOGIN_USER_REQUEST]: () => {
+        return new stateRecord({
             isAuthenticating: true,
-            info: {
+            info: new i18nRecord({
                 id: "app.login.connecting",
                 values: {}
-            },
-            error: "",
-            timerID: null
+            })
         });
     },
     [LOGIN_USER_SUCCESS]: (state, payload) => {
-        return Object.assign({}, state, {
-            isAuthenticating: false,
-            isAuthenticated: true,
-            token: payload.token,
-            username: payload.username,
-            endpoint: payload.endpoint,
-            rememberMe: payload.rememberMe,
-            info: {
+        return new stateRecord({
+            "isAuthenticated": true,
+            "token": new tokenRecord(payload.token),
+            "username": payload.username,
+            "endpoint": payload.endpoint,
+            "rememberMe": payload.rememberMe,
+            "info": new i18nRecord({
                 id: "app.login.success",
-                values: { username: payload.username}
-            },
-            error: "",
-            timerID: payload.timerID
+                values: {username: payload.username}
+            }),
+            "timerID": payload.timerID
         });
-
     },
     [LOGIN_USER_FAILURE]: (state, payload) => {
-        return Object.assign({}, state, {
-            isAuthenticating: false,
-            isAuthenticated: false,
-            token: initialState.token,
-            username: "",
-            endpoint: "",
-            rememberMe: false,
-            info: "",
-            error: payload.error,
-            timerID: 0
+        return new stateRecord({
+            "error": payload.error
         });
     },
-    [LOGOUT_USER]: (state) => {
-        return Object.assign({}, state, {
-            isAuthenticated: false,
-            token: initialState.token,
-            username: "",
-            endpoint: "",
-            rememberMe: false,
-            info: {
+    [LOGOUT_USER]: () => {
+        return new stateRecord({
+            info: new i18nRecord({
                 id: "app.login.byebye",
                 values: {}
-            },
-            error: "",
-            timerID: 0
+            })
         });
     }
 });

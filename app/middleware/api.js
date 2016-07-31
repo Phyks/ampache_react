@@ -3,6 +3,7 @@ import humps from "humps";
 import X2JS from "x2js";
 
 import { assembleURLAndParams } from "../utils";
+import { i18nRecord } from "../models/i18n";
 
 export const API_VERSION = 350001;  /** API version to use. */
 export const BASE_API_PATH = "/server/xml.server.php";  /** Base API path after endpoint. */
@@ -26,7 +27,10 @@ function _parseToJSON (responseText) {
     if (responseText) {
         return x2js.xml_str2json(responseText).root;
     }
-    return Promise.reject("Invalid response text.");
+    return Promise.reject(new i18nRecord({
+        id: "app.api.invalidResponse",
+        values: {}
+    }));
 }
 
 function _checkAPIErrors (jsonData) {
@@ -34,7 +38,10 @@ function _checkAPIErrors (jsonData) {
         return Promise.reject(jsonData.error.cdata + " (" + jsonData.error.code + ")");
     } else if (!jsonData) {
         // No data returned
-        return Promise.reject("Empty response");
+        return Promise.reject(new i18nRecord({
+            id: "app.api.emptyResponse",
+            values: {}
+        }));
     }
     return jsonData;
 }
@@ -52,6 +59,8 @@ function _uglyFixes (endpoint, token) {
 
     var _uglyFixesSongs = function (songs) {
         for (var i = 0; i < songs.length; i++) {
+            // Add song type
+            songs[i].type = "track";
             // Fix for name becoming title in songs objects
             songs[i].name = songs[i].title;
             // Fix for length being time in songs objects
@@ -66,6 +75,9 @@ function _uglyFixes (endpoint, token) {
 
     var _uglyFixesAlbums = function (albums) {
         for (var i = 0; i < albums.length; i++) {
+            // Add album type
+            albums[i].type = "album";
+
             // Fix for absence of distinction between disks in the same album
             if (albums[i].disk > 1) {
                 albums[i].name = albums[i].name + " [Disk " + albums[i].disk + "]";
@@ -117,6 +129,9 @@ function _uglyFixes (endpoint, token) {
 
         if (jsonData.artist) {
             for (var i = 0; i < jsonData.artist.length; i++) {
+                // Add artist type
+                jsonData.artist[i].type = "artist";
+
                 // Fix for artists art not included
                 jsonData.artist[i].art = endpoint.replace("/server/xml.server.php", "") + "/image.php?object_id=" + jsonData.artist[i].id + "&object_type=artist&auth=" + token;
 
@@ -190,8 +205,8 @@ function doAPICall (endpoint, action, auth, username, extraParams) {
         .then(_checkHTTPStatus)
         .then (response => response.text())
         .then(_parseToJSON)
-        .then(_uglyFixes(endpoint, auth))
-        .then(_checkAPIErrors);
+        .then(_checkAPIErrors)
+        .then(_uglyFixes(endpoint, auth));
 }
 
 // Action key that carries API call info interpreted by this Redux middleware.
@@ -239,7 +254,7 @@ export default store => next => reduxAction => {
         },
         error => {
             if (failureDispatch) {
-                if (typeof error !== "string") {
+                if (error instanceof Error) {
                     error = error.message;
                 }
                 store.dispatch(failureDispatch(error));

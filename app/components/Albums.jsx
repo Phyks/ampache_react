@@ -1,19 +1,25 @@
 import React, { Component, PropTypes } from "react";
+import Immutable from "immutable";
 
 import FilterablePaginatedGrid from "./elements/Grid";
 
 export default class Albums extends Component {
     render () {
+        const grid = {
+            isFetching: this.props.isFetching,
+            items: this.props.albums,
+            itemsLabel: "app.common.album",
+            subItemsType: "tracks",
+            subItemsLabel: "app.common.track"
+        };
         return (
-            <FilterablePaginatedGrid items={this.props.albums} itemsTotalCount={this.props.albumsTotalCount} itemsPerPage={this.props.albumsPerPage} currentPage={this.props.currentPage} location={this.props.location} itemsType="albums" subItemsType="tracks" />
+            <FilterablePaginatedGrid grid={grid} pagination={this.props.pagination} />
         );
     }
 }
 
 Albums.propTypes = {
-    albums: PropTypes.array.isRequired,
-    albumsTotalCount: PropTypes.number.isRequired,
-    albumsPerPage: PropTypes.number.isRequired,
-    currentPage: PropTypes.number.isRequired,
-    location: PropTypes.object.isRequired
+    isFetching: PropTypes.bool.isRequired,
+    albums: PropTypes.instanceOf(Immutable.List).isRequired,
+    pagination: PropTypes.object.isRequired,
 };

@@ -1,23 +1,25 @@
-export function getBrowserLocale () {
-    var lang;
+export function getBrowserLocales () {
+    var langs;
 
     if (navigator.languages) {
         // chrome does not currently set navigator.language correctly https://code.google.com/p/chromium/issues/detail?id=101138
         // but it does set the first element of navigator.languages correctly
-        lang = navigator.languages[0];
+        langs = navigator.languages;
     } else if (navigator.userLanguage) {
         // IE only
-        lang = navigator.userLanguage;
+        langs = [navigator.userLanguage];
     } else {
         // as of this writing the latest version of firefox + safari set this correctly
-        lang = navigator.language;
+        langs = [navigator.language];
     }
 
     // Some browsers does not return uppercase for second part
-    var locale = lang.split("-");
-    locale = locale[1] ? `${locale[0]}-${locale[1].toUpperCase()}` : lang;
+    var locales = langs.map(function (lang) {
+        var locale = lang.split("-");
+        return locale[1] ? `${locale[0]}-${locale[1].toUpperCase()}` : lang;
+    });
 
-    return locale;
+    return locales;
 }
 
 export function messagesMap(messagesDescriptorsArray) {

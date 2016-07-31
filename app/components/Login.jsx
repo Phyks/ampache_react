@@ -2,12 +2,14 @@ import React, { Component, PropTypes } from "react";
 import CSSModules from "react-css-modules";
 import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-intl";
 
+import { i18nRecord } from "../models/i18n";
 import { messagesMap } from "../utils";
+import APIMessages from "../locales/messagesDescriptors/api";
 import messages from "../locales/messagesDescriptors/Login";
 
 import css from "../styles/Login.scss";
 
-const loginMessages = defineMessages(messagesMap(messages));
+const loginMessages = defineMessages(messagesMap(Array.concat([], APIMessages, messages)));
 
 class LoginFormCSSIntl extends Component {
     constructor (props) {
@@ -58,13 +60,17 @@ class LoginFormCSSIntl extends Component {
 
     render () {
         const {formatMessage} = this.props.intl;
-        var infoMessage = "";
-        if (typeof this.props.info === "object") {
+        var infoMessage = this.props.info;
+        if (this.props.info && this.props.info instanceof i18nRecord) {
             infoMessage = (
                 <FormattedMessage {...loginMessages[this.props.info.id]} values={ this.props.info.values} />
             );
-        } else {
-            infoMessage = this.props.info;
+        }
+        var errorMessage = this.props.error;
+        if (this.props.error && this.props.error instanceof i18nRecord) {
+            errorMessage = (
+                <FormattedMessage {...loginMessages[this.props.error.id]} values={ this.props.error.values} />
+            );
         }
         return (
             <div>
@@ -73,7 +79,7 @@ class LoginFormCSSIntl extends Component {
                         <div className="row">
                             <div className="alert alert-danger" id="loginFormError">
                                 <p>
-                                    <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> { this.props.error }
+                                    <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> { errorMessage }
                                 </p>
                             </div>
                         </div>
@@ -135,8 +141,8 @@ LoginFormCSSIntl.propTypes = {
     rememberMe: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     isAuthenticating: PropTypes.bool,
-    error: PropTypes.string,
-    info: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    error: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(i18nRecord)]),
+    info: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(i18nRecord)]),
     intl: intlShape.isRequired,
 };
 

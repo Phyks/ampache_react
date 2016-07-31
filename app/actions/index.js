@@ -16,3 +16,5 @@ export const SONGS_SUCCESS = "SONGS_SUCCESS";
 export const SONGS_REQUEST = "SONGS_REQUEST";
 export const SONGS_FAILURE = "SONGS_FAILURE";
 export var { loadSongs } = APIAction("songs", SONGS_REQUEST, SONGS_SUCCESS, SONGS_FAILURE);
+
+export * from "./paginate";

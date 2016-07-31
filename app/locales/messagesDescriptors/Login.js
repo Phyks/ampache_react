@@ -45,6 +45,11 @@ const messages = [
         id: "app.login.byebye",
         defaultMessage: "See you soon!",
         description: "Info message on successful logout"
+    },
+    {
+        id: "app.login.expired",
+        defaultMessage: "Your session expired… =(",
+        description: "Error message on expired session"
     }
 ];
 

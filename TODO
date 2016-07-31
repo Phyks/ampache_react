@@ -1,4 +1,4 @@
-4. Refactor API + Handle failures
+4. Refactor API
 5. Web player
 6. Homepage
 7. Settings
@@ -6,25 +6,4 @@
 9. Discover
 
 # API middleware
-    * https://github.com/reactjs/redux/issues/1824#issuecomment-228609501
-    * https://medium.com/@adamrackis/querying-a-redux-store-37db8c7f3b0f#.eezt3dano
-    * https://github.com/reactjs/redux/issues/644
-    * https://github.com/peterpme/redux-crud-api-middleware/blob/master/README.md
-    * https://github.com/madou/armory-front/tree/master/src/app/reducers
-    * https://github.com/erikras/multireducer
-    * Immutable.js (?)
-
-
-## Global UI
-    * Filter does not work on github.io
-    * What happens when JS is off?
-        => https://www.allantatter.com/react-js-and-progressive-enhancement/
-
-
-## Miscellaneous
-    * Webpack chunks?
-
-
-* Stocker pagination dans le store
-* error / info: null
-* refondre reducers
+    * Immutable.js : entities in API

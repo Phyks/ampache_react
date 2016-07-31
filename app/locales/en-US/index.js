@@ -1,15 +1,22 @@
 module.exports = {
-    "app.common.album": "{itemCount, plural, one {Album} other {Albums}}",  // Album
-    "app.common.artist": "{itemCount, plural, one {Artist} other {Artists}}",  // Artist
+    "app.api.invalidResponse": "Invalid response text.",  // Invalid response from the API
+    "app.api.emptyResponse": "Empty response text.",  // Empty response from the API
+    "app.api.error": "Unknown API error.",  // An unknown error occurred from the API
+    "app.common.album": "{itemCount, plural, one {album} other {albums}}",  // Album
+    "app.common.artist": "{itemCount, plural, one {artist} other {artists}}",  // Artist
     "app.common.cancel": "Cancel",  // Cancel
     "app.common.close": "Close",  // Close
     "app.common.go": "Go",  // Go
-    "app.common.song": "{itemCount, plural, one {Song} other {Songs}}",  // Song
+    "app.common.loading": "Loading…",  // Loading indicator
+    "app.common.track": "{itemCount, plural, one {track} other {tracks}}",  // Track
     "app.filter.filter": "Filter…",  // Filtering input placeholder
     "app.filter.whatAreWeListeningToToday": "What are we listening to today?",  // Description for the filter bar
+    "app.grid.goToArtistPage": "Go to artist page",  // Artist thumbnail link title
+    "app.grid.goToAlbumPage": "Go to album page",  // Album thumbnail link title
     "app.login.byebye": "See you soon!",  // Info message on successful logout
     "app.login.connecting": "Connecting…",  // Info message while trying to connect
     "app.login.endpointInputAriaLabel": "URL of your Ampache instance (e.g. http://ampache.example.com)",  // ARIA label for the endpoint input
+    "app.login.expired": "Your session expired… =(",  // Error message on expired session
     "app.login.greeting": "Welcome back on Ampache, let's go!",  // Greeting to welcome the user to the app
     "app.login.password": "Password",  // Password input placeholder
     "app.login.rememberMe": "Remember me",  // Remember me checkbox label

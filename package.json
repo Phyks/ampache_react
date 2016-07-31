@@ -26,6 +26,7 @@
     "html5shiv": "^3.7.3",
     "humps": "^1.1.0",
     "imagesloaded": "^4.1.0",
+    "immutable": "^3.8.1",
     "intl": "^1.2.4",
     "isomorphic-fetch": "^2.2.1",
     "isotope-layout": "^3.0.1",

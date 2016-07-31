@@ -1,13 +1,9 @@
+import Immutable from "immutable";
+
 import { createReducer } from "../utils";
+import { stateRecord } from "../models/paginate";
 
-export const DEFAULT_LIMIT = 30;  /** Default max number of elements to retrieve. */
-
-const initialState = {
-    isFetching: false,
-    items: [],
-    total: 0,
-    error: ""
-};
+const initialState = new stateRecord();
 
 // Creates a reducer managing pagination, given the action types to handle,
 // and a function telling how to extract the key from an action.
@@ -23,24 +19,28 @@ export default function paginate(types) {
 
     return createReducer(initialState, {
         [requestType]: (state) => {
-            return Object.assign({}, state, {
-                isFetching: true,
-                error: "",
-            });
+            return (
+                state
+                    .set("isFetching", true)
+                    .set("error", null)
+            );
         },
         [successType]: (state, payload) => {
-            return Object.assign({}, state, {
-                isFetching: false,
-                items: payload.items,
-                total: payload.total,
-                error: ""
-            });
+            return (
+                state
+                    .set("isFetching", false)
+                    .set("items", new Immutable.List(payload.items))
+                    .set("error", null)
+                    .set("nPages", payload.nPages)
+                    .set("currentPage", payload.currentPage)
+            );
         },
         [failureType]: (state, payload) => {
-            return Object.assign({}, state, {
-                isFetching: false,
-                error: payload.error
-            });
+            return (
+                state
+                    .set("isFetching", false)
+                    .set("error", payload.error)
+            );
         }
     });
 }
