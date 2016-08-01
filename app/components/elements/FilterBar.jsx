@@ -29,7 +29,7 @@ class FilterBarCSSIntl extends Component {
                     <FormattedMessage {...filterMessages["app.filter.whatAreWeListeningToToday"]} />
                 </p>
                 <div className="col-xs-12 col-sm-6 col-md-4 input-group">
-                    <form className="form-inline" onSubmit={this.handleChange} aria-describedby="filterInputDescription">
+                    <form className="form-inline" onSubmit={this.handleChange} aria-describedby="filterInputDescription" role="search">
                         <div className="form-group" styleName="form-group">
                             <input type="text" className="form-control" placeholder={formatMessage(filterMessages["app.filter.filter"])} aria-label={formatMessage(filterMessages["app.filter.filter"])} value={this.props.filterText} onChange={this.handleChange} ref="filterTextInput" />
                         </div>

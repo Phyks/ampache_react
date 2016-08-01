@@ -15,12 +15,15 @@ $condensedNavPadding: 5px;
     left: 0;
     z-index: 1000;
     display: block;
-    padding: 20px;
+    padding: $mainPadding;
     overflow-x: hidden;
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
     background-color: $background;
     color: white;
-    border-right: 1px solid $lightgrey;
+}
+
+.collapse {
+    display: block;
 }
 
 /* Sidebar elements */
@@ -59,6 +62,14 @@ $condensedNavPadding: 5px;
 }
 
 /* Sidebar navigation */
+button.toggle {
+    background-color: $foreground;
+}
+
+.icon-bar {
+    background-color: $background;
+}
+
 .icon-navbar {
     background-color: #555;
     font-size: 1.2em;
@@ -86,6 +97,7 @@ $condensedNavPadding: 5px;
  */
 .main-panel {
     padding: $mainPadding;
+    z-index: -10;
 }
 
 /*
@@ -117,5 +129,33 @@ $condensedNavPadding: 5px;
 @media (max-width: 991px) {
     .sidebar {
         position: static;
+    }
+
+    .title {
+        float: left;
+        margin-bottom: 0;
+    }
+
+    button.toggle {
+        display: block;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .collapse {
+        clear: both;
+    }
+}
+
+:global {
+    @media (max-width: 991px) {
+        .collapse {
+            display: none;
+            padding-top: $titleMarginBottom;
+        }
+
+        .collapsing {
+            padding-top: $titleMarginBottom;
+        }
     }
 }

@@ -48,6 +48,11 @@ const messages = [
         id: "app.sidebarLayout.search",
         description: "Search",
         defaultMessage: "Search"
+    },
+    {
+        id: "app.sidebarLayout.toggleNavigation",
+        description: "Screen reader description of toggle navigation button",
+        defaultMessage: "Toggle navigation"
     }
 ];
 

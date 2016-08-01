@@ -35,7 +35,7 @@ function _parseToJSON (responseText) {
 
 function _checkAPIErrors (jsonData) {
     if (jsonData.error) {
-        return Promise.reject(jsonData.error.cdata + " (" + jsonData.error.code + ")");
+        return Promise.reject(jsonData.error.__cdata + " (" + jsonData.error.code + ")");
     } else if (!jsonData) {
         // No data returned
         return Promise.reject(new i18nRecord({

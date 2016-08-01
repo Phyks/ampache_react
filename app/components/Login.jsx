@@ -77,7 +77,7 @@ class LoginFormCSSIntl extends Component {
                 {
                     this.props.error ?
                         <div className="row">
-                            <div className="alert alert-danger" id="loginFormError">
+                            <div className="alert alert-danger" id="loginFormError" role="alert">
                                 <p>
                                     <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> { errorMessage }
                                 </p>
@@ -88,7 +88,7 @@ class LoginFormCSSIntl extends Component {
                 {
                     this.props.info ?
                         <div className="row">
-                            <div className="alert alert-info" id="loginFormInfo">
+                            <div className="alert alert-info" id="loginFormInfo" role="alert">
                                 <p>{ infoMessage }</p>
                             </div>
                         </div>

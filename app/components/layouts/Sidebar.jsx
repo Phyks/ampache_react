@@ -25,13 +25,21 @@ class SidebarLayoutIntl extends Component {
         return (
             <div>
                 <div className="col-xs-12 col-md-1 col-lg-2" styleName="sidebar">
+                    <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar" aria-expanded="false" styleName="toggle">
+                        <span className="sr-only">
+                            <FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.toggleNavigation"]} />
+                        </span>
+                        <span className="icon-bar" styleName="icon-bar"></span>
+                        <span className="icon-bar" styleName="icon-bar"></span>
+                        <span className="icon-bar" styleName="icon-bar"></span>
+                    </button>
                     <h1 className="text-center" styleName="title">
                         <IndexLink to="/" styleName="link">
                             <img alt="A" src="./app/assets/img/ampache-blue.png" styleName="imgTitle" />
                             <span className="hidden-md">mpache</span>
                         </IndexLink>
                     </h1>
-                    <nav aria-label={formatMessage(sidebarLayoutMessages["app.sidebarLayout.mainNavigationMenu"])}>
+                    <nav className="collapse" styleName="collapse" aria-label={formatMessage(sidebarLayoutMessages["app.sidebarLayout.mainNavigationMenu"])} id="main-navbar" role="navigation">
                         <div className="navbar text-center" styleName="icon-navbar">
                             <div className="container-fluid" styleName="container-fluid">
                                 <ul className="nav navbar-nav" styleName="nav">

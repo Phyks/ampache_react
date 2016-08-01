@@ -130,7 +130,7 @@ export function loginUser(username, passwordOrToken, endpoint, rememberMe, redir
         // Remember me connection
         if (passwordOrToken.expires < new Date()) {
             // Token has expired
-            return loginUserFailure("Your session expired… =(");
+            return loginUserFailure("app.login.expired");
         }
         time = Math.floor(Date.now() / 1000);
         passphrase = passwordOrToken.token;
