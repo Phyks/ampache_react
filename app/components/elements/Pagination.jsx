@@ -68,7 +68,7 @@ class PaginationCSSIntl extends Component {
             // Push first page
             pagesButton.push(
                 <li className="page-item" key={key}>
-                    <Link role="button" className="page-link" title={formatMessage(paginationMessages["app.pagination.goToPageWithoutMarkup"], { pageNumber: 1})} to={this.props.buildLinkToPage(1)}>
+                    <Link className="page-link" title={formatMessage(paginationMessages["app.pagination.goToPageWithoutMarkup"], { pageNumber: 1})} to={this.props.buildLinkToPage(1)}>
                         <FormattedHTMLMessage {...paginationMessages["app.pagination.goToPage"]} values={{ pageNumber: 1 }} />
                     </Link>
                 </li>
@@ -95,7 +95,7 @@ class PaginationCSSIntl extends Component {
             const title = formatMessage(paginationMessages["app.pagination.goToPageWithoutMarkup"], { pageNumber: i });
             pagesButton.push(
                 <li className={className} key={key}>
-                    <Link role="button" className="page-link" title={title} to={this.props.buildLinkToPage(i)}>
+                    <Link className="page-link" title={title} to={this.props.buildLinkToPage(i)}>
                         <FormattedHTMLMessage {...paginationMessages["app.pagination.goToPage"]} values={{ pageNumber: i }} />
                         {currentSpan}
                     </Link>
@@ -117,7 +117,7 @@ class PaginationCSSIntl extends Component {
             // Push last page
             pagesButton.push(
                 <li className="page-item" key={key}>
-                    <Link role="button" className="page-link" title={title} to={this.props.buildLinkToPage(this.props.nPages)}>
+                    <Link className="page-link" title={title} to={this.props.buildLinkToPage(this.props.nPages)}>
                         <FormattedHTMLMessage {...paginationMessages["app.pagination.goToPage"]} values={{ pageNumber: this.props.nPages }} />
                     </Link>
                 </li>

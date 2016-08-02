@@ -1,15 +1,26 @@
 import React, { Component, PropTypes } from "react";
 import CSSModules from "react-css-modules";
+import { defineMessages, FormattedMessage } from "react-intl";
 
-import { formatLength } from "../utils";
+import { formatLength, messagesMap } from "../utils";
+
+import commonMessages from "../locales/messagesDescriptors/common";
 
 import css from "../styles/Album.scss";
+
+const albumMessages = defineMessages(messagesMap(commonMessages));
 
 export class AlbumTrackRow extends Component {
     render () {
         const length = formatLength(this.props.track.length);
         return (
             <tr>
+                <td>
+                    <span className="sr-only">
+                        <FormattedMessage {...albumMessages["app.common.play"]} />
+                    </span>
+                    <span className="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+                </td>
                 <td>{this.props.track.track}</td>
                 <td>{this.props.track.name}</td>
                 <td>{length}</td>

@@ -175,8 +175,8 @@ Login.propTypes = {
     rememberMe: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     isAuthenticating: PropTypes.bool,
-    error: PropTypes.string,
-    info: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+    info: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    error: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 };
 
 export default CSSModules(Login, css);

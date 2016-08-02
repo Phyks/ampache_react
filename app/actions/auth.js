@@ -143,7 +143,7 @@ export function loginUser(username, passwordOrToken, endpoint, rememberMe, redir
                 loginUserRequest,
                 jsonData => dispatch => {
                     if (!jsonData.auth || !jsonData.sessionExpire) {
-                        return Promise.reject(new i18nRecord({ id: "app.api.error", values: {} }));
+                        return dispatch(loginUserFailure(new i18nRecord({ id: "app.api.error", values: {} })));
                     }
                     const token = {
                         token: jsonData.auth,

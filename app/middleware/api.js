@@ -46,7 +46,7 @@ function _checkAPIErrors (jsonData) {
     return jsonData;
 }
 
-function _uglyFixes (endpoint, token) {
+function _uglyFixes () {
     if (typeof _uglyFixes.artistsCount === "undefined" ) {
         _uglyFixes.artistsCount = 0;
     }
@@ -58,51 +58,70 @@ function _uglyFixes (endpoint, token) {
     }
 
     var _uglyFixesSongs = function (songs) {
-        for (var i = 0; i < songs.length; i++) {
-            // Add song type
-            songs[i].type = "track";
-            // Fix for name becoming title in songs objects
-            songs[i].name = songs[i].title;
-            // Fix for length being time in songs objects
-            songs[i].length = songs[i].time;
-
+        return songs.map(function (song) {
             // Fix for cdata left in artist and album
-            songs[i].artist.name = songs[i].artist.cdata;
-            songs[i].album.name = songs[i].album.cdata;
-        }
-        return songs;
+            song.artist.name = song.artist.cdata;
+            song.album.name = song.album.cdata;
+            return song;
+        });
     };
 
     var _uglyFixesAlbums = function (albums) {
-        for (var i = 0; i < albums.length; i++) {
-            // Add album type
-            albums[i].type = "album";
-
+        return albums.map(function (album) {
+            // TODO
             // Fix for absence of distinction between disks in the same album
-            if (albums[i].disk > 1) {
-                albums[i].name = albums[i].name + " [Disk " + albums[i].disk + "]";
+            if (album.disk > 1) {
+                album.name = album.name + " [Disk " + album.disk + "]";
             }
 
             // Move songs one node top
-            if (albums[i].tracks.song) {
-                albums[i].tracks = albums[i].tracks.song;
+            if (album.tracks.song) {
+                album.tracks = album.tracks.song;
 
                 // Ensure tracks is an array
-                if (!Array.isArray(albums[i].tracks)) {
-                    albums[i].tracks = [albums[i].tracks];
+                if (!Array.isArray(album.tracks)) {
+                    album.tracks = [album.tracks];
                 }
 
                 // Fix tracks
-                albums[i].tracks = _uglyFixesSongs(albums[i].tracks);
+                album.tracks = _uglyFixesSongs(album.tracks);
             }
-        }
-        return albums;
+            return album;
+        });
+    };
+
+    var _uglyFixesArtists = function (artists) {
+        return artists.map(function (artist) {
+            // Move albums one node top
+            if (artist.albums.album) {
+                artist.albums = artist.albums.album;
+
+                // Ensure albums are an array
+                if (!Array.isArray(artist.albums)) {
+                    artist.albums = [artist.albums];
+                }
+
+                // Fix albums
+                artist.albums = _uglyFixesAlbums(artist.albums);
+            }
+
+            // Move songs one node top
+            if (artist.songs.song) {
+                artist.songs = artist.songs.song;
+
+                // Ensure songs are an array
+                if (!Array.isArray(artist.songs)) {
+                    artist.songs = [artist.songs];
+                }
+
+                // Fix songs
+                artist.songs = _uglyFixesSongs(artist.songs);
+            }
+            return artist;
+        });
     };
 
     return jsonData => {
-        // Camelize
-        jsonData = humps.camelizeKeys(jsonData);
-
         // Ensure items are always wrapped in an array
         if (jsonData.artist && !Array.isArray(jsonData.artist)) {
             jsonData.artist = [jsonData.artist];
@@ -114,6 +133,7 @@ function _uglyFixes (endpoint, token) {
             jsonData.song = [jsonData.song];
         }
 
+        // TODO
         // Keep track of artists count
         if (jsonData.artists) {
             _uglyFixes.artistsCount = parseInt(jsonData.artists);
@@ -127,49 +147,22 @@ function _uglyFixes (endpoint, token) {
             _uglyFixes.songsCount = parseInt(jsonData.songs);
         }
 
+        // Fix artists
         if (jsonData.artist) {
-            for (var i = 0; i < jsonData.artist.length; i++) {
-                // Add artist type
-                jsonData.artist[i].type = "artist";
-
-                // Fix for artists art not included
-                jsonData.artist[i].art = endpoint.replace("/server/xml.server.php", "") + "/image.php?object_id=" + jsonData.artist[i].id + "&object_type=artist&auth=" + token;
-
-                // Move albums one node top
-                if (jsonData.artist[i].albums.album) {
-                    jsonData.artist[i].albums = jsonData.artist[i].albums.album;
-
-                    // Ensure albums are an array
-                    if (!Array.isArray(jsonData.artist[i].albums)) {
-                        jsonData.artist[i].albums = [jsonData.artist[i].albums];
-                    }
-
-                    // Fix albums
-                    jsonData.artist[i].albums = _uglyFixesAlbums(jsonData.artist[i].albums);
-                }
-
-                // Move songs one node top
-                if (jsonData.artist[i].songs.song) {
-                    jsonData.artist[i].songs = jsonData.artist[i].songs.song;
-
-                    // Ensure songs are an array
-                    if (!Array.isArray(jsonData.artist[i].songs)) {
-                        jsonData.artist[i].songs = [jsonData.artist[i].songs];
-                    }
-
-                    // Fix songs
-                    jsonData.artist[i].songs = _uglyFixesSongs(jsonData.artist[i].songs);
-                }
-            }
+            jsonData.artist = _uglyFixesArtists(jsonData.artist);
             // Store the total number of items
             jsonData.artists = _uglyFixes.artistsCount;
         }
+
+        // Fix albums
         if (jsonData.album) {
             // Fix albums
             jsonData.album = _uglyFixesAlbums(jsonData.album);
             // Store the total number of items
             jsonData.albums = _uglyFixes.albumsCount;
         }
+
+        // Fix songs
         if (jsonData.song) {
             // Fix songs
             jsonData.song = _uglyFixesSongs(jsonData.song);
@@ -177,6 +170,8 @@ function _uglyFixes (endpoint, token) {
             jsonData.songs = _uglyFixes.songsCount;
         }
 
+        // TODO
+        // Add sessionExpire information
         if (!jsonData.sessionExpire) {
             // Fix for Ampache not returning updated sessionExpire
             jsonData.sessionExpire = (new Date(Date.now() + 3600 * 1000)).toJSON();
@@ -184,6 +179,11 @@ function _uglyFixes (endpoint, token) {
 
         return jsonData;
     };
+}
+
+function _normalizeResponse(jsonData) {
+    // TODO
+    return jsonData;
 }
 
 // Fetches an API response and normalizes the result JSON according to schema.
@@ -206,7 +206,9 @@ function doAPICall (endpoint, action, auth, username, extraParams) {
         .then (response => response.text())
         .then(_parseToJSON)
         .then(_checkAPIErrors)
-        .then(_uglyFixes(endpoint, auth));
+        .then(jsonData => humps.camelizeKeys(jsonData))  // Camelize
+        .then(_uglyFixes())
+        .then(_normalizeResponse);
 }
 
 // Action key that carries API call info interpreted by this Redux middleware.

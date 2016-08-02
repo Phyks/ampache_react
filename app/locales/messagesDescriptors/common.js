@@ -34,6 +34,11 @@ const messages = [
         description: "Loading indicator",
         defaultMessage: "Loading…"
     },
+    {
+        id: "app.common.play",
+        description: "PLay icon description",
+        defaultMessage: "Play"
+    },
 ];
 
 export default messages;

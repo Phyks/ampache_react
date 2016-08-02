@@ -30,10 +30,10 @@ class GridItemCSSIntl extends Component {
 
         var subItemsLabel = formatMessage(gridMessages[this.props.subItemsLabel], { itemCount: nSubItems });
 
-        const to = "/" + this.props.item.type + "/" + this.props.item.id;
-        const id = "grid-item-" + this.props.item.type + "/" + this.props.item.id;
+        const to = "/" + this.props.itemsType + "/" + this.props.item.id;
+        const id = "grid-item-" + this.props.itemsType + "/" + this.props.item.id;
 
-        const title = formatMessage(gridMessages["app.grid.goTo" + this.props.item.type.capitalize() + "Page"]);
+        const title = formatMessage(gridMessages["app.grid.goTo" + this.props.itemsType.capitalize() + "Page"]);
         return (
             <div className="grid-item col-xs-6 col-sm-3" styleName="placeholders" id={id}>
                 <div className="grid-item-content text-center">
@@ -48,6 +48,7 @@ class GridItemCSSIntl extends Component {
 
 GridItemCSSIntl.propTypes = {
     item: PropTypes.object.isRequired,
+    itemsType: PropTypes.string.isRequired,
     itemsLabel: PropTypes.string.isRequired,
     subItemsType: PropTypes.string.isRequired,
     subItemsLabel: PropTypes.string.isRequired,
@@ -96,7 +97,7 @@ export class Grid extends Component {
         }
         // Use Fuse for the filter
         var result = new Fuse(
-            props.items,
+            props.items.toArray(),
             {
                 "keys": ["name"],
                 "threshold": 0.4,
@@ -150,11 +151,12 @@ export class Grid extends Component {
     componentDidUpdate(prevProps) {
         // The list of keys seen in the previous render
         let currentKeys = prevProps.items.map(
-            (n) => "grid-item-" + n.type + "/" + n.id);
+            (n) => "grid-item-" + prevProps.itemsType + "/" + n.id);
 
         // The latest list of keys that have been rendered
+        const {itemsType} = this.props;
         let newKeys = this.props.items.map(
-            (n) => "grid-item-" + n.type + "/" + n.id);
+            (n) => "grid-item-" + itemsType + "/" + n.id);
 
         // Find which keys are new between the current set of keys and any new children passed to this component
         let addKeys = immutableDiff(newKeys, currentKeys);
@@ -162,17 +164,17 @@ export class Grid extends Component {
         // Find which keys have been removed between the current set of keys and any new children passed to this component
         let removeKeys = immutableDiff(currentKeys, newKeys);
 
+        var iso = this.iso;
         if (removeKeys.count() > 0) {
-            removeKeys.forEach(removeKey => this.iso.remove(document.getElementById(removeKey)));
-            this.iso.arrange();
+            removeKeys.forEach(removeKey => iso.remove(document.getElementById(removeKey)));
+            iso.arrange();
         }
         if (addKeys.count() > 0) {
             const itemsToAdd = addKeys.map((addKey) => document.getElementById(addKey)).toArray();
-            this.iso.addItems(itemsToAdd);
-            this.iso.arrange();
+            iso.addItems(itemsToAdd);
+            iso.arrange();
         }
 
-        var iso = this.iso;
         // Layout again after images are loaded
         imagesLoaded(this.refs.grid).on("progress", function() {
             // Layout after each image load, fix for responsive grid
@@ -185,11 +187,9 @@ export class Grid extends Component {
 
     render () {
         var gridItems = [];
-        const itemsLabel = this.props.itemsLabel;
-        const subItemsType = this.props.subItemsType;
-        const subItemsLabel = this.props.subItemsLabel;
+        const { itemsType, itemsLabel, subItemsType, subItemsLabel } = this.props;
         this.props.items.forEach(function (item) {
-            gridItems.push(<GridItem item={item} itemsLabel={itemsLabel} subItemsType={subItemsType} subItemsLabel={subItemsLabel} key={item.id} />);
+            gridItems.push(<GridItem item={item} itemsType={itemsType} itemsLabel={itemsLabel} subItemsType={subItemsType} subItemsLabel={subItemsLabel} key={item.id} />);
         });
         var loading = null;
         if (gridItems.length == 0 && this.props.isFetching) {
@@ -220,8 +220,10 @@ export class Grid extends Component {
 Grid.propTypes = {
     isFetching: PropTypes.bool.isRequired,
     items: PropTypes.instanceOf(Immutable.List).isRequired,
+    itemsType: PropTypes.string.isRequired,
     itemsLabel: PropTypes.string.isRequired,
     subItemsType: PropTypes.string.isRequired,
+    subItemsLabel: PropTypes.string.isRequired,
     filterText: PropTypes.string
 };
 

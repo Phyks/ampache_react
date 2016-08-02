@@ -18,12 +18,17 @@ const songsMessages = defineMessages(messagesMap(Array.concat([], commonMessages
 
 export class SongsTableRow extends Component {
     render () {
-        const length = formatLength(this.props.song.length);
+        const length = formatLength(this.props.song.time);
         const linkToArtist = "/artist/" + this.props.song.artist.id;
         const linkToAlbum = "/album/" + this.props.song.album.id;
         return (
             <tr>
-                <td></td>
+                <td>
+                    <span className="sr-only">
+                        <FormattedMessage {...songsMessages["app.common.play"]} />
+                    </span>
+                    <span className="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+                </td>
                 <td className="title">{this.props.song.name}</td>
                 <td className="artist"><Link to={linkToArtist}>{this.props.song.artist.name}</Link></td>
                 <td className="album"><Link to={linkToAlbum}>{this.props.song.album.name}</Link></td>
@@ -45,7 +50,7 @@ class SongsTableCSS extends Component {
         if (this.props.filterText) {
             // Use Fuse for the filter
             displayedSongs = new Fuse(
-                this.props.songs,
+                this.props.songs.toArray(),
                 {
                     "keys": ["name"],
                     "threshold": 0.4,

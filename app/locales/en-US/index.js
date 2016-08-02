@@ -8,6 +8,7 @@ module.exports = {
     "app.common.close": "Close",  // Close
     "app.common.go": "Go",  // Go
     "app.common.loading": "Loading…",  // Loading indicator
+    "app.common.play": "Play",  // PLay icon description
     "app.common.track": "{itemCount, plural, one {track} other {tracks}}",  // Track
     "app.filter.filter": "Filter…",  // Filtering input placeholder
     "app.filter.whatAreWeListeningToToday": "What are we listening to today?",  // Description for the filter bar

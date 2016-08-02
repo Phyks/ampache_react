@@ -8,6 +8,7 @@ export default class Albums extends Component {
         const grid = {
             isFetching: this.props.isFetching,
             items: this.props.albums,
+            itemsType: "album",
             itemsLabel: "app.common.album",
             subItemsType: "tracks",
             subItemsLabel: "app.common.track"

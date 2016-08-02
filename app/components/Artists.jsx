@@ -8,6 +8,7 @@ class Artists extends Component {
         const grid = {
             isFetching: this.props.isFetching,
             items: this.props.artists,
+            itemsType: "artist",
             itemsLabel: "app.common.artist",
             subItemsType: "albums",
             subItemsLabel: "app.common.album"
