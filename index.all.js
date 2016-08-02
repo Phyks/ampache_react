@@ -34,6 +34,8 @@ export const onWindowIntl = () => {
         }
     }
     strings = Object.assign(rawMessages["en-US"], strings);
+    // Set html lang attribute
+    document.documentElement.lang = locale;
 
     let render = () => {
         const Root = require("./app/containers/Root").default;
