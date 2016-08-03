@@ -1,8 +1,9 @@
 // Handle app init
 import React from "react";
 import ReactDOM from "react-dom";
-import { hashHistory } from "react-router";
+import { applyRouterMiddleware, hashHistory } from "react-router";
 import { syncHistoryWithStore } from "react-router-redux";
+import useScroll from "react-router-scroll";
 
 // i18n
 import { addLocaleData } from "react-intl";
@@ -40,7 +41,7 @@ export const onWindowIntl = () => {
     let render = () => {
         const Root = require("./app/containers/Root").default;
         ReactDOM.render(
-            <Root store={store} history={history} locale={locale} defaultLocale="en-US" messages={strings} />,
+            <Root store={store} history={history} render={applyRouterMiddleware(useScroll())} locale={locale} defaultLocale="en-US" messages={strings} />,
             rootElement
         );
     };
