@@ -5,9 +5,8 @@
 .h2Title {
     border: none;
     font-size: $font-size-h2;
-    padding: 0 25px 0 0;
+    padding: 0;
     line-height: 1em;
-    position: relative;
 }
 
 .h2Title:active,
@@ -17,9 +16,8 @@
 }
 
 .caret {
-    position: absolute;
-    bottom: -4px;
-    right: 0;
+    display: inline-block;
+    margin-top: 1em;
 }
 
 .h2Title .caret {
@@ -28,6 +26,13 @@
 
 .dashedUnderline {
     border-bottom: 1px dotted black;
+}
+
+.dashedUnderline,
+.caret {
+    /* Fix for alignment of caret and border-bottom */
+    display: inline-block;
+    float: left;
 }
 
 .dropdown-menu {
