@@ -18,3 +18,4 @@ export const SONGS_FAILURE = "SONGS_FAILURE";
 export var { loadSongs } = APIAction("songs", SONGS_REQUEST, SONGS_SUCCESS, SONGS_FAILURE);
 
 export * from "./paginate";
+export * from "./store";

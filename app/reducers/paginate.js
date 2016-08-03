@@ -2,6 +2,7 @@ import Immutable from "immutable";
 
 import { createReducer } from "../utils";
 import { stateRecord } from "../models/paginate";
+import { INVALIDATE_STORE } from "../actions";
 
 const initialState = new stateRecord();
 
@@ -41,6 +42,9 @@ export default function paginate(types) {
                     .set("isFetching", false)
                     .set("error", payload.error)
             );
+        },
+        [INVALIDATE_STORE]: () => {
+            return new stateRecord();
         }
     });
 }

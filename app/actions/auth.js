@@ -3,6 +3,7 @@ import jsSHA from "jssha";
 import Cookies from "js-cookie";
 
 import { CALL_API } from "../middleware/api";
+import { invalidateStore } from "./store";
 
 import { i18nRecord } from "../models/i18n";
 
@@ -112,6 +113,7 @@ export function logout() {
 export function logoutAndRedirect() {
     return (dispatch) => {
         dispatch(logout());
+        dispatch(invalidateStore());
         dispatch(push("/login"));
     };
 }
