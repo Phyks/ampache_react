@@ -57,9 +57,10 @@ ArtistsPageIntl.propTypes = {
 
 const mapStateToProps = (state) => ({
     isFetching: state.pagination.artists.isFetching,
+    error: state.pagination.artists.error,
     artistsList: state.pagination.artists.items,
     currentPage: state.pagination.artists.currentPage,
-    nPages: state.pagination.artists.nPages
+    nPages: state.pagination.artists.nPages,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -16,7 +16,7 @@ import css from "../styles/Songs.scss";
 
 const songsMessages = defineMessages(messagesMap(Array.concat([], commonMessages, messages)));
 
-export class SongsTableRow extends Component {
+class SongsTableRowCSS extends Component {
     render () {
         const length = formatLength(this.props.song.time);
         const linkToArtist = "/artist/" + this.props.song.artist.id;
@@ -24,10 +24,12 @@ export class SongsTableRow extends Component {
         return (
             <tr>
                 <td>
-                    <span className="sr-only">
-                        <FormattedMessage {...songsMessages["app.common.play"]} />
-                    </span>
-                    <span className="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+                    <button styleName="play">
+                        <span className="sr-only">
+                            <FormattedMessage {...songsMessages["app.common.play"]} />
+                        </span>
+                        <span className="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+                    </button>
                 </td>
                 <td className="title">{this.props.song.name}</td>
                 <td className="artist"><Link to={linkToArtist}>{this.props.song.artist.name}</Link></td>
@@ -39,9 +41,11 @@ export class SongsTableRow extends Component {
     }
 }
 
-SongsTableRow.propTypes = {
+SongsTableRowCSS.propTypes = {
     song: PropTypes.object.isRequired
 };
+
+export let SongsTableRow = CSSModules(SongsTableRowCSS, css);
 
 
 class SongsTableCSS extends Component {

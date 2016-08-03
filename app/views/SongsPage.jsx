@@ -57,6 +57,7 @@ SongsPageIntl.propTypes = {
 
 const mapStateToProps = (state) => ({
     isFetching: state.pagination.songs.isFetching,
+    error: state.pagination.songs.error,
     songsList: state.pagination.songs.items,
     currentPage: state.pagination.songs.currentPage,
     nPages: state.pagination.songs.nPages

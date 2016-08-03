@@ -17,7 +17,7 @@ class PaginationCSSIntl extends Component {
         var lowerLimit = currentPage;
         var upperLimit = currentPage;
 
-        for (var b = 1; b < maxNumberPagesShown && b < nPages;) {
+        for (let b = 1; b < maxNumberPagesShown && b < nPages;) {
             if (lowerLimit > 1 ) {
                 lowerLimit--;
                 b++;
@@ -84,8 +84,7 @@ class PaginationCSSIntl extends Component {
                 key++;
             }
         }
-        var i = 0;
-        for (i = lowerLimit; i < upperLimit; i++) {
+        for (let i = lowerLimit; i < upperLimit; i++) {
             var className = "page-item";
             var currentSpan = null;
             if (this.props.currentPage == i) {
@@ -103,8 +102,8 @@ class PaginationCSSIntl extends Component {
             );
             key++;
         }
-        if (i < this.props.nPages) {
-            if (i < this.props.nPages - 1) {
+        if (upperLimit < this.props.nPages) {
+            if (upperLimit < this.props.nPages - 1) {
                 // Eventually push "…"
                 pagesButton.push(
                     <li className="page-item" key={key}>

@@ -10,6 +10,7 @@ React.
 Just drop this repo in a location served by a webserver and head your browser
 to the correct URL :)
 
+Or you can use the [hosted version](https://phyks.github.io/ampache_react/).
 
 ## Support
 

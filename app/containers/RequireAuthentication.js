@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 
+// TODO: Handle expired session
 export class RequireAuthentication extends Component {
     componentWillMount () {
         this.checkAuth(this.props.isAuthenticated);

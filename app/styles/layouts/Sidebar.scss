@@ -35,11 +35,13 @@ $condensedNavPadding: 5px;
 .link:hover {
     color: $foreground;
     background-color: $hoverBackground !important;
+    text-decoration: none;
 }
 
 .link:focus {
     color: $foreground;
     background-color: transparent !important;
+    text-decoration: none;
 }
 
 .active {
@@ -97,7 +99,7 @@ button.toggle {
  */
 .main-panel {
     padding: $mainPadding;
-    z-index: -10;
+    z-index: -10;  /** TODO: z-index issue */
 }
 
 /*

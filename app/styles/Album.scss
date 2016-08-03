@@ -9,6 +9,14 @@ $rowMarginBottom: 10px;
     composes: art from "./elements/Grid.scss";
 }
 
+.art:hover {
+    cursor: initial;
+}
+
+.play {
+    composes: play from "./Songs.scss";
+}
+
 @media (max-width: 767px) {
     .nameRow h2 {
         margin-top: 0;

@@ -22,6 +22,9 @@ class SidebarLayoutIntl extends Component {
             songs: (this.props.location.pathname == "/songs") ? "active" : "link",
             search: (this.props.location.pathname == "/search") ? "active" : "link"
         };
+        const collapseHamburger = function () {
+            $("#main-navbar").collapse("hide");
+        };
         return (
             <div>
                 <div className="col-xs-12 col-md-1 col-lg-2" styleName="sidebar">
@@ -34,7 +37,7 @@ class SidebarLayoutIntl extends Component {
                         <span className="icon-bar" styleName="icon-bar"></span>
                     </button>
                     <h1 className="text-center" styleName="title">
-                        <IndexLink to="/" styleName="link">
+                        <IndexLink styleName="link" to="/" styleName="link" onClick={collapseHamburger}>
                             <img alt="A" src="./app/assets/img/ampache-blue.png" styleName="imgTitle" />
                             <span className="hidden-md">mpache</span>
                         </IndexLink>
@@ -44,7 +47,7 @@ class SidebarLayoutIntl extends Component {
                             <div className="container-fluid" styleName="container-fluid">
                                 <ul className="nav navbar-nav" styleName="nav">
                                     <li>
-                                        <Link to="/" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.home"])} styleName="link">
+                                        <Link to="/" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.home"])} styleName="link" onClick={collapseHamburger}>
                                             <span className="glyphicon glyphicon-home" aria-hidden="true"></span>
                                             <span className="sr-only">
                                                 <FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.home"]} />
@@ -52,7 +55,7 @@ class SidebarLayoutIntl extends Component {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/settings" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.settings"])} styleName="link">
+                                        <Link to="/settings" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.settings"])} styleName="link" onClick={collapseHamburger}>
                                             <span className="glyphicon glyphicon-wrench" aria-hidden="true"></span>
                                             <span className="sr-only">
                                                 <FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.settings"]} />
@@ -60,7 +63,7 @@ class SidebarLayoutIntl extends Component {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/logout" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.logout"])} styleName="link">
+                                        <Link to="/logout" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.logout"])} styleName="link" onClick={collapseHamburger}>
                                             <span className="glyphicon glyphicon-off" aria-hidden="true"></span>
                                             <span className="sr-only">
                                                 <FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.logout"]} />
@@ -72,7 +75,7 @@ class SidebarLayoutIntl extends Component {
                         </div>
                         <ul className="nav" styleName="nav">
                             <li>
-                                <Link to="/discover" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.discover"])} styleName={isActive.discover}>
+                                <Link to="/discover" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.discover"])} styleName={isActive.discover} onClick={collapseHamburger}>
                                     <span className="glyphicon glyphicon-globe" aria-hidden="true"></span>
                                     <span className="hidden-md">
                                         &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.discover"]} />
@@ -80,7 +83,7 @@ class SidebarLayoutIntl extends Component {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/browse" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browse"])} styleName={isActive.browse}>
+                                <Link to="/browse" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browse"])} styleName={isActive.browse} onClick={collapseHamburger}>
                                     <span className="glyphicon glyphicon-headphones" aria-hidden="true"></span>
                                     <span className="hidden-md">
                                         &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.browse"]} />
@@ -88,7 +91,7 @@ class SidebarLayoutIntl extends Component {
                                 </Link>
                                 <ul className="nav text-center" styleName="nav-list">
                                     <li>
-                                        <Link to="/artists" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseArtists"])} styleName={isActive.artists}>
+                                        <Link to="/artists" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseArtists"])} styleName={isActive.artists} onClick={collapseHamburger}>
                                             <span className="glyphicon glyphicon-user" aria-hidden="true"></span>
                                             <span className="sr-only text-capitalize">
                                                 <FormattedMessage {...sidebarLayoutMessages["app.common.artist"]} values={{itemCount: 42}} />
@@ -99,7 +102,7 @@ class SidebarLayoutIntl extends Component {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/albums" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseAlbums"])} styleName={isActive.albums}>
+                                        <Link to="/albums" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseAlbums"])} styleName={isActive.albums} onClick={collapseHamburger}>
                                             <span className="glyphicon glyphicon-cd" aria-hidden="true"></span>
                                             <span className="sr-only text-capitalize">
                                                 <FormattedMessage {...sidebarLayoutMessages["app.common.album"]} values={{itemCount: 42}} />
@@ -110,7 +113,7 @@ class SidebarLayoutIntl extends Component {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/songs" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseSongs"])} styleName={isActive.songs}>
+                                        <Link to="/songs" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.browseSongs"])} styleName={isActive.songs} onClick={collapseHamburger}>
                                             <span className="glyphicon glyphicon-music" aria-hidden="true"></span>
                                             <span className="sr-only text-capitalize">
                                                 <FormattedMessage {...sidebarLayoutMessages["app.common.track"]} values={{itemCount: 42}} />
@@ -123,7 +126,7 @@ class SidebarLayoutIntl extends Component {
                                 </ul>
                             </li>
                             <li>
-                                <Link to="/search" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.search"])} styleName={isActive.search}>
+                                <Link to="/search" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.search"])} styleName={isActive.search} onClick={collapseHamburger}>
                                     <span className="glyphicon glyphicon-search" aria-hidden="true"></span>
                                     <span className="hidden-md">
                                         &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.search"]} />
@@ -134,7 +137,7 @@ class SidebarLayoutIntl extends Component {
                     </nav>
                 </div>
 
-                <div className="col-sm-11 col-sm-offset-1 col-md-10 col-md-offset-2" styleName="main-panel">
+                <div className="col-xs-12 col-md-11 col-md-offset-1 col-lg-10 col-lg-offset-2" styleName="main-panel" onClick={collapseHamburger}>
                     {this.props.children}
                 </div>
             </div>

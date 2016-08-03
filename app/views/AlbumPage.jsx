@@ -6,6 +6,8 @@ import * as actionCreators from "../actions";
 
 import Album from "../components/Album";
 
+// TODO: AlbumPage should be scrolled ArtistPage
+
 export class AlbumPage extends Component {
     componentWillMount () {
         // Load the data

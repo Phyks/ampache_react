@@ -6,6 +6,7 @@ import App from "./containers/App";
 import SimpleLayout from "./components/layouts/Simple";
 import SidebarLayout from "./components/layouts/Sidebar";
 import BrowsePage from "./views/BrowsePage";
+import DiscoverPage from "./views/DiscoverPage";
 import HomePage from "./views/HomePage";
 import LoginPage from "./views/LoginPage";
 import LogoutPage from "./views/LogoutPage";
@@ -23,9 +24,7 @@ export default (
         <Route component={SidebarLayout}>
             <Route path="logout" component={LogoutPage} />
             <Route component={RequireAuthentication}>
-                {/*
-                  <Route path="discover" component={DiscoverPage} />
-                */}
+                <Route path="discover" component={DiscoverPage} />
                 <Route path="browse" component={BrowsePage} />
                 <Route path="artists" component={ArtistsPage} />
                 <Route path="artist/:id" component={ArtistPage} />

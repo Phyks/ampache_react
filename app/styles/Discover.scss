@@ -1,0 +1,37 @@
+.noMarginTop {
+    margin-top: 0;
+}
+
+.h2Title {
+    border: none;
+    font-size: $font-size-h2;
+    padding: 0 25px 0 0;
+    line-height: 1em;
+    position: relative;
+}
+
+.h2Title:active,
+.h2Title:hover,
+.h2Title:focus {
+    background-color: transparent;
+}
+
+.caret {
+    position: absolute;
+    bottom: -4px;
+    right: 0;
+}
+
+.h2Title .caret {
+    margin-left: 3px;
+}
+
+.dashedUnderline {
+    border-bottom: 1px dotted black;
+}
+
+.dropdown-menu {
+    left: 0;
+    right: 0;
+    min-width: 0;
+}

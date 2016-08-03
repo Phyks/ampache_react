@@ -51,7 +51,7 @@ export default function (action, requestType, successType, failureType) {
                 dispatch: [
                     fetchItemsRequest,
                     jsonData => dispatch => {
-                        dispatch(fetchItemsSuccess(jsonData[itemName], jsonData[action], pageNumber));
+                        dispatch(fetchItemsSuccess(jsonData[itemName], jsonData.totalCount, pageNumber));
                     },
                     fetchItemsFailure
                 ],

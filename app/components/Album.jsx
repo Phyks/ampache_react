@@ -10,16 +10,18 @@ import css from "../styles/Album.scss";
 
 const albumMessages = defineMessages(messagesMap(commonMessages));
 
-export class AlbumTrackRow extends Component {
+class AlbumTrackRowCSS extends Component {
     render () {
-        const length = formatLength(this.props.track.length);
+        const length = formatLength(this.props.track.time);
         return (
             <tr>
                 <td>
-                    <span className="sr-only">
-                        <FormattedMessage {...albumMessages["app.common.play"]} />
-                    </span>
-                    <span className="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+                    <button styleName="play">
+                        <span className="sr-only">
+                            <FormattedMessage {...albumMessages["app.common.play"]} />
+                        </span>
+                        <span className="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+                    </button>
                 </td>
                 <td>{this.props.track.track}</td>
                 <td>{this.props.track.name}</td>
@@ -29,9 +31,11 @@ export class AlbumTrackRow extends Component {
     }
 }
 
-AlbumTrackRow.propTypes = {
+AlbumTrackRowCSS.propTypes = {
     track: PropTypes.object.isRequired
 };
+
+export let AlbumTrackRow = CSSModules(AlbumTrackRowCSS, css);
 
 
 class AlbumTracksTableCSS extends Component {
@@ -60,13 +64,13 @@ class AlbumRowCSS extends Component {
     render () {
         return (
             <div className="row" styleName="row">
-                <div className="col-sm-offset-2 col-xs-10" styleName="nameRow">
+                <div className="col-sm-offset-2 col-xs-9 col-sm-10" styleName="nameRow">
                     <h2>{this.props.album.name}</h2>
                 </div>
-                <div className="col-xs-2" styleName="artRow">
+                <div className="col-xs-3 col-sm-2" styleName="artRow">
                     <p className="text-center"><img src={this.props.album.art} width="200" height="200" className="img-responsive img-circle" styleName="art" alt={this.props.album.name} /></p>
                 </div>
-                <div className="col-sm-10 table-responsive">
+                <div className="col-xs-9 col-sm-10 table-responsive">
                     {
                         Array.isArray(this.props.album.tracks) ?
                             <AlbumTracksTable tracks={this.props.album.tracks} /> :
