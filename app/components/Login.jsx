@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import CSSModules from "react-css-modules";
 import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-intl";
+import FontAwesome from "react-fontawesome";
 
 import { i18nRecord } from "../models/i18n";
 import { messagesMap } from "../utils";
@@ -79,7 +80,7 @@ class LoginFormCSSIntl extends Component {
                         <div className="row">
                             <div className="alert alert-danger" id="loginFormError" role="alert">
                                 <p>
-                                    <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> { errorMessage }
+                                    <FontAwesome name="exclamation" aria-hidden="true" /> { errorMessage }
                                 </p>
                             </div>
                         </div>
@@ -158,7 +159,7 @@ class Login extends Component {
         );
         return (
             <div className="text-center container-fluid">
-                <h1><img styleName="titleImage" src="./app/assets/img/ampache-blue.png" alt="A"/>mpache</h1>
+                <h1><img styleName="titleImage" src="./img/ampache-blue.png" alt="A"/>mpache</h1>
                 <hr/>
                 {(!this.props.error && !this.props.info) ? greeting : null}
                 <div className="col-sm-9 col-sm-offset-2 col-md-6 col-md-offset-3">

@@ -1,6 +1,7 @@
 var path = require("path");
 var webpack = require("webpack");
 
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var postcssReporter = require("postcss-reporter");
 var autoprefixer = require("autoprefixer");
@@ -11,6 +12,7 @@ module.exports = {
         "index": [
             "babel-polyfill",
             "bootstrap-loader",
+            "font-awesome-webpack",
             "./app/styles/common/index.js",
             "./app/utils/common/index.js",
             "./index.js"],
@@ -18,7 +20,7 @@ module.exports = {
     },
 
     output: {
-        path: path.join(__dirname, "app/dist/"),
+        path: path.join(__dirname, "public/"),
         filename: "[name].js",
         publicPath: "./"
     },
@@ -55,24 +57,28 @@ module.exports = {
             },
             {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "file?name=fonts/[name].[ext]"
+                loader: "file"
             },
             {
-                test: /\.(woff|woff2)$/,
-                loader:"url?name=fonts/[name].[ext]&limit=5000"
+                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                loader: "url-loader?limit=10000&minetype=application/font-woff"
             },
             {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?name=fonts/[name].[ext]&limit=10000&mimetype=application/octet-stream"
+                loader: "url?limit=10000&mimetype=application/octet-stream"
             },
             {
                 test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?name=img/[name].[ext]&limit=10000&mimetype=image/svg+xml"
+                loader: "url?limit=10000&mimetype=image/svg+xml"
             }
         ]
     },
 
     plugins: [
+        new CopyWebpackPlugin([
+            { from: "./index.html" },
+            { from: "./app/assets" }
+        ]),
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery"

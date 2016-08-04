@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import CSSModules from "react-css-modules";
 import { defineMessages, FormattedMessage } from "react-intl";
+import FontAwesome from "react-fontawesome";
 
 import { formatLength, messagesMap } from "../utils";
 
@@ -20,7 +21,7 @@ class AlbumTrackRowCSS extends Component {
                         <span className="sr-only">
                             <FormattedMessage {...albumMessages["app.common.play"]} />
                         </span>
-                        <span className="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+                        <FontAwesome name="play-circle-o" aria-hidden="true" />
                     </button>
                 </td>
                 <td>{this.props.track.track}</td>

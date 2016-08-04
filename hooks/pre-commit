@@ -7,7 +7,7 @@ else
     exit 1
 fi
 
-css_js_files=$(git diff-index --name-only $against | grep -e '.\(jsx\?\)\|\(s\?css\)$' | grep -v "^app/dist")
+css_js_files=$(git diff-index --name-only $against | grep -e '.\(jsx\?\)\|\(s\?css\)$' | grep -v "^public")
 
 # Nothing more to do if no JS files was committed
 if [ -z "$css_js_files" ]
@@ -19,4 +19,4 @@ echo "Rebuilding dist JavaScript files…"
 npm run clean
 npm run build:prod
 npm test
-git add app/dist
+git add public

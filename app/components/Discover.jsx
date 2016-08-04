@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import CSSModules from "react-css-modules";
+import FontAwesome from "react-fontawesome";
 
 import css from "../styles/Discover.scss";
 
@@ -33,7 +34,7 @@ export default class DiscoverCSS extends Component {
         return (
             <div className="row">
                 <h2 styleName="noMarginTop">
-                    <span className="glyphicon glyphicon-heart" aria-hidden="true"></span>&nbsp;
+                    <FontAwesome name="heart" aria-hidden="true" />&nbsp;
                     More { artistsAlbumsSongsDropdown } you might like
                 </h2>
 
@@ -59,7 +60,7 @@ export default class DiscoverCSS extends Component {
 
 
                 <h2>
-                    <span className="glyphicon glyphicon-hand-up" aria-hidden="true"></span>&nbsp;
+                    <FontAwesome name="thumbs-up" aria-hidden="true"/>&nbsp;
                     Popular { artistsAlbumsSongsDropdown }
                 </h2>
                 <div className="col-xs-12">
@@ -84,7 +85,7 @@ export default class DiscoverCSS extends Component {
 
 
                 <h2>
-                    <span className="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbsp;
+                    <FontAwesome name="plus-square" aria-hidden="true" />&nbsp;
                     Recent additions
                 </h2>
                 <div className="col-xs-12">
@@ -109,7 +110,7 @@ export default class DiscoverCSS extends Component {
 
 
                 <h2>
-                    <span className="glyphicon glyphicon-volume-up" aria-hidden="true"></span>&nbsp;
+                    <FontAwesome name="volume-up" aria-hidden="true" />&nbsp;
                     Currently playing
                 </h2>
 

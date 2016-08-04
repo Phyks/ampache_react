@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { Link} from "react-router";
 import CSSModules from "react-css-modules";
 import { defineMessages, FormattedMessage } from "react-intl";
+import FontAwesome from "react-fontawesome";
 import Immutable from "immutable";
 import Fuse from "fuse.js";
 
@@ -28,7 +29,7 @@ class SongsTableRowCSS extends Component {
                         <span className="sr-only">
                             <FormattedMessage {...songsMessages["app.common.play"]} />
                         </span>
-                        <span className="glyphicon glyphicon-play-circle" aria-hidden="true"></span>
+                        <FontAwesome name="play-circle-o" aria-hidden="true" />
                     </button>
                 </td>
                 <td className="title">{this.props.song.name}</td>
@@ -73,7 +74,8 @@ class SongsTableCSS extends Component {
             // If we are fetching and there is nothing to show
             loading = (
                 <p className="text-center">
-                    <FormattedMessage {...songsMessages["app.common.loading"]} />
+                    <FontAwesome name="spinner" className="fa-pulse fa-3x fa-fw" aria-hidden="true" />
+                    <span className="sr-only"><FormattedMessage {...songsMessages["app.common.loading"]} /></span>
                 </p>
             );
         }

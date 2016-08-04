@@ -14,7 +14,7 @@ A few `npm` scripts are provided:
 * `npm run build:prod` to trigger a production build.
 * `npm run watch:dev` to trigger a dev build and rebuild on changes.
 * `npm run watch:prod` to trigger a production build and rebuild on changes.
-* `npm run clean` to clean the `app/dist` folder.
+* `npm run clean` to clean the `public` folder.
 * `npm run extractTranslations` to generate a translation file (see below).
 * `npm run lint:scss` and `npm run lint:js` for linting utilities.
 * `npm run test` which calls all the lint stuff.

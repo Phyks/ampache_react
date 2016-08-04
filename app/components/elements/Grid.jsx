@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { Link} from "react-router";
 import CSSModules from "react-css-modules";
 import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-intl";
+import FontAwesome from "react-fontawesome";
 import Immutable from "immutable";
 import imagesLoaded from "imagesloaded";
 import Isotope from "isotope-layout";
@@ -196,7 +197,8 @@ export class Grid extends Component {
             loading = (
                 <div className="row text-center">
                     <p>
-                        <FormattedMessage {...gridMessages["app.common.loading"]} />
+                        <FontAwesome name="spinner" className="fa-pulse fa-3x fa-fw" aria-hidden="true" />
+                        <span className="sr-only"><FormattedMessage {...gridMessages["app.common.loading"]} /></span>
                     </p>
                 </div>
             );

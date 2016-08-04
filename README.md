@@ -7,8 +7,8 @@ React.
 
 ## Trying it out
 
-Just drop this repo in a location served by a webserver and head your browser
-to the correct URL :)
+Just drop this repo in a location served by a webserver, make your webserver
+serve the `public` folder and head your browser to the correct URL :)
 
 Or you can use the [hosted version](https://phyks.github.io/ampache_react/).
 
@@ -31,7 +31,7 @@ First do a `npm install` to install all the required dependencies.
 
 Then, to make a development build, just run `webpack` in the root folder. To
 make a production build, just run `NODE_ENV=production webpack` in the root
-folder. All files will be generated in the `app/dist` folder.
+folder. All files will be generated in the `public` folder.
 
 Please use the Git hooks (in `hooks` folder) to automatically make a build
 before comitting, as commit should always contain an up to date production

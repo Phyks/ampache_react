@@ -1,4 +1,4 @@
-app/dist/*
+public/*
 node_modules/*
 vendor/*
 webpack.config.*
