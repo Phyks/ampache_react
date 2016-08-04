@@ -11,6 +11,6 @@ String.prototype.capitalize = function () {
  * @param   chars   A regex-like element to strip from the end.
  */
 String.prototype.rstrip = function (chars) {
-    var regex = new RegExp(chars + "$");
+    let regex = new RegExp(chars + "$");
     return this.replace(regex, "");
 };

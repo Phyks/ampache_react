@@ -24,22 +24,22 @@ class GridItemCSSIntl extends Component {
     render () {
         const {formatMessage} = this.props.intl;
 
-        var nSubItems = this.props.item[this.props.subItemsType];
+        let nSubItems = this.props.item.get(this.props.subItemsType);
         if (Array.isArray(nSubItems)) {
             nSubItems = nSubItems.length;
         }
 
-        var subItemsLabel = formatMessage(gridMessages[this.props.subItemsLabel], { itemCount: nSubItems });
+        let subItemsLabel = formatMessage(gridMessages[this.props.subItemsLabel], { itemCount: nSubItems });
 
-        const to = "/" + this.props.itemsType + "/" + this.props.item.id;
-        const id = "grid-item-" + this.props.itemsType + "/" + this.props.item.id;
+        const to = "/" + this.props.itemsType + "/" + this.props.item.get("id");
+        const id = "grid-item-" + this.props.itemsType + "/" + this.props.item.get("id");
 
         const title = formatMessage(gridMessages["app.grid.goTo" + this.props.itemsType.capitalize() + "Page"]);
         return (
             <div className="grid-item col-xs-6 col-sm-3" styleName="placeholders" id={id}>
                 <div className="grid-item-content text-center">
-                    <Link title={title} to={to}><img src={this.props.item.art} width="200" height="200" className="img-responsive img-circle art" styleName="art" alt={this.props.item.name}/></Link>
-                    <h4 className="name" styleName="name">{this.props.item.name}</h4>
+                    <Link title={title} to={to}><img src={this.props.item.get("art")} width="200" height="200" className="img-responsive img-circle art" styleName="art" alt={this.props.item.get("name")}/></Link>
+                    <h4 className="name" styleName="name">{this.props.item.get("name")}</h4>
                     <span className="sub-items text-muted"><span className="n-sub-items">{nSubItems}</span> <span className="sub-items-type">{subItemsLabel}</span></span>
                 </div>
             </div>
@@ -97,7 +97,7 @@ export class Grid extends Component {
             return this.iso.arrange(ISOTOPE_OPTIONS);
         }
         // Use Fuse for the filter
-        var result = new Fuse(
+        let result = new Fuse(
             props.items.toArray(),
             {
                 "keys": ["name"],
@@ -108,13 +108,13 @@ export class Grid extends Component {
         // Apply filter on grid
         this.iso.arrange({
             filter: function (item) {
-                var name = $(item).find(".name").text();
+                let name = $(item).find(".name").text();
                 return result.find(function (i) { return i.item.name == name; });
             },
             transitionDuration: "0.4s",
             getSortData: {
                 relevance: function (item) {
-                    var name = $(item).find(".name").text();
+                    let name = $(item).find(".name").text();
                     return result.reduce(function (p, c) {
                         if (c.item.name == name) {
                             return c.score + p;
@@ -152,12 +152,12 @@ export class Grid extends Component {
     componentDidUpdate(prevProps) {
         // The list of keys seen in the previous render
         let currentKeys = prevProps.items.map(
-            (n) => "grid-item-" + prevProps.itemsType + "/" + n.id);
+            (n) => "grid-item-" + prevProps.itemsType + "/" + n.get("id"));
 
         // The latest list of keys that have been rendered
         const {itemsType} = this.props;
         let newKeys = this.props.items.map(
-            (n) => "grid-item-" + itemsType + "/" + n.id);
+            (n) => "grid-item-" + itemsType + "/" + n.get("id"));
 
         // Find which keys are new between the current set of keys and any new children passed to this component
         let addKeys = immutableDiff(newKeys, currentKeys);
@@ -165,7 +165,7 @@ export class Grid extends Component {
         // Find which keys have been removed between the current set of keys and any new children passed to this component
         let removeKeys = immutableDiff(currentKeys, newKeys);
 
-        var iso = this.iso;
+        let iso = this.iso;
         if (removeKeys.count() > 0) {
             removeKeys.forEach(removeKey => iso.remove(document.getElementById(removeKey)));
             iso.arrange();
@@ -187,12 +187,12 @@ export class Grid extends Component {
     }
 
     render () {
-        var gridItems = [];
+        let gridItems = [];
         const { itemsType, itemsLabel, subItemsType, subItemsLabel } = this.props;
         this.props.items.forEach(function (item) {
-            gridItems.push(<GridItem item={item} itemsType={itemsType} itemsLabel={itemsLabel} subItemsType={subItemsType} subItemsLabel={subItemsLabel} key={item.id} />);
+            gridItems.push(<GridItem item={item} itemsType={itemsType} itemsLabel={itemsLabel} subItemsType={subItemsType} subItemsLabel={subItemsLabel} key={item.get("id")} />);
         });
-        var loading = null;
+        let loading = null;
         if (gridItems.length == 0 && this.props.isFetching) {
             loading = (
                 <div className="row text-center">

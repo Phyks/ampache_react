@@ -1,54 +1,86 @@
 import React, { Component, PropTypes } from "react";
 import CSSModules from "react-css-modules";
+import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-intl";
+import FontAwesome from "react-fontawesome";
+
+import { messagesMap } from "../../utils";
 
 import css from "../../styles/elements/WebPlayer.scss";
 
-class WebPlayerCSS extends Component {
-    componentDidMount () {
-        // TODO: Should be in the container mounting WebPlayer
-        $(".sidebar").css("bottom", "15vh");
-        $(".main-panel").css("margin-bottom", "15vh");
+import commonMessages from "../../locales/messagesDescriptors/common";
+import messages from "../../locales/messagesDescriptors/elements/WebPlayer";
+
+const webplayerMessages = defineMessages(messagesMap(Array.concat([], commonMessages, messages)));
+
+class WebPlayerCSSIntl extends Component {
+    constructor (props) {
+        super(props);
+
+        this.artOpacityHandler = this.artOpacityHandler.bind(this);
+    }
+
+    artOpacityHandler (ev) {
+        if (ev.type == "mouseover") {
+            this.refs.art.style.opacity = "1";
+        } else {
+            this.refs.art.style.opacity = "0.75";
+        }
     }
 
     render () {
+        const { formatMessage } = this.props.intl;
+
+        const playPause = this.props.isPlaying ? "pause" : "play";
+        const randomBtnStyles = ["randomBtn"];
+        const repeatBtnStyles = ["repeatBtn"];
+        if (this.props.isRandom) {
+            randomBtnStyles.push("active");
+        }
+        if (this.props.isRepeat) {
+            repeatBtnStyles.push("active");
+        }
+
         return (
-            <div id="row">
-                <div id="webplayer" className="col-xs-12" styleName="body">
-                    { /* Top Info */ }
-                    <div id="title" styleName="title">
-                        <span id="track">Foobar</span>
-                        <div id="timer" styleName="timer">0:00</div>
-                        <div id="duration" styleName="duration">0:00</div>
-                    </div>
-
-                    { /* Controls */ }
-                    <div styleName="controlsOuter">
-                        <div styleName="controlsInner">
-                            <div id="loading" styleName="loading"></div>
-                            <div id="playBtn" styleName="playBtn"></div>
-                            <div id="pauseBtn" styleName="pauseBtn"></div>
-                            <div id="prevBtn" styleName="prevBtn"></div>
-                            <div id="nextBtn" styleName="nextBtn"></div>
+            <div id="row" styleName="webplayer">
+                <div className="col-xs-12">
+                    <div className="row" styleName="artRow" onMouseOver={this.artOpacityHandler} onMouseOut={this.artOpacityHandler}>
+                        <div className="col-xs-12">
+                            <img src={this.props.song.art} width="200" height="200" ref="art" styleName="art" />
+                            <h2>{this.props.song.title}</h2>
+                            <h3>
+                                <span className="text-capitalize">
+                                    <FormattedMessage {...webplayerMessages["app.webplayer.by"]} />
+                                </span> {this.props.song.artist}
+                            </h3>
                         </div>
-                        <div id="playlistBtn" styleName="playlistBtn"></div>
-                        <div id="volumeBtn" styleName="volumeBtn"></div>
                     </div>
 
-                    { /* Progress */ }
-                    <div id="waveform" styleName="waveform"></div>
-                    <div id="bar" styleName="progressBar"></div>
-                    <div id="progress" styleName="progress"></div>
-
-                    { /* Playlist */ }
-                    <div id="playlist" styleName="playlist">
-                        <div id="list" styleName="list"></div>
-                    </div>
-
-                    { /* Volume */ }
-                    <div id="volume" styleName="volume-fadeout">
-                        <div id="barFull" styleName="barFull"></div>
-                        <div id="barEmpty" styleName="barEmpty"></div>
-                        <div id="sliderBtn" styleName="sliderBtn"></div>
+                    <div className="row text-center" styleName="controls">
+                        <div className="col-xs-12">
+                            <button styleName="prevBtn" aria-label={formatMessage(webplayerMessages["app.webplayer.previous"])} title={formatMessage(webplayerMessages["app.webplayer.previous"])}>
+                                <FontAwesome name="step-backward" />
+                            </button>
+                            <button className="play" styleName="playPauseBtn" aria-label={formatMessage(webplayerMessages["app.common." + playPause])} title={formatMessage(webplayerMessages["app.common." + playPause])}>
+                                <FontAwesome name={playPause} />
+                            </button>
+                            <button styleName="nextBtn" aria-label={formatMessage(webplayerMessages["app.webplayer.next"])} title={formatMessage(webplayerMessages["app.webplayer.next"])}>
+                                <FontAwesome name="step-forward" />
+                            </button>
+                        </div>
+                        <div className="col-xs-12">
+                            <button styleName="volumeBtn" aria-label={formatMessage(webplayerMessages["app.webplayer.volume"])} title={formatMessage(webplayerMessages["app.webplayer.volume"])}>
+                                <FontAwesome name="volume-up" />
+                            </button>
+                            <button styleName={repeatBtnStyles.join(" ")} aria-label={formatMessage(webplayerMessages["app.webplayer.repeat"])} title={formatMessage(webplayerMessages["app.webplayer.repeat"])} aria-pressed={this.props.isRepeat}>
+                                <FontAwesome name="repeat" />
+                            </button>
+                            <button styleName={randomBtnStyles.join(" ")} aria-label={formatMessage(webplayerMessages["app.webplayer.random"])} title={formatMessage(webplayerMessages["app.webplayer.random"])} aria-pressed={this.props.isRandom}>
+                                <FontAwesome name="random" />
+                            </button>
+                            <button styleName="playlistBtn" aria-label={formatMessage(webplayerMessages["app.webplayer.playlist"])} title={formatMessage(webplayerMessages["app.webplayer.playlist"])}>
+                                <FontAwesome name="list" />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -56,4 +88,12 @@ class WebPlayerCSS extends Component {
     }
 }
 
-export default CSSModules(WebPlayerCSS, css);
+WebPlayerCSSIntl.propTypes = {
+    song: PropTypes.object.isRequired,
+    isPlaying: PropTypes.bool.isRequired,
+    isRandom: PropTypes.bool.isRequired,
+    isRepeat: PropTypes.bool.isRequired,
+    intl: intlShape.isRequired
+};
+
+export default injectIntl(CSSModules(WebPlayerCSSIntl, css, { allowMultiple: true }));

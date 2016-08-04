@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { defineMessages, injectIntl, intlShape } from "react-intl";
+import Immutable from "immutable";
 
 import * as actionCreators from "../actions";
 import { i18nRecord } from "../models/i18n";
@@ -32,13 +33,13 @@ class SongsPageIntl extends Component {
     render () {
         const {formatMessage} = this.props.intl;
         if (this.props.error) {
-            var errorMessage = this.props.error;
+            let errorMessage = this.props.error;
             if (this.props.error instanceof i18nRecord) {
                 errorMessage = formatMessage(songsMessages[this.props.error.id], this.props.error.values);
             }
             alert(errorMessage);
             this.context.router.replace("/");
-            return null;
+            return (<div></div>);
         }
         const pagination = buildPaginationObject(this.props.location, this.props.currentPage, this.props.nPages, this.props.actions.goToPageAction);
         return (
@@ -55,13 +56,29 @@ SongsPageIntl.propTypes = {
     intl: intlShape.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-    isFetching: state.pagination.songs.isFetching,
-    error: state.pagination.songs.error,
-    songsList: state.pagination.songs.items,
-    currentPage: state.pagination.songs.currentPage,
-    nPages: state.pagination.songs.nPages
-});
+const mapStateToProps = (state) => {
+    let songsList = new Immutable.List();
+    if (state.api.result.get("song")) {
+        songsList = state.api.result.get("song").map(function (id) {
+            let song = state.api.entities.getIn(["track", id]);
+            // Add artist and album infos
+            const artist = state.api.entities.getIn(["artist", song.get("artist")]);
+            const album = state.api.entities.getIn(["album", song.get("album")]);
+            song = song.set("artist", new Immutable.Map({id: artist.get("id"), name: artist.get("name")}));
+            song = song.set("album", new Immutable.Map({id: album.get("id"), name: album.get("name")}));
+            return song;
+        });
+    }
+    return {
+        isFetching: state.api.isFetching,
+        error: state.api.error,
+        artistsList: state.api.entities.get("artist"),
+        albumsList: state.api.entities.get("album"),
+        songsList: songsList,
+        currentPage: state.api.currentPage,
+        nPages: state.api.nPages
+    };
+};
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators(actionCreators, dispatch)

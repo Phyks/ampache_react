@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import Immutable from "immutable";
 
 import * as actionCreators from "../actions";
 
@@ -19,21 +20,41 @@ export class AlbumPage extends Component {
     }
 
     render () {
-        const album = this.props.albums.find(
-            item => item.id == this.props.params.id
-        );
-        if (album) {
+        if (this.props.album) {
             return (
-                <Album album={album} />
+                <Album album={this.props.album} songs={this.props.songs} />
             );
         }
-        return null;  // Loading
+        return (
+            <div></div>
+        );  // TODO: Loading
     }
 }
 
-const mapStateToProps = (state) => ({
-    albums: state.pagination.albums.items
-});
+const mapStateToProps = (state, ownProps) => {
+    const albums = state.api.entities.get("album");
+    let album = undefined;
+    let songs = new Immutable.List();
+    if (albums) {
+        // Get artist
+        album = albums.find(
+            item => item.get("id") == ownProps.params.id
+        );
+        // Get songs
+        const tracks = album.get("tracks");
+        if (Immutable.List.isList(tracks)) {
+            songs = new Immutable.Map(
+                tracks.map(
+                    id => [id, state.api.entities.getIn(["track", id])]
+                )
+            );
+        }
+    }
+    return {
+        album: album,
+        songs: songs
+    };
+};
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators(actionCreators, dispatch)

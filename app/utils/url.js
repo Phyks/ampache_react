@@ -1,5 +1,5 @@
 export function assembleURLAndParams (endpoint, params) {
-    var url = endpoint + "?";
+    let url = endpoint + "?";
     Object.keys(params).forEach(
         key => {
             if (Array.isArray(params[key])) {

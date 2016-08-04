@@ -27,7 +27,7 @@ function _buildHMAC (password) {
     // Handle Ampache HMAC generation
     const time = Math.floor(Date.now() / 1000);
 
-    var shaObj = new jsSHA("SHA-256", "TEXT");
+    let shaObj = new jsSHA("SHA-256", "TEXT");
     shaObj.update(password);
     const key = shaObj.getHash("HEX");
 
@@ -120,8 +120,8 @@ export function logoutAndRedirect() {
 
 export function loginUser(username, passwordOrToken, endpoint, rememberMe, redirect="/", isToken=false) {
     endpoint = _cleanEndpoint(endpoint);
-    var time = 0;
-    var passphrase = passwordOrToken;
+    let time = 0;
+    let passphrase = passwordOrToken;
 
     if (!isToken) {
         // Standard password connection

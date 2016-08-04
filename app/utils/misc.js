@@ -18,7 +18,7 @@ export function filterInt (value) {
  */
 export function formatLength (time) {
     const min = Math.floor(time / 60);
-    var sec = (time - 60 * min);
+    let sec = (time - 60 * min);
     if (sec < 10) {
         sec = "0" + sec;
     }

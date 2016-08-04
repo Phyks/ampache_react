@@ -7,7 +7,7 @@ import { messagesMap } from "../../utils";
 import commonMessages from "../../locales/messagesDescriptors/common";
 import messages from "../../locales/messagesDescriptors/layouts/Sidebar";
 
-import WebPlayer from "../elements/WebPlayer";
+import WebPlayer from "../../containers/WebPlayer";
 
 import css from "../../styles/layouts/Sidebar.scss";
 
@@ -138,13 +138,13 @@ class SidebarLayoutIntl extends Component {
                                 </li>
                             </ul>
                         </nav>
+                        <WebPlayer />
                     </div>
                 </div>
 
                 <div className="col-xs-12 col-md-11 col-md-offset-1 col-lg-10 col-lg-offset-2 main-panel" styleName="main-panel" onClick={collapseHamburger} role="main">
                     {this.props.children}
                 </div>
-                { /* TODO <WebPlayer /> */ }
             </div>
         );
     }

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { defineMessages, injectIntl, intlShape } from "react-intl";
+import Immutable from "immutable";
 
 import * as actionCreators from "../actions";
 import { i18nRecord } from "../models/i18n";
@@ -32,13 +33,13 @@ class AlbumsPageIntl extends Component {
     render () {
         const {formatMessage} = this.props.intl;
         if (this.props.error) {
-            var errorMessage = this.props.error;
+            let errorMessage = this.props.error;
             if (this.props.error instanceof i18nRecord) {
                 errorMessage = formatMessage(albumsMessages[this.props.error.id], this.props.error.values);
             }
             alert(errorMessage);
             this.context.router.replace("/");
-            return null;
+            return (<div></div>);
         }
         const pagination = buildPaginationObject(this.props.location, this.props.currentPage, this.props.nPages, this.props.actions.goToPageAction);
         return (
@@ -55,13 +56,22 @@ AlbumsPageIntl.propTypes = {
     intl: intlShape.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-    isFetching: state.pagination.albums.isFetching,
-    error: state.pagination.albums.error,
-    albumsList: state.pagination.albums.items,
-    currentPage: state.pagination.albums.currentPage,
-    nPages: state.pagination.albums.nPages
-});
+const mapStateToProps = (state) => {
+    let albumsList = new Immutable.List();
+    let albums = state.api.result.get("album");
+    if (albums) {
+        albumsList = albums.map(
+            id => state.api.entities.getIn(["album", id])
+        );
+    }
+    return {
+        isFetching: state.api.isFetching,
+        error: state.api.error,
+        albumsList: albumsList,
+        currentPage: state.api.currentPage,
+        nPages: state.api.nPages
+    };
+};
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators(actionCreators, dispatch)

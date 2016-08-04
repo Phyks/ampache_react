@@ -8,7 +8,8 @@ module.exports = {
     "app.common.close": "Close",  // Close
     "app.common.go": "Go",  // Go
     "app.common.loading": "Loading…",  // Loading indicator
-    "app.common.play": "Play",  // PLay icon description
+    "app.common.pause": "Pause",  // Pause icon description
+    "app.common.play": "Play",  // Play icon description
     "app.common.track": "{itemCount, plural, one {track} other {tracks}}",  // Track
     "app.filter.filter": "Filter…",  // Filtering input placeholder
     "app.filter.whatAreWeListeningToToday": "What are we listening to today?",  // Description for the filter bar
@@ -43,4 +44,11 @@ module.exports = {
     "app.songs.genre": "Genre",  // Genre (song)
     "app.songs.length": "Length",  // Length (song)
     "app.songs.title": "Title",  // Title (song)
+    "app.webplayer.by": "by",  // Artist affiliation of a song
+    "app.webplayer.next": "Next",  // Next button description
+    "app.webplayer.playlist": "Playlist",  // Playlist button description
+    "app.webplayer.previous": "Previous",  // Previous button description
+    "app.webplayer.random": "Random",  // Random button description
+    "app.webplayer.repeat": "Repeat",  // Repeat button description
+    "app.webplayer.volume": "Volume",  // Volume button description
 };

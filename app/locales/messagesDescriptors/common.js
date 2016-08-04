@@ -36,8 +36,13 @@ const messages = [
     },
     {
         id: "app.common.play",
-        description: "PLay icon description",
+        description: "Play icon description",
         defaultMessage: "Play"
+    },
+    {
+        id: "app.common.pause",
+        description: "Pause icon description",
+        defaultMessage: "Pause"
     },
 ];
 

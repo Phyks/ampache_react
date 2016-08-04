@@ -14,8 +14,8 @@ const paginationMessages = defineMessages(messagesMap(Array.concat([], commonMes
 class PaginationCSSIntl extends Component {
     computePaginationBounds(currentPage, nPages, maxNumberPagesShown=5) {
         // Taken from http://stackoverflow.com/a/8608998/2626416
-        var lowerLimit = currentPage;
-        var upperLimit = currentPage;
+        let lowerLimit = currentPage;
+        let upperLimit = currentPage;
 
         for (let b = 1; b < maxNumberPagesShown && b < nPages;) {
             if (lowerLimit > 1 ) {
@@ -62,8 +62,8 @@ class PaginationCSSIntl extends Component {
     render () {
         const { formatMessage } = this.props.intl;
         const { lowerLimit, upperLimit } = this.computePaginationBounds(this.props.currentPage, this.props.nPages);
-        var pagesButton = [];
-        var key = 0;  // key increment to ensure correct ordering
+        let pagesButton = [];
+        let key = 0;  // key increment to ensure correct ordering
         if (lowerLimit > 1) {
             // Push first page
             pagesButton.push(
@@ -85,8 +85,8 @@ class PaginationCSSIntl extends Component {
             }
         }
         for (let i = lowerLimit; i < upperLimit; i++) {
-            var className = "page-item";
-            var currentSpan = null;
+            let className = "page-item";
+            let currentSpan = null;
             if (this.props.currentPage == i) {
                 className += " active";
                 currentSpan = <span className="sr-only">(<FormattedMessage {...paginationMessages["app.pagination.current"]} />)</span>;

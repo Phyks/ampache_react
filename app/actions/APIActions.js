@@ -1,17 +1,42 @@
+import { normalize, arrayOf } from "normalizr";
 import humps from "humps";
 
 import { CALL_API } from "../middleware/api";
+
+import { artist, track, album } from "../models/api";
 
 export const DEFAULT_LIMIT = 30;  /** Default max number of elements to retrieve. */
 
 export default function (action, requestType, successType, failureType) {
     const itemName = action.rstrip("s");
-    const fetchItemsSuccess = function (itemsList, itemsCount, pageNumber) {
-        const nPages = Math.ceil(itemsCount / DEFAULT_LIMIT);
+
+    const fetchItemsSuccess = function (jsonData, pageNumber) {
+        // Normalize data
+        jsonData = normalize(
+            jsonData,
+            {
+                artist: arrayOf(artist),
+                album: arrayOf(album),
+                song: arrayOf(track)
+            },
+            {
+                assignEntity: function (output, key, value) {
+                    // Delete useless fields
+                    if (key == "sessionExpire") {
+                        delete output.sessionExpire;
+                    } else {
+                        output[key] = value;
+                    }
+                }
+            }
+        );
+
+        const nPages = Math.ceil(jsonData.result[itemName].length / DEFAULT_LIMIT);
         return {
             type: successType,
             payload: {
-                items: itemsList,
+                result: jsonData.result,
+                entities: jsonData.entities,
                 nPages: nPages,
                 currentPage: pageNumber
             }
@@ -34,7 +59,7 @@ export default function (action, requestType, successType, failureType) {
     };
     const fetchItems = function (endpoint, username, passphrase, filter, pageNumber, include = [], limit=DEFAULT_LIMIT) {
         const offset = (pageNumber - 1) * DEFAULT_LIMIT;
-        var extraParams = {
+        let extraParams = {
             offset: offset,
             limit: limit
         };
@@ -51,7 +76,7 @@ export default function (action, requestType, successType, failureType) {
                 dispatch: [
                     fetchItemsRequest,
                     jsonData => dispatch => {
-                        dispatch(fetchItemsSuccess(jsonData[itemName], jsonData.totalCount, pageNumber));
+                        dispatch(fetchItemsSuccess(jsonData, pageNumber));
                     },
                     fetchItemsFailure
                 ],

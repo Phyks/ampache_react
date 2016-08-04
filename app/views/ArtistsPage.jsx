@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { defineMessages, injectIntl, intlShape } from "react-intl";
+import Immutable from "immutable";
 
 import * as actionCreators from "../actions";
 import { i18nRecord } from "../models/i18n";
@@ -32,13 +33,13 @@ class ArtistsPageIntl extends Component {
     render () {
         const {formatMessage} = this.props.intl;
         if (this.props.error) {
-            var errorMessage = this.props.error;
+            let errorMessage = this.props.error;
             if (this.props.error instanceof i18nRecord) {
                 errorMessage = formatMessage(artistsMessages[this.props.error.id], this.props.error.values);
             }
             alert(errorMessage);
             this.context.router.replace("/");
-            return null;
+            return (<div></div>);
         }
         const pagination = buildPaginationObject(this.props.location, this.props.currentPage, this.props.nPages, this.props.actions.goToPageAction);
         return (
@@ -55,13 +56,21 @@ ArtistsPageIntl.propTypes = {
     intl: intlShape.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-    isFetching: state.pagination.artists.isFetching,
-    error: state.pagination.artists.error,
-    artistsList: state.pagination.artists.items,
-    currentPage: state.pagination.artists.currentPage,
-    nPages: state.pagination.artists.nPages,
-});
+const mapStateToProps = (state) => {
+    let artistsList = new Immutable.List();
+    if (state.api.result.get("artist")) {
+        artistsList = state.api.result.get("artist").map(
+            id => state.api.entities.getIn(["artist", id])
+        );
+    }
+    return {
+        isFetching: state.api.isFetching,
+        error: state.api.error,
+        artistsList: artistsList,
+        currentPage: state.api.currentPage,
+        nPages: state.api.nPages,
+    };
+};
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators(actionCreators, dispatch)

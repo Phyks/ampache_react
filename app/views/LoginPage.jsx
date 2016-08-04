@@ -7,8 +7,8 @@ import * as actionCreators from "../actions";
 import Login from "../components/Login";
 
 function _getRedirectTo(props) {
-    var redirectPathname = "/";
-    var redirectQuery = {};
+    let redirectPathname = "/";
+    let redirectQuery = {};
     const { location } = props;
     if (location.state && location.state.nextPathname) {
         redirectPathname = location.state.nextPathname;

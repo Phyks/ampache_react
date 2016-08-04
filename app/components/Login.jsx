@@ -41,7 +41,7 @@ class LoginFormCSSIntl extends Component {
         const endpoint = this.refs.endpoint.value.trim();
         const rememberMe = this.refs.rememberMe.checked;
 
-        var hasError = this.setError(this.refs.usernameFormGroup, !username);
+        let hasError = this.setError(this.refs.usernameFormGroup, !username);
         hasError |= this.setError(this.refs.passwordFormGroup, !password);
         hasError |= this.setError(this.refs.endpointFormGroup, !endpoint);
 
@@ -61,13 +61,13 @@ class LoginFormCSSIntl extends Component {
 
     render () {
         const {formatMessage} = this.props.intl;
-        var infoMessage = this.props.info;
+        let infoMessage = this.props.info;
         if (this.props.info && this.props.info instanceof i18nRecord) {
             infoMessage = (
                 <FormattedMessage {...loginMessages[this.props.info.id]} values={ this.props.info.values} />
             );
         }
-        var errorMessage = this.props.error;
+        let errorMessage = this.props.error;
         if (this.props.error && this.props.error instanceof i18nRecord) {
             errorMessage = (
                 <FormattedMessage {...loginMessages[this.props.error.id]} values={ this.props.error.values} />

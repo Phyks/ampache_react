@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import Immutable from "immutable";
 
 import * as actionCreators from "../actions";
 
@@ -17,21 +18,52 @@ export class ArtistPage extends Component {
     }
 
     render () {
-        const artist = this.props.artists.find(
-            item => item.id == this.props.params.id
-        );
-        if (artist) {
+        if (this.props.artist) {
             return (
-                <Artist artist={artist} />
+                <Artist artist={this.props.artist} albums={this.props.albums} songs={this.props.songs} />
             );
         }
-        return null;  // Loading
+        return (
+            <div></div>
+        );  // TODO: Loading
     }
 }
 
-const mapStateToProps = (state) => ({
-    artists: state.pagination.artists.items
-});
+const mapStateToProps = (state, ownProps) => {
+    const artists = state.api.entities.get("artist");
+    let artist = undefined;
+    let albums = new Immutable.List();
+    let songs = new Immutable.List();
+    if (artists) {
+        // Get artist
+        artist = artists.find(
+            item => item.get("id") == ownProps.params.id
+        );
+        // Get albums
+        const artistAlbums = artist.get("albums");
+        if (Immutable.List.isList(artistAlbums)) {
+            albums = new Immutable.Map(
+                artistAlbums.map(
+                    id => [id, state.api.entities.getIn(["album", id])]
+                )
+            );
+        }
+        // Get songs
+        const artistSongs = artist.get("songs");
+        if (Immutable.List.isList(artistSongs)) {
+            songs = new Immutable.Map(
+                artistSongs.map(
+                    id => [id, state.api.entities.getIn(["track", id])]
+                )
+            );
+        }
+    }
+    return {
+        artist: artist,
+        albums: albums,
+        songs: songs
+    };
+};
 
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators(actionCreators, dispatch)

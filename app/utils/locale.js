@@ -1,5 +1,5 @@
 export function getBrowserLocales () {
-    var langs;
+    let langs;
 
     if (navigator.languages) {
         // chrome does not currently set navigator.language correctly https://code.google.com/p/chromium/issues/detail?id=101138
@@ -14,8 +14,8 @@ export function getBrowserLocales () {
     }
 
     // Some browsers does not return uppercase for second part
-    var locales = langs.map(function (lang) {
-        var locale = lang.split("-");
+    let locales = langs.map(function (lang) {
+        let locale = lang.split("-");
         return locale[1] ? `${locale[0]}-${locale[1].toUpperCase()}` : lang;
     });
 
@@ -23,7 +23,7 @@ export function getBrowserLocales () {
 }
 
 export function messagesMap(messagesDescriptorsArray) {
-    var messagesDescriptorsMap = {};
+    let messagesDescriptorsMap = {};
 
     messagesDescriptorsArray.forEach(function (item) {
         messagesDescriptorsMap[item.id] = item;

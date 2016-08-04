@@ -19,9 +19,9 @@ const songsMessages = defineMessages(messagesMap(Array.concat([], commonMessages
 
 class SongsTableRowCSS extends Component {
     render () {
-        const length = formatLength(this.props.song.time);
-        const linkToArtist = "/artist/" + this.props.song.artist.id;
-        const linkToAlbum = "/album/" + this.props.song.album.id;
+        const length = formatLength(this.props.song.get("time"));
+        const linkToArtist = "/artist/" + this.props.song.getIn(["artist", "id"]);
+        const linkToAlbum = "/album/" + this.props.song.getIn(["album", "id"]);
         return (
             <tr>
                 <td>
@@ -32,10 +32,10 @@ class SongsTableRowCSS extends Component {
                         <FontAwesome name="play-circle-o" aria-hidden="true" />
                     </button>
                 </td>
-                <td className="title">{this.props.song.name}</td>
-                <td className="artist"><Link to={linkToArtist}>{this.props.song.artist.name}</Link></td>
-                <td className="album"><Link to={linkToAlbum}>{this.props.song.album.name}</Link></td>
-                <td className="genre">{this.props.song.genre}</td>
+                <td className="title">{this.props.song.get("name")}</td>
+                <td className="artist"><Link to={linkToArtist}>{this.props.song.getIn(["artist", "name"])}</Link></td>
+                <td className="album"><Link to={linkToAlbum}>{this.props.song.getIn(["album", "name"])}</Link></td>
+                <td className="genre">{this.props.song.get("genre")}</td>
                 <td className="length">{length}</td>
             </tr>
         );
@@ -51,7 +51,7 @@ export let SongsTableRow = CSSModules(SongsTableRowCSS, css);
 
 class SongsTableCSS extends Component {
     render () {
-        var displayedSongs = this.props.songs;
+        let displayedSongs = this.props.songs;
         if (this.props.filterText) {
             // Use Fuse for the filter
             displayedSongs = new Fuse(
@@ -65,11 +65,11 @@ class SongsTableCSS extends Component {
             displayedSongs = displayedSongs.map(function (item) { return item.item; });
         }
 
-        var rows = [];
+        let rows = [];
         displayedSongs.forEach(function (song) {
-            rows.push(<SongsTableRow song={song} key={song.id} />);
+            rows.push(<SongsTableRow song={song} key={song.get("id")} />);
         });
-        var loading = null;
+        let loading = null;
         if (rows.length == 0 && this.props.isFetching) {
             // If we are fetching and there is nothing to show
             loading = (

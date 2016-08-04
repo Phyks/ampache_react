@@ -30,7 +30,8 @@ export default function paginate(types) {
             return (
                 state
                     .set("isFetching", false)
-                    .set("items", new Immutable.List(payload.items))
+                    .set("result", Immutable.fromJS(payload.result))
+                    .set("entities", Immutable.fromJS(payload.entities))
                     .set("error", null)
                     .set("nPages", payload.nPages)
                     .set("currentPage", payload.currentPage)

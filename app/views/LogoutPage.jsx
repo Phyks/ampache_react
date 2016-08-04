@@ -11,7 +11,7 @@ export class LogoutPage extends Component {
 
     render () {
         return (
-            null
+            <div></div>
         );
     }
 }

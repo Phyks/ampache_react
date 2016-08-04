@@ -20,7 +20,7 @@ function _checkHTTPStatus (response) {
 }
 
 function _parseToJSON (responseText) {
-    var x2js = new X2JS({
+    let x2js = new X2JS({
         attributePrefix: "",
         keepCData: false
     });
@@ -47,7 +47,7 @@ function _checkAPIErrors (jsonData) {
 }
 
 function _uglyFixes (jsonData) {
-    var _uglyFixesSongs = function (songs) {
+    let _uglyFixesSongs = function (songs) {
         return songs.map(function (song) {
             // Fix for cdata left in artist and album
             song.artist.name = song.artist.cdata;
@@ -56,7 +56,7 @@ function _uglyFixes (jsonData) {
         });
     };
 
-    var _uglyFixesAlbums = function (albums) {
+    let _uglyFixesAlbums = function (albums) {
         return albums.map(function (album) {
             // TODO
             // Fix for absence of distinction between disks in the same album
@@ -80,7 +80,7 @@ function _uglyFixes (jsonData) {
         });
     };
 
-    var _uglyFixesArtists = function (artists) {
+    let _uglyFixesArtists = function (artists) {
         return artists.map(function (artist) {
             // Move albums one node top
             if (artist.albums.album) {
@@ -149,11 +149,6 @@ function _uglyFixes (jsonData) {
     return jsonData;
 }
 
-function _normalizeResponse(jsonData) {
-    // TODO
-    return jsonData;
-}
-
 // Fetches an API response and normalizes the result JSON according to schema.
 // This makes every API response have the same shape, regardless of how nested it was.
 function doAPICall (endpoint, action, auth, username, extraParams) {
@@ -175,8 +170,7 @@ function doAPICall (endpoint, action, auth, username, extraParams) {
         .then(_parseToJSON)
         .then(_checkAPIErrors)
         .then(jsonData => humps.camelizeKeys(jsonData))  // Camelize
-        .then(_uglyFixes)
-        .then(_normalizeResponse);
+        .then(_uglyFixes);
 }
 
 // Action key that carries API call info interpreted by this Redux middleware.
