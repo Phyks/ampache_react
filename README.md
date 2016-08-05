@@ -12,6 +12,24 @@ serve the `public` folder and head your browser to the correct URL :)
 
 Or you can use the [hosted version](https://phyks.github.io/ampache_react/).
 
+
+## Requirements
+
+To use this interface, you need:
+* An Ampache server on which you have an account.
+* A modern browser.
+
+For now, this is a work in progress and as such, the [hosted
+version](https://phyks.github.io/ampache_react/) (or `gh-pages` branch) always
+require the latest `develop` branch of Ampache. As soon as this is stabilized
+and Ampache gets a new version, this note will be updated with the required
+Ampache version.
+
+Note that `master` branch may differ from `gh-pages` branch from time to time,
+and `master` branch may rely on commits that are not yet in Ampache `develop`
+branch. `gh-pages` branch is ensured to be working with latest Ampache
+`develop` branch.
+
 ## Support
 
 The supported browsers should be:
