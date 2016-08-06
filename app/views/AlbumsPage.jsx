@@ -1,18 +1,17 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { defineMessages, injectIntl, intlShape } from "react-intl";
 import Immutable from "immutable";
 
 import * as actionCreators from "../actions";
-import { i18nRecord } from "../models/i18n";
-import { buildPaginationObject, messagesMap } from "../utils";
+import { buildPaginationObject, messagesMap, handleErrorI18nObject } from "../utils";
 
 import Albums from "../components/Albums";
 
 import APIMessages from "../locales/messagesDescriptors/api";
 
-const albumsMessages = defineMessages(messagesMap(APIMessages));
+const albumsMessages = defineMessages(messagesMap(Array.concat([], APIMessages)));
 
 class AlbumsPageIntl extends Component {
     componentWillMount () {
@@ -31,26 +30,15 @@ class AlbumsPageIntl extends Component {
     }
 
     render () {
-        const {formatMessage} = this.props.intl;
-        if (this.props.error) {
-            let errorMessage = this.props.error;
-            if (this.props.error instanceof i18nRecord) {
-                errorMessage = formatMessage(albumsMessages[this.props.error.id], this.props.error.values);
-            }
-            alert(errorMessage);
-            this.context.router.replace("/");
-            return (<div></div>);
-        }
         const pagination = buildPaginationObject(this.props.location, this.props.currentPage, this.props.nPages, this.props.actions.goToPageAction);
+
+        const {formatMessage} = this.props.intl;
+        const error = handleErrorI18nObject(this.props.error, formatMessage, albumsMessages);
         return (
-            <Albums isFetching={this.props.isFetching} albums={this.props.albumsList} pagination={pagination} />
+            <Albums isFetching={this.props.isFetching} error={error} albums={this.props.albumsList} pagination={pagination} />
         );
     }
 }
-
-AlbumsPageIntl.contextTypes = {
-    router: PropTypes.object.isRequired
-};
 
 AlbumsPageIntl.propTypes = {
     intl: intlShape.isRequired,

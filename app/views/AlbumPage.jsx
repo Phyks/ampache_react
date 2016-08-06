@@ -27,7 +27,7 @@ export class AlbumPage extends Component {
         }
         return (
             <div></div>
-        );  // TODO: Loading
+        );  // TODO: Loading + error
     }
 }
 

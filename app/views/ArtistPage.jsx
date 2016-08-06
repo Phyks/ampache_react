@@ -1,13 +1,19 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { defineMessages, injectIntl, intlShape } from "react-intl";
 import Immutable from "immutable";
 
 import * as actionCreators from "../actions";
+import { messagesMap, handleErrorI18nObject } from "../utils";
 
 import Artist from "../components/Artist";
 
-export class ArtistPage extends Component {
+import APIMessages from "../locales/messagesDescriptors/api";
+
+const artistMessages = defineMessages(messagesMap(Array.concat([], APIMessages)));
+
+class ArtistPageIntl extends Component {
     componentWillMount () {
         // Load the data
         this.props.actions.loadArtists({
@@ -18,8 +24,10 @@ export class ArtistPage extends Component {
     }
 
     render () {
+        const {formatMessage} = this.props.intl;
+        const error = handleErrorI18nObject(this.props.error, formatMessage, artistMessages);
         return (
-            <Artist isFetching={this.props.isFetching} artist={this.props.artist} albums={this.props.albums} songs={this.props.songs} />
+            <Artist isFetching={this.props.isFetching} error={error} artist={this.props.artist} albums={this.props.albums} songs={this.props.songs} />
         );
     }
 }
@@ -55,14 +63,19 @@ const mapStateToProps = (state, ownProps) => {
     }
     return {
         isFetching: state.api.isFetching,
+        error: state.api.error,
         artist: artist,
         albums: albums,
         songs: songs
     };
 };
 
+ArtistPageIntl.propTypes = {
+    intl: intlShape.isRequired,
+};
+
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators(actionCreators, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArtistPage);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(ArtistPageIntl));

@@ -6,6 +6,7 @@ import FontAwesome from "react-fontawesome";
 import Immutable from "immutable";
 import Fuse from "fuse.js";
 
+import DismissibleAlert from "./elements/DismissibleAlert";
 import FilterBar from "./elements/FilterBar";
 import Pagination from "./elements/Pagination";
 import { formatLength, messagesMap } from "../utils";
@@ -135,8 +136,14 @@ export default class FilterablePaginatedSongsTable extends Component {
     }
 
     render () {
+        let error = null;
+        if (this.props.error) {
+            error =  (<DismissibleAlert type="danger" text={this.props.error} />);
+        }
+
         return (
             <div>
+                { error }
                 <FilterBar filterText={this.state.filterText} onUserInput={this.handleUserInput} />
                 <SongsTable isFetching={this.props.isFetching} songs={this.props.songs} filterText={this.state.filterText} />
                 <Pagination {...this.props.pagination} />
@@ -147,6 +154,7 @@ export default class FilterablePaginatedSongsTable extends Component {
 
 FilterablePaginatedSongsTable.propTypes = {
     isFetching: PropTypes.bool.isRequired,
+    error: PropTypes.string,
     songs: PropTypes.instanceOf(Immutable.List).isRequired,
     pagination: PropTypes.object.isRequired
 };

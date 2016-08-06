@@ -2,9 +2,15 @@ import React, { Component, PropTypes } from "react";
 import Immutable from "immutable";
 
 import FilterablePaginatedGrid from "./elements/Grid";
+import DismissibleAlert from "./elements/DismissibleAlert";
 
 class Artists extends Component {
     render () {
+        let error = null;
+        if (this.props.error) {
+            error =  (<DismissibleAlert type="danger" text={this.props.error} />);
+        }
+
         const grid = {
             isFetching: this.props.isFetching,
             items: this.props.artists,
@@ -14,13 +20,17 @@ class Artists extends Component {
             subItemsLabel: "app.common.album"
         };
         return (
-            <FilterablePaginatedGrid grid={grid} pagination={this.props.pagination} />
+            <div>
+                { error }
+                <FilterablePaginatedGrid grid={grid} pagination={this.props.pagination} />
+            </div>
         );
     }
 }
 
 Artists.propTypes = {
     isFetching: PropTypes.bool.isRequired,
+    error: PropTypes.string,
     artists: PropTypes.instanceOf(Immutable.List).isRequired,
     pagination: PropTypes.object.isRequired,
 };

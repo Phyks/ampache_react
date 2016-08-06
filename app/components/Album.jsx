@@ -10,7 +10,7 @@ import commonMessages from "../locales/messagesDescriptors/common";
 
 import css from "../styles/Album.scss";
 
-const albumMessages = defineMessages(messagesMap(commonMessages));
+const albumMessages = defineMessages(messagesMap(Array.concat([], commonMessages)));
 
 class AlbumTrackRowCSS extends Component {
     render () {

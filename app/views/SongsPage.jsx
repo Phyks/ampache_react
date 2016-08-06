@@ -1,18 +1,17 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { defineMessages, injectIntl, intlShape } from "react-intl";
 import Immutable from "immutable";
 
 import * as actionCreators from "../actions";
-import { i18nRecord } from "../models/i18n";
-import { buildPaginationObject, messagesMap } from "../utils";
+import { buildPaginationObject, messagesMap, handleErrorI18nObject } from "../utils";
 
 import Songs from "../components/Songs";
 
 import APIMessages from "../locales/messagesDescriptors/api";
 
-const songsMessages = defineMessages(messagesMap(APIMessages));
+const songsMessages = defineMessages(messagesMap(Array.concat([], APIMessages)));
 
 class SongsPageIntl extends Component {
     componentWillMount () {
@@ -31,26 +30,15 @@ class SongsPageIntl extends Component {
     }
 
     render () {
-        const {formatMessage} = this.props.intl;
-        if (this.props.error) {
-            let errorMessage = this.props.error;
-            if (this.props.error instanceof i18nRecord) {
-                errorMessage = formatMessage(songsMessages[this.props.error.id], this.props.error.values);
-            }
-            alert(errorMessage);
-            this.context.router.replace("/");
-            return (<div></div>);
-        }
         const pagination = buildPaginationObject(this.props.location, this.props.currentPage, this.props.nPages, this.props.actions.goToPageAction);
+
+        const {formatMessage} = this.props.intl;
+        const error = handleErrorI18nObject(this.props.error, formatMessage, songsMessages);
         return (
-            <Songs isFetching={this.props.isFetching} songs={this.props.songsList} pagination={pagination} />
+            <Songs isFetching={this.props.isFetching} error={error} songs={this.props.songsList} pagination={pagination} />
         );
     }
 }
-
-SongsPageIntl.contextTypes = {
-    router: PropTypes.object.isRequired
-};
 
 SongsPageIntl.propTypes = {
     intl: intlShape.isRequired,

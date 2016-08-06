@@ -7,6 +7,7 @@ import Immutable from "immutable";
 import { messagesMap } from "../utils/";
 
 import { AlbumRow } from "./Album";
+import DismissibleAlert from "./elements/DismissibleAlert";
 
 import commonMessages from "../locales/messagesDescriptors/common";
 
@@ -25,9 +26,14 @@ class ArtistCSS extends Component {
             </div>
         );
 
-        if (!this.props.artist) {
+        if (this.props.isFetching && !this.props.artist) {
             // Loading
             return loading;
+        }
+
+        let error = null;
+        if (this.props.error) {
+            error =  (<DismissibleAlert type="danger" text={this.props.error} />);
         }
 
         let albumsRows = [];
@@ -48,6 +54,7 @@ class ArtistCSS extends Component {
         }
         return (
             <div>
+                { error }
                 <div className="row" styleName="name">
                     <div className="col-sm-12">
                         <h1>{this.props.artist.get("name")}</h1>
@@ -70,6 +77,7 @@ class ArtistCSS extends Component {
 
 ArtistCSS.propTypes = {
     isFetching: PropTypes.bool.isRequired,
+    error: PropTypes.string,
     artist: PropTypes.instanceOf(Immutable.Map),
     albums: PropTypes.instanceOf(Immutable.Map),
     songs: PropTypes.instanceOf(Immutable.Map)

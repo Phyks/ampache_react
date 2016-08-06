@@ -1,3 +1,5 @@
+import { i18nRecord } from "../models/i18n";
+
 export function getBrowserLocales () {
     let langs;
 
@@ -30,4 +32,12 @@ export function messagesMap(messagesDescriptorsArray) {
     });
 
     return messagesDescriptorsMap;
+}
+
+
+export function handleErrorI18nObject(errorMessage, formatMessage, messages) {
+    if (errorMessage instanceof i18nRecord) {
+        return formatMessage(messages[errorMessage.id], errorMessage.values);
+    }
+    return errorMessage;
 }

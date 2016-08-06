@@ -7,7 +7,7 @@ import messages from "../../locales/messagesDescriptors/elements/FilterBar";
 
 import css from "../../styles/elements/FilterBar.scss";
 
-const filterMessages = defineMessages(messagesMap(messages));
+const filterMessages = defineMessages(messagesMap(Array.concat([], messages)));
 
 class FilterBarCSSIntl extends Component {
     constructor (props) {
