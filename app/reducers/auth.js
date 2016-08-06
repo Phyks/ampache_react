@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-import {LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGOUT_USER} from "../actions";
+import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGIN_USER_EXPIRED, LOGOUT_USER } from "../actions";
 import { createReducer } from "../utils";
 import { i18nRecord } from "../models/i18n";
 import { tokenRecord, stateRecord } from "../models/auth";
@@ -69,6 +69,12 @@ export default createReducer(initialState, {
     },
     [LOGIN_USER_FAILURE]: (state, payload) => {
         return new stateRecord({
+            "error": payload.error
+        });
+    },
+    [LOGIN_USER_EXPIRED]: (state, payload) => {
+        return new stateRecord({
+            "isAuthenticated": false,
             "error": payload.error
         });
     },

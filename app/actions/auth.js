@@ -87,6 +87,16 @@ export function loginUserFailure(error) {
     };
 }
 
+export const LOGIN_USER_EXPIRED = "LOGIN_USER_EXPIRED";
+export function loginUserExpired(error) {
+    return {
+        type: LOGIN_USER_EXPIRED,
+        payload: {
+            error: error
+        }
+    };
+}
+
 export const LOGIN_USER_REQUEST = "LOGIN_USER_REQUEST";
 export function loginUserRequest() {
     return {

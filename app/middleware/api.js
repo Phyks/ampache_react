@@ -5,6 +5,8 @@ import X2JS from "x2js";
 import { assembleURLAndParams } from "../utils";
 import { i18nRecord } from "../models/i18n";
 
+import { loginUserExpired } from "../actions/auth";
+
 export const API_VERSION = 350001;  /** API version to use. */
 export const BASE_API_PATH = "/server/xml.server.php";  /** Base API path after endpoint. */
 
@@ -35,7 +37,7 @@ function _parseToJSON (responseText) {
 
 function _checkAPIErrors (jsonData) {
     if (jsonData.error) {
-        return Promise.reject(jsonData.error.__cdata + " (" + jsonData.error.code + ")");
+        return Promise.reject(jsonData.error);
     } else if (!jsonData) {
         // No data returned
         return Promise.reject(new i18nRecord({
@@ -218,9 +220,24 @@ export default store => next => reduxAction => {
         },
         error => {
             if (failureDispatch) {
-                if (error instanceof Error) {
+                const errorMessage = error.__cdata + " (" + error._code + ")";
+                // Error object from the API
+                if (error._code && error.__cdata) {
+                    if (401 == error._code) {
+                        // This is an error meaning no valid session was
+                        // passed. We must perform a new handshake.
+                        store.dispatch(loginUserExpired(errorMessage));
+                        return;
+                    }
+                    // Else, form error message and continue
+                    error = errorMessage;
+                }
+                // Else if exception was thrown
+                else if (error instanceof Error) {
+                    // Form error message and continue
                     error = error.message;
                 }
+                // Dispatch a failure event
                 store.dispatch(failureDispatch(error));
             }
         }

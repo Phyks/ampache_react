@@ -7,8 +7,8 @@ export class RequireAuthentication extends Component {
         this.checkAuth(this.props.isAuthenticated);
     }
 
-    componentWillUpdate () {
-        this.checkAuth(this.props.isAuthenticated);
+    componentWillUpdate (newProps) {
+        this.checkAuth(newProps.isAuthenticated);
     }
 
     checkAuth (isAuthenticated) {
