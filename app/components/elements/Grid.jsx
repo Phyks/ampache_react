@@ -25,8 +25,8 @@ class GridItemCSSIntl extends Component {
         const {formatMessage} = this.props.intl;
 
         let nSubItems = this.props.item.get(this.props.subItemsType);
-        if (Array.isArray(nSubItems)) {
-            nSubItems = nSubItems.length;
+        if (Immutable.List.isList(nSubItems)) {
+            nSubItems = nSubItems.size;
         }
 
         let subItemsLabel = formatMessage(gridMessages[this.props.subItemsLabel], { itemCount: nSubItems });
@@ -48,7 +48,7 @@ class GridItemCSSIntl extends Component {
 }
 
 GridItemCSSIntl.propTypes = {
-    item: PropTypes.object.isRequired,
+    item: PropTypes.instanceOf(Immutable.Map).isRequired,
     itemsType: PropTypes.string.isRequired,
     itemsLabel: PropTypes.string.isRequired,
     subItemsType: PropTypes.string.isRequired,

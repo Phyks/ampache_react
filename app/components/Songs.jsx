@@ -43,7 +43,7 @@ class SongsTableRowCSS extends Component {
 }
 
 SongsTableRowCSS.propTypes = {
-    song: PropTypes.object.isRequired
+    song: PropTypes.instanceOf(Immutable.Map).isRequired
 };
 
 export let SongsTableRow = CSSModules(SongsTableRowCSS, css);

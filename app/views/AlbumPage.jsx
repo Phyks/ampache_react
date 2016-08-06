@@ -43,9 +43,9 @@ const mapStateToProps = (state, ownProps) => {
         // Get songs
         const tracks = album.get("tracks");
         if (Immutable.List.isList(tracks)) {
-            songs = new Immutable.Map(
+            songs = new Immutable.List(
                 tracks.map(
-                    id => [id, state.api.entities.getIn(["track", id])]
+                    id => state.api.entities.getIn(["track", id])
                 )
             );
         }

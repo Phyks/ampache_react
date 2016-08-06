@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from "react";
 import CSSModules from "react-css-modules";
 import { defineMessages, FormattedMessage } from "react-intl";
 import FontAwesome from "react-fontawesome";
+import Immutable from "immutable";
 
 import { formatLength, messagesMap } from "../utils";
 
@@ -32,9 +33,8 @@ class AlbumTrackRowCSS extends Component {
     }
 }
 
-// TODO: Not object
 AlbumTrackRowCSS.propTypes = {
-    track: PropTypes.object.isRequired
+    track: PropTypes.instanceOf(Immutable.Map).isRequired
 };
 
 export let AlbumTrackRow = CSSModules(AlbumTrackRowCSS, css);
@@ -56,9 +56,8 @@ class AlbumTracksTableCSS extends Component {
     }
 }
 
-// TODO: Not object
 AlbumTracksTableCSS.propTypes = {
-    tracks: PropTypes.object.isRequired
+    tracks: PropTypes.instanceOf(Immutable.List).isRequired
 };
 
 export let AlbumTracksTable = CSSModules(AlbumTracksTableCSS, css);
@@ -85,10 +84,9 @@ class AlbumRowCSS extends Component {
     }
 }
 
-// TODO: Not object
 AlbumRowCSS.propTypes = {
-    album: PropTypes.object.isRequired,
-    songs: PropTypes.object.isRequired
+    album: PropTypes.instanceOf(Immutable.Map).isRequired,
+    songs: PropTypes.instanceOf(Immutable.List).isRequired
 };
 
 export let AlbumRow = CSSModules(AlbumRowCSS, css);
@@ -101,8 +99,7 @@ export default class Album extends Component {
     }
 }
 
-// TODO: Not object
 Album.propTypes = {
-    album: PropTypes.object.isRequired,
-    songs: PropTypes.object.isRequired
+    album: PropTypes.instanceOf(Immutable.Map).isRequired,
+    songs: PropTypes.instanceOf(Immutable.List).isRequired
 };

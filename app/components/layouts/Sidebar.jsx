@@ -7,7 +7,7 @@ import { messagesMap } from "../../utils";
 import commonMessages from "../../locales/messagesDescriptors/common";
 import messages from "../../locales/messagesDescriptors/layouts/Sidebar";
 
-import WebPlayer from "../../containers/WebPlayer";
+import WebPlayer from "../../views/WebPlayer";
 
 import css from "../../styles/layouts/Sidebar.scss";
 

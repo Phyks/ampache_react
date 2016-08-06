@@ -18,22 +18,17 @@ export class ArtistPage extends Component {
     }
 
     render () {
-        if (this.props.artist) {
-            return (
-                <Artist artist={this.props.artist} albums={this.props.albums} songs={this.props.songs} />
-            );
-        }
         return (
-            <div></div>
-        );  // TODO: Loading
+            <Artist isFetching={this.props.isFetching} artist={this.props.artist} albums={this.props.albums} songs={this.props.songs} />
+        );
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
     const artists = state.api.entities.get("artist");
     let artist = undefined;
-    let albums = new Immutable.List();
-    let songs = new Immutable.List();
+    let albums = new Immutable.Map();
+    let songs = new Immutable.Map();
     if (artists) {
         // Get artist
         artist = artists.find(
@@ -59,6 +54,7 @@ const mapStateToProps = (state, ownProps) => {
         }
     }
     return {
+        isFetching: state.api.isFetching,
         artist: artist,
         albums: albums,
         songs: songs

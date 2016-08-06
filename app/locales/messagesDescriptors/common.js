@@ -15,6 +15,11 @@ const messages = [
         defaultMessage: "Go"
     },
     {
+        id: "app.common.art",
+        description: "Art",
+        defaultMessage: "Art"
+    },
+    {
         id: "app.common.artist",
         description: "Artist",
         defaultMessage: "{itemCount, plural, one {artist} other {artists}}"

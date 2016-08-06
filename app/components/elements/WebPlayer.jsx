@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from "react";
 import CSSModules from "react-css-modules";
 import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-intl";
 import FontAwesome from "react-fontawesome";
+import Immutable from "immutable";
 
 import { messagesMap } from "../../utils";
 
@@ -45,12 +46,12 @@ class WebPlayerCSSIntl extends Component {
                 <div className="col-xs-12">
                     <div className="row" styleName="artRow" onMouseOver={this.artOpacityHandler} onMouseOut={this.artOpacityHandler}>
                         <div className="col-xs-12">
-                            <img src={this.props.song.art} width="200" height="200" ref="art" styleName="art" />
-                            <h2>{this.props.song.title}</h2>
+                            <img src={this.props.song.get("art")} width="200" height="200" alt={formatMessage(webplayerMessages["app.common.art"])} ref="art" styleName="art" />
+                            <h2>{this.props.song.get("title")}</h2>
                             <h3>
                                 <span className="text-capitalize">
                                     <FormattedMessage {...webplayerMessages["app.webplayer.by"]} />
-                                </span> {this.props.song.artist}
+                                </span> {this.props.song.get("artist")}
                             </h3>
                         </div>
                     </div>
@@ -89,7 +90,7 @@ class WebPlayerCSSIntl extends Component {
 }
 
 WebPlayerCSSIntl.propTypes = {
-    song: PropTypes.object.isRequired,
+    song: PropTypes.instanceOf(Immutable.Map).isRequired,
     isPlaying: PropTypes.bool.isRequired,
     isRandom: PropTypes.bool.isRequired,
     isRepeat: PropTypes.bool.isRequired,

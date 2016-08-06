@@ -3,6 +3,7 @@ module.exports = {
     "app.api.emptyResponse": "Réponse vide reçue.",  // Empty response from the API
     "app.api.error": "Erreur inconnue.",  // An unknown error occurred from the API
     "app.common.album": "{itemCount, plural, one {album} other {albums}}",  // Albums
+    "app.common.art": "Pochette",  // Art
     "app.common.artist": "{itemCount, plural, one {artiste} other {artistes}}",  // Artists
     "app.common.cancel": "Annuler",  // Cancel
     "app.common.close": "Fermer",  // Close
