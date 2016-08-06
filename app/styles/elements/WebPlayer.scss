@@ -25,11 +25,14 @@ $controlsMarginTop: 10px;
 .btn {
     background: transparent;
     border: none;
-    opacity: 0.8;
+    opacity: 0.4;
 }
 
-.btn:hover {
+.btn:hover,
+.btn:active,
+.btn:focus {
     opacity: 1;
+    outline: none;
 }
 
 .prevBtn,

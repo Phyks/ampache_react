@@ -3,6 +3,7 @@ import { combineReducers } from "redux";
 
 import auth from "./auth";
 import paginate from "./paginate";
+import webplayer from "./webplayer";
 
 import * as ActionTypes from "../actions";
 
@@ -16,7 +17,8 @@ const api = paginate([
 const rootReducer = combineReducers({
     routing,
     auth,
-    api
+    api,
+    webplayer
 });
 
 export default rootReducer;

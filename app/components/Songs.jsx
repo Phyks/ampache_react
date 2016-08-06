@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { Link} from "react-router";
 import CSSModules from "react-css-modules";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-intl";
 import FontAwesome from "react-fontawesome";
 import Immutable from "immutable";
 import Fuse from "fuse.js";
@@ -18,15 +18,16 @@ import css from "../styles/Songs.scss";
 
 const songsMessages = defineMessages(messagesMap(Array.concat([], commonMessages, messages)));
 
-class SongsTableRowCSS extends Component {
+class SongsTableRowCSSIntl extends Component {
     render () {
+        const { formatMessage } = this.props.intl;
         const length = formatLength(this.props.song.get("time"));
         const linkToArtist = "/artist/" + this.props.song.getIn(["artist", "id"]);
         const linkToAlbum = "/album/" + this.props.song.getIn(["album", "id"]);
         return (
             <tr>
                 <td>
-                    <button styleName="play">
+                    <button styleName="play" title={formatMessage(songsMessages["app.common.play"])} onClick={() => this.props.playAction(this.props.song.get("id"))}>
                         <span className="sr-only">
                             <FormattedMessage {...songsMessages["app.common.play"]} />
                         </span>
@@ -43,11 +44,13 @@ class SongsTableRowCSS extends Component {
     }
 }
 
-SongsTableRowCSS.propTypes = {
-    song: PropTypes.instanceOf(Immutable.Map).isRequired
+SongsTableRowCSSIntl.propTypes = {
+    playAction: PropTypes.func.isRequired,
+    song: PropTypes.instanceOf(Immutable.Map).isRequired,
+    intl: intlShape.isRequired
 };
 
-export let SongsTableRow = CSSModules(SongsTableRowCSS, css);
+export let SongsTableRow = injectIntl(CSSModules(SongsTableRowCSSIntl, css));
 
 
 class SongsTableCSS extends Component {
@@ -67,8 +70,9 @@ class SongsTableCSS extends Component {
         }
 
         let rows = [];
+        const { playAction } = this.props;
         displayedSongs.forEach(function (song) {
-            rows.push(<SongsTableRow song={song} key={song.get("id")} />);
+            rows.push(<SongsTableRow playAction={playAction} song={song} key={song.get("id")} />);
         });
         let loading = null;
         if (rows.length == 0 && this.props.isFetching) {
@@ -112,6 +116,7 @@ class SongsTableCSS extends Component {
 }
 
 SongsTableCSS.propTypes = {
+    playAction: PropTypes.func.isRequired,
     songs: PropTypes.instanceOf(Immutable.List).isRequired,
     filterText: PropTypes.string
 };
@@ -145,7 +150,7 @@ export default class FilterablePaginatedSongsTable extends Component {
             <div>
                 { error }
                 <FilterBar filterText={this.state.filterText} onUserInput={this.handleUserInput} />
-                <SongsTable isFetching={this.props.isFetching} songs={this.props.songs} filterText={this.state.filterText} />
+                <SongsTable playAction={this.props.playAction} isFetching={this.props.isFetching} songs={this.props.songs} filterText={this.state.filterText} />
                 <Pagination {...this.props.pagination} />
             </div>
         );
@@ -153,6 +158,7 @@ export default class FilterablePaginatedSongsTable extends Component {
 }
 
 FilterablePaginatedSongsTable.propTypes = {
+    playAction: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     error: PropTypes.string,
     songs: PropTypes.instanceOf(Immutable.List).isRequired,

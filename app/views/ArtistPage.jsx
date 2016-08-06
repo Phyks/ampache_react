@@ -27,14 +27,14 @@ class ArtistPageIntl extends Component {
         const {formatMessage} = this.props.intl;
         const error = handleErrorI18nObject(this.props.error, formatMessage, artistMessages);
         return (
-            <Artist isFetching={this.props.isFetching} error={error} artist={this.props.artist} albums={this.props.albums} songs={this.props.songs} />
+            <Artist playAction={this.props.actions.playTrack} isFetching={this.props.isFetching} error={error} artist={this.props.artist} albums={this.props.albums} songs={this.props.songs} />
         );
     }
 }
 
 const mapStateToProps = (state, ownProps) => {
     const artists = state.api.entities.get("artist");
-    let artist = undefined;
+    let artist = new Immutable.Map();
     let albums = new Immutable.Map();
     let songs = new Immutable.Map();
     if (artists) {

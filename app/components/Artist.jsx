@@ -26,7 +26,7 @@ class ArtistCSS extends Component {
             </div>
         );
 
-        if (this.props.isFetching && !this.props.artist) {
+        if (this.props.isFetching && !this.props.artist.size > 0) {
             // Loading
             return loading;
         }
@@ -37,7 +37,7 @@ class ArtistCSS extends Component {
         }
 
         let albumsRows = [];
-        const { albums, songs } = this.props;
+        const { albums, songs, playAction } = this.props;
         const artistAlbums = this.props.artist.get("albums");
         if (albums && songs && artistAlbums && artistAlbums.size > 0) {
             this.props.artist.get("albums").forEach(function (album) {
@@ -45,7 +45,7 @@ class ArtistCSS extends Component {
                 const albumSongs = album.get("tracks").map(
                     id => songs.get(id)
                 );
-                albumsRows.push(<AlbumRow album={album} songs={albumSongs} key={album.get("id")} />);
+                albumsRows.push(<AlbumRow playAction={playAction} album={album} songs={albumSongs} key={album.get("id")} />);
             });
         }
         else {
@@ -76,6 +76,7 @@ class ArtistCSS extends Component {
 }
 
 ArtistCSS.propTypes = {
+    playAction: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     error: PropTypes.string,
     artist: PropTypes.instanceOf(Immutable.Map),

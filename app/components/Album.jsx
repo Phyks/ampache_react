@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import CSSModules from "react-css-modules";
-import { defineMessages, FormattedMessage } from "react-intl";
+import { defineMessages, FormattedMessage, injectIntl, intlShape } from "react-intl";
 import FontAwesome from "react-fontawesome";
 import Immutable from "immutable";
 
@@ -12,13 +12,14 @@ import css from "../styles/Album.scss";
 
 const albumMessages = defineMessages(messagesMap(Array.concat([], commonMessages)));
 
-class AlbumTrackRowCSS extends Component {
+class AlbumTrackRowCSSIntl extends Component {
     render () {
+        const { formatMessage } = this.props.intl;
         const length = formatLength(this.props.track.get("time"));
         return (
             <tr>
                 <td>
-                    <button styleName="play">
+                    <button styleName="play" title={formatMessage(albumMessages["app.common.play"])} onClick={() => this.props.playAction(this.props.track.get("id"))}>
                         <span className="sr-only">
                             <FormattedMessage {...albumMessages["app.common.play"]} />
                         </span>
@@ -33,18 +34,21 @@ class AlbumTrackRowCSS extends Component {
     }
 }
 
-AlbumTrackRowCSS.propTypes = {
-    track: PropTypes.instanceOf(Immutable.Map).isRequired
+AlbumTrackRowCSSIntl.propTypes = {
+    playAction: PropTypes.func.isRequired,
+    track: PropTypes.instanceOf(Immutable.Map).isRequired,
+    intl: intlShape.isRequired
 };
 
-export let AlbumTrackRow = CSSModules(AlbumTrackRowCSS, css);
+export let AlbumTrackRow = injectIntl(CSSModules(AlbumTrackRowCSSIntl, css));
 
 
 class AlbumTracksTableCSS extends Component {
     render () {
         let rows = [];
+        const playAction = this.props.playAction;
         this.props.tracks.forEach(function (item) {
-            rows.push(<AlbumTrackRow track={item} key={item.get("id")} />);
+            rows.push(<AlbumTrackRow playAction={playAction} track={item} key={item.get("id")} />);
         });
         return (
             <table className="table table-hover" styleName="songs">
@@ -57,6 +61,7 @@ class AlbumTracksTableCSS extends Component {
 }
 
 AlbumTracksTableCSS.propTypes = {
+    playAction: PropTypes.func.isRequired,
     tracks: PropTypes.instanceOf(Immutable.List).isRequired
 };
 
@@ -75,7 +80,7 @@ class AlbumRowCSS extends Component {
                 <div className="col-xs-9 col-sm-10 table-responsive">
                     {
                         this.props.songs.size > 0 ?
-                            <AlbumTracksTable tracks={this.props.songs} /> :
+                            <AlbumTracksTable playAction={this.props.playAction} tracks={this.props.songs} /> :
                             null
                     }
                 </div>
@@ -85,6 +90,7 @@ class AlbumRowCSS extends Component {
 }
 
 AlbumRowCSS.propTypes = {
+    playAction: PropTypes.func.isRequired,
     album: PropTypes.instanceOf(Immutable.Map).isRequired,
     songs: PropTypes.instanceOf(Immutable.List).isRequired
 };

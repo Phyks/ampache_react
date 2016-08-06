@@ -5,7 +5,7 @@ import { CALL_API } from "../middleware/api";
 
 import { artist, track, album } from "../models/api";
 
-export const DEFAULT_LIMIT = 30;  /** Default max number of elements to retrieve. */
+export const DEFAULT_LIMIT = 32;  /** Default max number of elements to retrieve. */
 
 export default function (action, requestType, successType, failureType) {
     const itemName = action.rstrip("s");

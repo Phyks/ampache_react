@@ -11,3 +11,4 @@ export var { loadSongs } = APIAction("songs", API_REQUEST, API_SUCCESS, API_FAIL
 
 export * from "./paginate";
 export * from "./store";
+export * from "./webplayer";
