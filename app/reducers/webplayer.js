@@ -6,7 +6,8 @@ import {
     PLAY_PAUSE,
     TOGGLE_RANDOM,
     TOGGLE_REPEAT,
-    TOGGLE_MUTE } from "../actions";
+    TOGGLE_MUTE,
+    INVALIDATE_STORE } from "../actions";
 import { createReducer } from "../utils";
 import { stateRecord } from "../models/webplayer";
 
@@ -48,4 +49,7 @@ export default createReducer(initialState, {
     [TOGGLE_MUTE]: (state) => {
         return state.set("isMute", !state.get("isMute"));
     },
+    [INVALIDATE_STORE]: () => {
+        return new stateRecord();
+    }
 });
