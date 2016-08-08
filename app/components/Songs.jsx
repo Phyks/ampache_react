@@ -59,14 +59,14 @@ class SongsTableCSS extends Component {
         if (this.props.filterText) {
             // Use Fuse for the filter
             displayedSongs = new Fuse(
-                this.props.songs.toArray(),
+                this.props.songs.toJS(),
                 {
                     "keys": ["name"],
                     "threshold": 0.4,
                     "include": ["score"]
                 }).search(this.props.filterText);
             // Keep only items in results
-            displayedSongs = displayedSongs.map(function (item) { return item.item; });
+            displayedSongs = displayedSongs.map(function (item) { return new Immutable.Map(item.item); });
         }
 
         let rows = [];
@@ -136,7 +136,7 @@ export default class FilterablePaginatedSongsTable extends Component {
 
     handleUserInput (filterText) {
         this.setState({
-            filterText: filterText.trim()
+            filterText: filterText
         });
     }
 

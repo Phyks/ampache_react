@@ -98,7 +98,7 @@ export class Grid extends Component {
         }
         // Use Fuse for the filter
         let result = new Fuse(
-            props.items.toArray(),
+            props.items.toJS(),
             {
                 "keys": ["name"],
                 "threshold": 0.4,
@@ -241,7 +241,7 @@ export default class FilterablePaginatedGrid extends Component {
 
     handleUserInput (filterText) {
         this.setState({
-            filterText: filterText.trim()
+            filterText: filterText
         });
     }
 
