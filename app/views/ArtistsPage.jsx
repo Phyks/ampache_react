@@ -36,6 +36,9 @@ class ArtistsPageIntl extends Component {
         const currentPage = parseInt(this.props.location.query.page) || 1;
         const nextPage = parseInt(nextProps.location.query.page) || 1;
         if (currentPage != nextPage) {
+            // Unload data on page change
+            this.props.actions.clearPaginatedResults();
+            // Load new data
             this.props.actions.loadPaginatedArtists({pageNumber: nextPage});
         }
     }

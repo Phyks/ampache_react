@@ -64,10 +64,11 @@ export default function (action, requestType, successType, failureType) {
      * @param   pageNumber  Number of the page that was fetched.
      */
     const fetchPaginatedItemsSuccess = function (jsonData, pageNumber, limit) {
+        const totalCount = jsonData.totalCount;
         jsonData = _normalizeAPIResponse(jsonData);
 
         // Compute the total number of pages
-        const nPages = Math.ceil(jsonData.result[itemName].length / limit);
+        const nPages = Math.ceil(totalCount / limit);
 
         // Return success actions
         return [
