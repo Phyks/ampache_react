@@ -1,39 +1,57 @@
+// NPM imports
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { defineMessages, injectIntl, intlShape } from "react-intl";
 import Immutable from "immutable";
 
-import * as actionCreators from "../actions";
+// Local imports
 import { buildPaginationObject, messagesMap, handleErrorI18nObject } from "../utils";
 
+// Actions
+import * as actionCreators from "../actions";
+
+// Components
 import Songs from "../components/Songs";
 
+// Translations
 import APIMessages from "../locales/messagesDescriptors/api";
 
+// Define translations
 const songsMessages = defineMessages(messagesMap(Array.concat([], APIMessages)));
 
+
+/**
+ * Paginated table of available songs
+ */
 class SongsPageIntl extends Component {
     componentWillMount () {
+        // Load the data for current page
         const currentPage = parseInt(this.props.location.query.page) || 1;
-        // Load the data
-        this.props.actions.loadSongs({pageNumber: currentPage});
+        this.props.actions.loadPaginatedSongs({pageNumber: currentPage});
     }
 
     componentWillReceiveProps (nextProps) {
+        // Load the data if page has changed
         const currentPage = parseInt(this.props.location.query.page) || 1;
         const nextPage = parseInt(nextProps.location.query.page) || 1;
         if (currentPage != nextPage) {
-            // Load the data
-            this.props.actions.loadSongs({pageNumber: nextPage});
+            this.props.actions.loadPaginatedSongs({pageNumber: nextPage});
         }
     }
 
-    render () {
-        const pagination = buildPaginationObject(this.props.location, this.props.currentPage, this.props.nPages, this.props.actions.goToPageAction);
+    componentWillUnmount () {
+        // Unload data on page change
+        this.props.actions.clearResults();
+    }
 
+    render () {
         const {formatMessage} = this.props.intl;
+
+        const pagination = buildPaginationObject(this.props.location, this.props.currentPage, this.props.nPages, this.props.actions.goToPage);
+
         const error = handleErrorI18nObject(this.props.error, formatMessage, songsMessages);
+
         return (
             <Songs playAction={this.props.actions.playTrack} isFetching={this.props.isFetching} error={error} songs={this.props.songsList} pagination={pagination} />
         );
@@ -46,25 +64,25 @@ SongsPageIntl.propTypes = {
 
 const mapStateToProps = (state) => {
     let songsList = new Immutable.List();
-    if (state.api.result.get("song")) {
-        songsList = state.api.result.get("song").map(function (id) {
-            let song = state.api.entities.getIn(["track", id]);
-            // Add artist and album infos
-            const artist = state.api.entities.getIn(["artist", song.get("artist")]);
-            const album = state.api.entities.getIn(["album", song.get("album")]);
-            song = song.set("artist", new Immutable.Map({id: artist.get("id"), name: artist.get("name")}));
-            song = song.set("album", new Immutable.Map({id: album.get("id"), name: album.get("name")}));
-            return song;
+    if (state.paginated.type == "song" && state.paginated.result.size > 0) {
+        songsList = state.paginated.result.map(function (id) {
+            let song = state.entities.getIn(["entities", "song", id]);
+            // Add artist and album infos to song
+            const artist = state.entities.getIn(["entities", "artist", song.get("artist")]);
+            const album = state.entities.getIn(["entities", "album", song.get("album")]);
+            return (
+                song
+                    .set("artist", new Immutable.Map({id: artist.get("id"), name: artist.get("name")}))
+                    .set("album", new Immutable.Map({id: album.get("id"), name: album.get("name")}))
+            );
         });
     }
     return {
-        isFetching: state.api.isFetching,
-        error: state.api.error,
-        artistsList: state.api.entities.get("artist"),
-        albumsList: state.api.entities.get("album"),
+        isFetching: state.entities.isFetching,
+        error: state.entities.error,
         songsList: songsList,
-        currentPage: state.api.currentPage,
-        nPages: state.api.nPages
+        currentPage: state.paginated.currentPage,
+        nPages: state.paginated.nPages
     };
 };
 

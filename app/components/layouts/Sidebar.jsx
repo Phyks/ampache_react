@@ -1,21 +1,34 @@
+// NPM imports
 import React, { Component, PropTypes } from "react";
 import { IndexLink, Link} from "react-router";
 import CSSModules from "react-css-modules";
 import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-intl";
 
+// Local imports
 import { messagesMap } from "../../utils";
+
+// Other components
+/* import WebPlayer from "../../views/WebPlayer"; TODO */
+
+// Translations
 import commonMessages from "../../locales/messagesDescriptors/common";
 import messages from "../../locales/messagesDescriptors/layouts/Sidebar";
 
-import WebPlayer from "../../views/WebPlayer";
-
+// Styles
 import css from "../../styles/layouts/Sidebar.scss";
 
+// Define translations
 const sidebarLayoutMessages = defineMessages(messagesMap(Array.concat([], commonMessages, messages)));
 
+
+/**
+ * Sidebar layout component, putting children next to the sidebar menu.
+ */
 class SidebarLayoutIntl extends Component {
     render () {
         const { formatMessage } = this.props.intl;
+
+        // Check active links
         const isActive = {
             discover: (this.props.location.pathname == "/discover") ? "active" : "link",
             browse: (this.props.location.pathname == "/browse") ? "active" : "link",
@@ -24,9 +37,12 @@ class SidebarLayoutIntl extends Component {
             songs: (this.props.location.pathname == "/songs") ? "active" : "link",
             search: (this.props.location.pathname == "/search") ? "active" : "link"
         };
+
+        // Hamburger collapsing function
         const collapseHamburger = function () {
             $("#main-navbar").collapse("hide");
         };
+
         return (
             <div>
                 <div className="row">
@@ -128,17 +144,9 @@ class SidebarLayoutIntl extends Component {
                                         </li>
                                     </ul>
                                 </li>
-                                <li>
-                                    <Link to="/search" title={formatMessage(sidebarLayoutMessages["app.sidebarLayout.search"])} styleName={isActive.search} onClick={collapseHamburger}>
-                                        <span className="glyphicon glyphicon-search" aria-hidden="true"></span>
-                                        <span className="hidden-md">
-                                            &nbsp;<FormattedMessage {...sidebarLayoutMessages["app.sidebarLayout.search"]} />
-                                        </span>
-                                    </Link>
-                                </li>
                             </ul>
                         </nav>
-                        <WebPlayer />
+                        { /** TODO <WebPlayer /> */ }
                     </div>
                 </div>
 
@@ -149,11 +157,8 @@ class SidebarLayoutIntl extends Component {
         );
     }
 }
-
-
 SidebarLayoutIntl.propTypes = {
     children: PropTypes.node,
     intl: intlShape.isRequired
 };
-
 export default injectIntl(CSSModules(SidebarLayoutIntl, css));

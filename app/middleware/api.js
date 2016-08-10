@@ -1,3 +1,9 @@
+/**
+ * Redux middleware to perform API queries.
+ *
+ * This middleware catches the API requests and replaces them with API
+ * responses.
+ */
 import fetch from "isomorphic-fetch";
 import humps from "humps";
 import X2JS from "x2js";
@@ -10,9 +16,19 @@ import { loginUserExpired } from "../actions/auth";
 export const API_VERSION = 350001;  /** API version to use. */
 export const BASE_API_PATH = "/server/xml.server.php";  /** Base API path after endpoint. */
 
+// Action key that carries API call info interpreted by this Redux middleware.
+export const CALL_API = "CALL_API";
+
 // Error class to represents errors from these actions.
 class APIError extends Error {}
 
+
+/**
+ * Check the HTTP status of the response.
+ *
+ * @param   response    A XHR response object.
+ * @return  The response or a rejected Promise if the check failed.
+ */
 function _checkHTTPStatus (response) {
     if (response.status >= 200 && response.status < 300) {
         return response;
@@ -21,10 +37,17 @@ function _checkHTTPStatus (response) {
     }
 }
 
+
+/**
+ * Parse the XML resulting from the API to JS object.
+ *
+ * @param   responseText    The text from the API response.
+ * @return  The response as a JS object or a rejected Promise on error.
+ */
 function _parseToJSON (responseText) {
     let x2js = new X2JS({
-        attributePrefix: "",
-        keepCData: false
+        attributePrefix: "",  // No prefix for attributes
+        keepCData: false  // Do not store __cdata and toString functions
     });
     if (responseText) {
         return x2js.xml_str2json(responseText).root;
@@ -35,6 +58,13 @@ function _parseToJSON (responseText) {
     }));
 }
 
+
+/**
+ * Check the errors returned by the API itself, in its response.
+ *
+ * @param   jsonData  A JS object representing the API response.
+ * @return  The input data or a rejected Promise if errors are present.
+ */
 function _checkAPIErrors (jsonData) {
     if (jsonData.error) {
         return Promise.reject(jsonData.error);
@@ -48,7 +78,15 @@ function _checkAPIErrors (jsonData) {
     return jsonData;
 }
 
+
+/**
+ * Apply some fixes on the API data.
+ *
+ * @param   jsonData    A JS object representing the API response.
+ * @return  A fixed JS object.
+ */
 function _uglyFixes (jsonData) {
+    // Fix songs array
     let _uglyFixesSongs = function (songs) {
         return songs.map(function (song) {
             // Fix for cdata left in artist and album
@@ -58,9 +96,10 @@ function _uglyFixes (jsonData) {
         });
     };
 
+    // Fix albums array
     let _uglyFixesAlbums = function (albums) {
         return albums.map(function (album) {
-            // TODO
+            // TODO: Should go in Ampache core
             // Fix for absence of distinction between disks in the same album
             if (album.disk > 1) {
                 album.name = album.name + " [Disk " + album.disk + "]";
@@ -75,13 +114,14 @@ function _uglyFixes (jsonData) {
                     album.tracks = [album.tracks];
                 }
 
-                // Fix tracks
+                // Fix tracks array
                 album.tracks = _uglyFixesSongs(album.tracks);
             }
             return album;
         });
     };
 
+    // Fix artists array
     let _uglyFixesArtists = function (artists) {
         return artists.map(function (artist) {
             // Move albums one node top
@@ -131,17 +171,15 @@ function _uglyFixes (jsonData) {
 
     // Fix albums
     if (jsonData.album) {
-        // Fix albums
         jsonData.album = _uglyFixesAlbums(jsonData.album);
     }
 
     // Fix songs
     if (jsonData.song) {
-        // Fix songs
         jsonData.song = _uglyFixesSongs(jsonData.song);
     }
 
-    // TODO
+    // TODO: Should go in Ampache core
     // Add sessionExpire information
     if (!jsonData.sessionExpire) {
         // Fix for Ampache not returning updated sessionExpire
@@ -151,17 +189,31 @@ function _uglyFixes (jsonData) {
     return jsonData;
 }
 
-// Fetches an API response and normalizes the result JSON according to schema.
-// This makes every API response have the same shape, regardless of how nested it was.
+
+/**
+ * Fetches an API response and normalizes the result.
+ *
+ * @param   endpoint    Base URL of your Ampache server.
+ * @param   action      API action name.
+ * @param   auth        API token to use.
+ * @param   username    Username to use in the API.
+ * @param   extraParams An object of extra parameters to pass to the API.
+ *
+ * @return  A fetching Promise.
+ */
 function doAPICall (endpoint, action, auth, username, extraParams) {
+    // Translate the API action to real API action
     const APIAction = extraParams.filter ? action.rstrip("s") : action;
+    // Set base params
     const baseParams = {
         version: API_VERSION,
         action: APIAction,
         auth: auth,
         user: username
     };
+    // Extend with extraParams
     const params = Object.assign({}, baseParams, extraParams);
+    // Assemble the full URL with endpoint, API path and GET params
     const fullURL = assembleURLAndParams(endpoint + BASE_API_PATH, params);
 
     return fetch(fullURL, {
@@ -175,19 +227,19 @@ function doAPICall (endpoint, action, auth, username, extraParams) {
         .then(_uglyFixes);
 }
 
-// Action key that carries API call info interpreted by this Redux middleware.
-export const CALL_API = "CALL_API";
 
-// A Redux middleware that interprets actions with CALL_API info specified.
-// Performs the call and promises when such actions are dispatched.
+/**
+ * A Redux middleware that interprets actions with CALL_API info specified.
+ * Performs the call and promises when such actions are dispatched.
+ */
 export default store => next => reduxAction => {
     if (reduxAction.type !== CALL_API) {
-        // Do not apply on every action
+        // Do not apply on other actions
         return next(reduxAction);
     }
 
+    // Check payload
     const { endpoint, action, auth, username, dispatch, extraParams } = reduxAction.payload;
-
     if (!endpoint || typeof endpoint !== "string") {
         throw new APIError("Specify a string endpoint URL.");
     }
@@ -207,22 +259,27 @@ export default store => next => reduxAction => {
         throw new APIError("Expected action to dispatch to be functions or null.");
     }
 
+    // Get the actions to dispatch
     const [ requestDispatch, successDispatch, failureDispatch ] = dispatch;
     if (requestDispatch) {
+        // Dispatch request action if needed
         store.dispatch(requestDispatch());
     }
 
+    // Run the API call
     return doAPICall(endpoint, action, auth, username, extraParams).then(
         response => {
             if (successDispatch) {
+                // Dispatch success if needed
                 store.dispatch(successDispatch(response));
             }
         },
         error => {
             if (failureDispatch) {
-                const errorMessage = error.__cdata + " (" + error._code + ")";
-                // Error object from the API
+                // Error object from the API (in the JS object)
                 if (error._code && error.__cdata) {
+                    // Format the error message
+                    const errorMessage = error.__cdata + " (" + error._code + ")";
                     if (401 == error._code) {
                         // This is an error meaning no valid session was
                         // passed. We must perform a new handshake.

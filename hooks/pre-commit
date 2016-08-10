@@ -1,12 +1,15 @@
+set -e
+
 # Get against which ref to diff
 if git rev-parse --verify HEAD >/dev/null 2>&1
 then
 	against=HEAD
 else
-	# Initial commit
+    # Something weird, initial commit
     exit 1
 fi
 
+# List all the modified CSS and JS files (not in output path)
 css_js_files=$(git diff-index --name-only $against | grep -e '.\(jsx\?\)\|\(s\?css\)$' | grep -v "^public")
 
 # Nothing more to do if no JS files was committed
@@ -15,8 +18,9 @@ then
     exit 0
 fi
 
+# Else, rebuild as production, run tests and add files
 echo "Rebuilding dist JavaScript files…"
+npm test
 npm run clean
 npm run build:prod
-npm test
 git add public

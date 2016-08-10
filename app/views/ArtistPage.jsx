@@ -1,77 +1,89 @@
+// NPM imports
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { defineMessages, injectIntl, intlShape } from "react-intl";
 import Immutable from "immutable";
 
-import * as actionCreators from "../actions";
+// Local imports
 import { messagesMap, handleErrorI18nObject } from "../utils";
 
+// Actions
+import * as actionCreators from "../actions";
+
+// Components
 import Artist from "../components/Artist";
 
+// Translations
 import APIMessages from "../locales/messagesDescriptors/api";
 
+// Define translations
 const artistMessages = defineMessages(messagesMap(Array.concat([], APIMessages)));
 
+
+/**
+ * Single artist page.
+ */
 class ArtistPageIntl extends Component {
     componentWillMount () {
         // Load the data
-        this.props.actions.loadArtists({
-            pageNumber: 1,
+        this.props.actions.loadArtist({
             filter: this.props.params.id,
             include: ["albums", "songs"]
         });
     }
 
+    componentWillUnmount () {
+        this.props.actions.decrementRefCount({
+            "artist": [this.props.artist.get("id")]
+        });
+    }
+
     render () {
         const {formatMessage} = this.props.intl;
+
         const error = handleErrorI18nObject(this.props.error, formatMessage, artistMessages);
+
         return (
             <Artist playAction={this.props.actions.playTrack} isFetching={this.props.isFetching} error={error} artist={this.props.artist} albums={this.props.albums} songs={this.props.songs} />
         );
     }
 }
 
+ArtistPageIntl.propTypes = {
+    intl: intlShape.isRequired,
+};
+
 const mapStateToProps = (state, ownProps) => {
-    const artists = state.api.entities.get("artist");
-    let artist = new Immutable.Map();
-    let albums = new Immutable.Map();
+    // Get artist
+    let artist = state.entities.getIn(["entities", "artist", ownProps.params.id]);
+    let albums = new Immutable.List();
     let songs = new Immutable.Map();
-    if (artists) {
-        // Get artist
-        artist = artists.find(
-            item => item.get("id") == ownProps.params.id
-        );
+    if (artist) {
         // Get albums
-        const artistAlbums = artist.get("albums");
+        let artistAlbums = artist.get("albums");
         if (Immutable.List.isList(artistAlbums)) {
-            albums = new Immutable.Map(
-                artistAlbums.map(
-                    id => [id, state.api.entities.getIn(["album", id])]
-                )
+            albums = artistAlbums.map(
+                id => state.entities.getIn(["entities", "album", id])
             );
         }
         // Get songs
-        const artistSongs = artist.get("songs");
+        let artistSongs = artist.get("songs");
         if (Immutable.List.isList(artistSongs)) {
-            songs = new Immutable.Map(
-                artistSongs.map(
-                    id => [id, state.api.entities.getIn(["track", id])]
-                )
+            songs = state.entities.getIn(["entities", "song"]).filter(
+                song => artistSongs.includes(song.get("id"))
             );
         }
+    } else {
+        artist = new Immutable.Map();
     }
     return {
-        isFetching: state.api.isFetching,
-        error: state.api.error,
+        isFetching: state.entities.isFetching,
+        error: state.entities.error,
         artist: artist,
         albums: albums,
         songs: songs
     };
-};
-
-ArtistPageIntl.propTypes = {
-    intl: intlShape.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

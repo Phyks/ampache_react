@@ -1,49 +1,76 @@
+// NPM imports
 import React, { Component, PropTypes } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
+// Actions
 import * as actionCreators from "../actions";
 
+// Components
 import Login from "../components/Login";
 
-function _getRedirectTo(props) {
-    let redirectPathname = "/";
-    let redirectQuery = {};
-    const { location } = props;
-    if (location.state && location.state.nextPathname) {
-        redirectPathname = location.state.nextPathname;
-    }
-    if (location.state && location.state.nextQuery) {
-        redirectQuery = location.state.nextQuery;
-    }
-    return {
-        pathname: redirectPathname,
-        query: redirectQuery
-    };
-}
 
+/**
+ * Login page
+ */
 export class LoginPage extends Component {
-    componentWillMount () {
-        this.checkAuth(this.props);
-    }
-
-    checkAuth (propsIn) {
-        const redirectTo = _getRedirectTo(propsIn);
-        if (propsIn.isAuthenticated) {
-            this.context.router.replace(redirectTo);
-        } else if (propsIn.rememberMe) {
-            this.props.actions.loginUser(propsIn.username, propsIn.token, propsIn.endpoint, true, redirectTo, true);
-        }
-    }
-
     constructor (props) {
         super(props);
 
+        // Bind this
         this.handleSubmit = this.handleSubmit.bind(this);
+        this._getRedirectTo = this._getRedirectTo.bind(this);
     }
 
+    /**
+     * Get URL to redirect to based on location props.
+     */
+    _getRedirectTo() {
+        let redirectPathname = "/";
+        let redirectQuery = {};
+        const { location } = this.props;
+        if (location.state && location.state.nextPathname) {
+            redirectPathname = location.state.nextPathname;
+        }
+        if (location.state && location.state.nextQuery) {
+            redirectQuery = location.state.nextQuery;
+        }
+        return {
+            pathname: redirectPathname,
+            query: redirectQuery
+        };
+    }
+
+    componentWillMount () {
+        // This checks if the user is already connected or not and redirects
+        // them if it is the case.
+
+        // Get next page to redirect to
+        const redirectTo = this._getRedirectTo();
+
+        if (this.props.isAuthenticated) {
+            // If user is already authenticated, redirects them
+            this.context.router.replace(redirectTo);
+        } else if (this.props.rememberMe) {
+            // Else if remember me is set, try to reconnect them
+            this.props.actions.loginUser(
+                this.props.username,
+                this.props.token,
+                this.props.endpoint,
+                true,
+                redirectTo,
+                true
+            );
+        }
+    }
+
+    /**
+     * Handle click on submit button.
+     */
     handleSubmit (username, password, endpoint, rememberMe) {
-        const redirectTo = _getRedirectTo(this.props);
+        // Get page to redirect to
+        const redirectTo = this._getRedirectTo();
+        // Trigger login action
         this.props.actions.loginUser(username, password, endpoint, rememberMe, redirectTo);
     }
 

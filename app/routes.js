@@ -1,3 +1,6 @@
+/**
+ * Routes for the React app.
+ */
 import React from "react";
 import { IndexRoute, Route } from "react-router";
 
@@ -17,13 +20,13 @@ import ArtistPage from "./views/ArtistPage";
 import AlbumPage from "./views/AlbumPage";
 
 export default (
-    <Route path="/" component={App}>
-        <Route path="login" component={SimpleLayout}>
+    <Route path="/" component={App}>  // Main container is App
+        <Route path="login" component={SimpleLayout}>  // Login is a SimpleLayout
             <IndexRoute component={LoginPage} />
         </Route>
-        <Route component={SidebarLayout}>
+        <Route component={SidebarLayout}>  // All the rest is a SidebarLayout
             <Route path="logout" component={LogoutPage} />
-            <Route component={RequireAuthentication}>
+            <Route component={RequireAuthentication}>  // And some pages require authentication
                 <Route path="discover" component={DiscoverPage} />
                 <Route path="browse" component={BrowsePage} />
                 <Route path="artists" component={ArtistsPage} />

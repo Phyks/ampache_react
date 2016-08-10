@@ -1,9 +1,16 @@
 /**
+ * jQuery prototype extensions.
+ */
+
+
+/**
  * Shake animation.
  *
  * @param   intShakes   Number of times to shake.
  * @param   intDistance Distance to move the object.
  * @param   intDuration Duration of the animation.
+ *
+ * @return  The element it was applied one, for chaining.
  */
 $.fn.shake = function(intShakes, intDistance, intDuration) {
     this.each(function() {

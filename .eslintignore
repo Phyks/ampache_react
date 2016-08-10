@@ -1,4 +1,4 @@
 public/*
 node_modules/*
-vendor/*
+app/vendor/*
 webpack.config.*

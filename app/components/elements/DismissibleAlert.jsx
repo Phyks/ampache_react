@@ -1,11 +1,18 @@
+// NPM imports
 import React, { Component, PropTypes } from "react";
 
+
+/**
+ * A dismissible Bootstrap alert.
+ */
 export default class DismissibleAlert extends Component {
     render () {
+        // Set correct alert type
         let alertType = "alert-danger";
         if (this.props.type) {
             alertType = "alert-" + this.props.type;
         }
+
         return (
             <div className={["alert", alertType].join(" ")} role="alert">
                 <p>
@@ -18,7 +25,6 @@ export default class DismissibleAlert extends Component {
         );
     }
 }
-
 DismissibleAlert.propTypes = {
     type: PropTypes.string,
     text: PropTypes.string

@@ -1,3 +1,10 @@
+/**
+ * Styles for Artist component.
+ */
+
+/** Variables */
+$artMarginBottom: 10px;
+
 .name > h1 {
     margin-bottom: 0;
 }
@@ -7,5 +14,18 @@
 }
 
 .art {
-    composes: art from "./elements/Grid.scss";
+    display: inline-block;
+    margin-bottom: $artMarginBottom;
+    width: 75%;
+    height: auto;
+
+    /* doiuse-disable viewport-units */
+
+    max-width: 25vw;
+
+    /* doiuse-enable viewport-units */
+}
+
+.art:hover {
+    transform: scale(1.1);
 }

@@ -39,7 +39,6 @@ module.exports = {
     "app.sidebarLayout.home": "Accueil",  // Home
     "app.sidebarLayout.logout": "Déconnexion",  // Logout
     "app.sidebarLayout.mainNavigationMenu": "Menu principal",  // ARIA label for the main navigation menu
-    "app.sidebarLayout.search": "Rechercher",  // Search
     "app.sidebarLayout.settings": "Préférences",  // Settings
     "app.sidebarLayout.toggleNavigation": "Afficher le menu",  // Screen reader description of toggle navigation button
     "app.songs.genre": "Genre",  // Genre (song)

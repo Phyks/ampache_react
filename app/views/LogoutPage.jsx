@@ -1,11 +1,18 @@
+// NPM imports
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
+// Actions
 import * as actionCreators from "../actions";
 
+
+/**
+ * Logout page
+ */
 export class LogoutPage extends Component {
-    componentDidMount () {
+    componentWillMount () {
+        // Logout when component is mounted
         this.props.actions.logoutAndRedirect();
     }
 

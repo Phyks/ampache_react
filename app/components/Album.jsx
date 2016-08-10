@@ -1,17 +1,26 @@
+// NPM import
 import React, { Component, PropTypes } from "react";
 import CSSModules from "react-css-modules";
 import { defineMessages, FormattedMessage, injectIntl, intlShape } from "react-intl";
 import FontAwesome from "react-fontawesome";
 import Immutable from "immutable";
 
+// Local imports
 import { formatLength, messagesMap } from "../utils";
 
+// Translations
 import commonMessages from "../locales/messagesDescriptors/common";
 
+// Styles
 import css from "../styles/Album.scss";
 
+// Set translations
 const albumMessages = defineMessages(messagesMap(Array.concat([], commonMessages)));
 
+
+/**
+ * Track row in an album tracks table.
+ */
 class AlbumTrackRowCSSIntl extends Component {
     render () {
         const { formatMessage } = this.props.intl;
@@ -33,19 +42,21 @@ class AlbumTrackRowCSSIntl extends Component {
         );
     }
 }
-
 AlbumTrackRowCSSIntl.propTypes = {
     playAction: PropTypes.func.isRequired,
     track: PropTypes.instanceOf(Immutable.Map).isRequired,
     intl: intlShape.isRequired
 };
-
 export let AlbumTrackRow = injectIntl(CSSModules(AlbumTrackRowCSSIntl, css));
 
 
+/**
+ * Tracks table of an album.
+ */
 class AlbumTracksTableCSS extends Component {
     render () {
         let rows = [];
+        // Build rows for each track
         const playAction = this.props.playAction;
         this.props.tracks.forEach(function (item) {
             rows.push(<AlbumTrackRow playAction={playAction} track={item} key={item.get("id")} />);
@@ -59,14 +70,16 @@ class AlbumTracksTableCSS extends Component {
         );
     }
 }
-
 AlbumTracksTableCSS.propTypes = {
     playAction: PropTypes.func.isRequired,
     tracks: PropTypes.instanceOf(Immutable.List).isRequired
 };
-
 export let AlbumTracksTable = CSSModules(AlbumTracksTableCSS, css);
 
+
+/**
+ * An entire album row containing art and tracks table.
+ */
 class AlbumRowCSS extends Component {
     render () {
         return (
@@ -88,24 +101,9 @@ class AlbumRowCSS extends Component {
         );
     }
 }
-
 AlbumRowCSS.propTypes = {
     playAction: PropTypes.func.isRequired,
     album: PropTypes.instanceOf(Immutable.Map).isRequired,
     songs: PropTypes.instanceOf(Immutable.List).isRequired
 };
-
 export let AlbumRow = CSSModules(AlbumRowCSS, css);
-
-export default class Album extends Component {
-    render () {
-        return (
-            <AlbumRow album={this.props.album} songs={this.props.songs} />
-        );
-    }
-}
-
-Album.propTypes = {
-    album: PropTypes.instanceOf(Immutable.Map).isRequired,
-    songs: PropTypes.instanceOf(Immutable.List).isRequired
-};

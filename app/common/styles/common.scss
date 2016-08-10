@@ -1,4 +1,8 @@
+/**
+ * Common global styles.
+ */
 :global {
+    /* No border on responsive table. */
     @media (max-width: 767px) {
         .table-responsive {
             border: none;

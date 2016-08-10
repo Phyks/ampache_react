@@ -41,3 +41,8 @@ strings in the `./app/locales/$LOCALE/index.js` file you have just created.
 No strict coding style is used in this repo. ESLint and Stylelint, ran with
 `npm run test` ensures a certain coding style. Try to keep the coding style
 homogeneous.
+
+
+## Hooks
+
+Usefuls Git hooks are located in `hooks` folder.

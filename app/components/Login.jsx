@@ -1,57 +1,87 @@
+// NPM imports
 import React, { Component, PropTypes } from "react";
 import CSSModules from "react-css-modules";
 import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-intl";
 import FontAwesome from "react-fontawesome";
 
+// Local imports
 import { i18nRecord } from "../models/i18n";
 import { messagesMap } from "../utils";
+
+// Translations
 import APIMessages from "../locales/messagesDescriptors/api";
 import messages from "../locales/messagesDescriptors/Login";
 
+// Styles
 import css from "../styles/Login.scss";
 
+// Define translations
 const loginMessages = defineMessages(messagesMap(Array.concat([], APIMessages, messages)));
 
+
+/**
+ * Login form component
+ */
 class LoginFormCSSIntl extends Component {
     constructor (props) {
         super(props);
-
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);  // bind this to handleSubmit
     }
 
-    setError (formGroup, error) {
-        if (error) {
+    /**
+     * Set an error on a form element.
+     *
+     * @param   formGroup   A form element.
+     * @param   hasError       Whether or not an error should be set.
+     *
+     * @return  True if an error is set, false otherwise
+     */
+    setError (formGroup, hasError) {
+        if (hasError) {
+            // If error is true, then add error class
             formGroup.classList.add("has-error");
             formGroup.classList.remove("has-success");
             return true;
         }
+        // Else, drop it and put success class
         formGroup.classList.remove("has-error");
         formGroup.classList.add("has-success");
         return false;
     }
 
+    /**
+     * Form submission handler.
+     *
+     * @param   e   JS Event.
+     */
     handleSubmit (e) {
         e.preventDefault();
+
+        // Don't handle submit if already logging in
         if (this.props.isAuthenticating) {
-            // Don't handle submit if already logging in
             return;
         }
+
+        // Get field values
         const username = this.refs.username.value.trim();
         const password = this.refs.password.value.trim();
         const endpoint = this.refs.endpoint.value.trim();
         const rememberMe = this.refs.rememberMe.checked;
 
+        // Check for errors on each field
         let hasError = this.setError(this.refs.usernameFormGroup, !username);
         hasError |= this.setError(this.refs.passwordFormGroup, !password);
         hasError |= this.setError(this.refs.endpointFormGroup, !endpoint);
 
         if (!hasError) {
+            // Submit if no error is found
             this.props.onSubmit(username, password, endpoint, rememberMe);
         }
     }
 
     componentDidUpdate () {
         if (this.props.error) {
+            // On unsuccessful login, set error classes and shake the form
             $(this.refs.loginForm).shake(3, 10, 300);
             this.setError(this.refs.usernameFormGroup, this.props.error);
             this.setError(this.refs.passwordFormGroup, this.props.error);
@@ -61,18 +91,23 @@ class LoginFormCSSIntl extends Component {
 
     render () {
         const {formatMessage} = this.props.intl;
+
+        // Handle info message
         let infoMessage = this.props.info;
         if (this.props.info && this.props.info instanceof i18nRecord) {
             infoMessage = (
                 <FormattedMessage {...loginMessages[this.props.info.id]} values={ this.props.info.values} />
             );
         }
+
+        // Handle error message
         let errorMessage = this.props.error;
         if (this.props.error && this.props.error instanceof i18nRecord) {
             errorMessage = (
                 <FormattedMessage {...loginMessages[this.props.error.id]} values={ this.props.error.values} />
             );
         }
+
         return (
             <div>
                 {
@@ -135,7 +170,6 @@ class LoginFormCSSIntl extends Component {
         );
     }
 }
-
 LoginFormCSSIntl.propTypes = {
     username: PropTypes.string,
     endpoint: PropTypes.string,
@@ -146,11 +180,13 @@ LoginFormCSSIntl.propTypes = {
     info: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(i18nRecord)]),
     intl: intlShape.isRequired,
 };
-
 export let LoginForm = injectIntl(CSSModules(LoginFormCSSIntl, css));
 
 
-class Login extends Component {
+/**
+ * Main login page, including title and login form.
+ */
+class LoginCSS extends Component {
     render () {
         const greeting = (
             <p>
@@ -169,8 +205,7 @@ class Login extends Component {
         );
     }
 }
-
-Login.propTypes = {
+LoginCSS.propTypes = {
     username: PropTypes.string,
     endpoint: PropTypes.string,
     rememberMe: PropTypes.bool,
@@ -179,5 +214,4 @@ Login.propTypes = {
     info: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     error: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
 };
-
-export default CSSModules(Login, css);
+export default CSSModules(LoginCSS, css);

@@ -1,17 +1,18 @@
+/**
+ * This file defines authentication related models.
+ */
+
+// NPM imports
 import Immutable from "immutable";
 
-export const entitiesRecord = new Immutable.Record({
-    artists: new Immutable.Map(),
-    albums: new Immutable.Map(),
-    tracks: new Immutable.Map()
-});
 
+/** Record to store the webplayer state. */
 export const stateRecord = new Immutable.Record({
-    isPlaying: false,
-    isRandom: false,
-    isRepeat: false,
-    isMute: false,
-    currentIndex: 0,
-    playlist: new Immutable.List(),
-    entities: new entitiesRecord()
+    isPlaying: false,  /** Whether webplayer is playing */
+    isRandom: false,  /** Whether random mode is on */
+    isRepeat: false,  /** Whether repeat mode is on */
+    isMute: false,  /** Whether sound is muted or not */
+    volume: 100,  /** Current volume, between 0 and 100 */
+    currentIndex: 0,  /** Current index in the playlist */
+    playlist: new Immutable.List()  /** List of songs IDs, references songs in the entities store */
 });

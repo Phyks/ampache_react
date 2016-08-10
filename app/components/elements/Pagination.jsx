@@ -1,71 +1,90 @@
+// NPM imports
 import React, { Component, PropTypes } from "react";
 import { Link } from "react-router";
 import CSSModules from "react-css-modules";
 import { defineMessages, injectIntl, intlShape, FormattedMessage, FormattedHTMLMessage } from "react-intl";
 
-import { messagesMap } from "../../utils";
+// Local imports
+import { computePaginationBounds, filterInt, messagesMap } from "../../utils";
+
+// Translations
 import commonMessages from "../../locales/messagesDescriptors/common";
 import messages from "../../locales/messagesDescriptors/elements/Pagination";
 
+// Styles
 import css from "../../styles/elements/Pagination.scss";
 
+// Define translations
 const paginationMessages = defineMessages(messagesMap(Array.concat([], commonMessages, messages)));
 
+
+/**
+ * Pagination button bar
+ */
 class PaginationCSSIntl extends Component {
-    computePaginationBounds(currentPage, nPages, maxNumberPagesShown=5) {
-        // Taken from http://stackoverflow.com/a/8608998/2626416
-        let lowerLimit = currentPage;
-        let upperLimit = currentPage;
+    constructor (props) {
+        super (props);
 
-        for (let b = 1; b < maxNumberPagesShown && b < nPages;) {
-            if (lowerLimit > 1 ) {
-                lowerLimit--;
-                b++;
-            }
-            if (b < maxNumberPagesShown && upperLimit < nPages) {
-                upperLimit++;
-                b++;
-            }
-        }
-
-        return {
-            lowerLimit: lowerLimit,
-            upperLimit: upperLimit + 1  // +1 to ease iteration in for with <
-        };
+        // Bind this
+        this.goToPage = this.goToPage.bind(this);
+        this.dotsOnClick = this.dotsOnClick.bind(this);
+        this.dotsOnKeyDown = this.dotsOnKeyDown.bind(this);
+        this.cancelModalBox = this.cancelModalBox.bind(this);
     }
 
-    goToPage(ev) {
-        ev.preventDefault();
-        const pageNumber = parseInt(this.refs.pageInput.value);
-        $(this.refs.paginationModal).modal("hide");
-        if (pageNumber) {
+    /**
+     * Handle click on the "go to page" button in the modal.
+     */
+    goToPage(e) {
+        e.preventDefault();
+
+        // Parse and check page number
+        const pageNumber = filterInt(this.refs.pageInput.value);
+        if (pageNumber && !isNaN(pageNumber)) {
+            // Hide the modal and go to page
+            $(this.refs.paginationModal).modal("hide");
             this.props.goToPage(pageNumber);
         }
     }
 
+    /**
+     * Handle click on the ellipsis dots.
+     */
     dotsOnClick() {
+        // Show modal
         $(this.refs.paginationModal).modal();
     }
 
-    dotsOnKeyDown(ev) {
-        ev.preventDefault;
-        const code = ev.keyCode || ev.which;
+    /**
+     * Bind key down events on ellipsis dots for a11y.
+     */
+    dotsOnKeyDown(e) {
+        e.preventDefault;
+        const code = e.keyCode || e.which;
         if (code == 13 || code == 32) {  // Enter or Space key
             this.dotsOnClick();  // Fire same event as onClick
         }
     }
 
+    /**
+     * Handle click on "cancel" in the modal box.
+     */
     cancelModalBox() {
+        // Hide modal
         $(this.refs.paginationModal).modal("hide");
     }
 
     render () {
         const { formatMessage } = this.props.intl;
-        const { lowerLimit, upperLimit } = this.computePaginationBounds(this.props.currentPage, this.props.nPages);
+
+        // Get bounds
+        const { lowerLimit, upperLimit } = computePaginationBounds(this.props.currentPage, this.props.nPages);
+        // Store buttons
         let pagesButton = [];
         let key = 0;  // key increment to ensure correct ordering
+
+        // If lower limit is above 1, push 1 and ellipsis
         if (lowerLimit > 1) {
-            // Push first page
             pagesButton.push(
                 <li className="page-item" key={key}>
                     <Link className="page-link" title={formatMessage(paginationMessages["app.pagination.goToPageWithoutMarkup"], { pageNumber: 1})} to={this.props.buildLinkToPage(1)}>
@@ -73,27 +92,28 @@ class PaginationCSSIntl extends Component {
                     </Link>
                 </li>
             );
-            key++;
+            key++;  // Always increment key after a push
             if (lowerLimit > 2) {
                 // Eventually push "…"
                 pagesButton.push(
                     <li className="page-item" key={key}>
-                        <span tabIndex="0" role="button" onKeyDown={this.dotsOnKeyDown.bind(this)} onClick={this.dotsOnClick.bind(this)}>&hellip;</span>
+                        <span tabIndex="0" role="button" onKeyDown={this.dotsOnKeyDown} onClick={this.dotsOnClick}>&hellip;</span>
                     </li>
                 );
                 key++;
             }
         }
+        // Main buttons, between lower and upper limits
         for (let i = lowerLimit; i < upperLimit; i++) {
-            let className = "page-item";
+            let classNames = ["page-item"];
             let currentSpan = null;
             if (this.props.currentPage == i) {
-                className += " active";
+                classNames.push("active");
                 currentSpan = <span className="sr-only">(<FormattedMessage {...paginationMessages["app.pagination.current"]} />)</span>;
             }
             const title = formatMessage(paginationMessages["app.pagination.goToPageWithoutMarkup"], { pageNumber: i });
             pagesButton.push(
-                <li className={className} key={key}>
+                <li className={classNames.join(" ")} key={key}>
                     <Link className="page-link" title={title} to={this.props.buildLinkToPage(i)}>
                         <FormattedHTMLMessage {...paginationMessages["app.pagination.goToPage"]} values={{ pageNumber: i }} />
                         {currentSpan}
@@ -102,12 +122,13 @@ class PaginationCSSIntl extends Component {
             );
             key++;
         }
+        // If upper limit is below the total number of page, show last page button
         if (upperLimit < this.props.nPages) {
             if (upperLimit < this.props.nPages - 1) {
                 // Eventually push "…"
                 pagesButton.push(
                     <li className="page-item" key={key}>
-                        <span tabIndex="0" role="button" onKeyDown={this.dotsOnKeyDown.bind(this)} onClick={this.dotsOnClick.bind(this)}>&hellip;</span>
+                        <span tabIndex="0" role="button" onKeyDown={this.dotsOnKeyDown} onClick={this.dotsOnClick}>&hellip;</span>
                     </li>
                 );
                 key++;
@@ -122,6 +143,8 @@ class PaginationCSSIntl extends Component {
                 </li>
             );
         }
+
+        // If there are actually some buttons, show them
         if (pagesButton.length > 1) {
             return (
                 <div>
@@ -140,15 +163,15 @@ class PaginationCSSIntl extends Component {
                                     </h4>
                                 </div>
                                 <div className="modal-body">
-                                    <form onSubmit={this.goToPage.bind(this)}>
+                                    <form onSubmit={this.goToPage}>
                                         <input className="form-control" autoComplete="off" type="number" ref="pageInput" aria-label={formatMessage(paginationMessages["app.pagination.pageToGoTo"])} autoFocus />
                                     </form>
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-default" onClick={this.cancelModalBox.bind(this)}>
+                                    <button type="button" className="btn btn-default" onClick={this.cancelModalBox}>
                                         <FormattedMessage {...paginationMessages["app.common.cancel"]} />
                                     </button>
-                                    <button type="button" className="btn btn-primary" onClick={this.goToPage.bind(this)}>
+                                    <button type="button" className="btn btn-primary" onClick={this.goToPage}>
                                         <FormattedMessage {...paginationMessages["app.common.go"]} />
                                     </button>
                                 </div>
@@ -161,7 +184,6 @@ class PaginationCSSIntl extends Component {
         return null;
     }
 }
-
 PaginationCSSIntl.propTypes = {
     currentPage: PropTypes.number.isRequired,
     goToPage: PropTypes.func.isRequired,
@@ -169,5 +191,4 @@ PaginationCSSIntl.propTypes = {
     nPages: PropTypes.number.isRequired,
     intl: intlShape.isRequired,
 };
-
 export default injectIntl(CSSModules(PaginationCSSIntl, css));

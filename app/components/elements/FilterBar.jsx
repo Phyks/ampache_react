@@ -1,28 +1,46 @@
+// NPM imports
 import React, { Component, PropTypes } from "react";
 import CSSModules from "react-css-modules";
 import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-intl";
 
+// Local imports
 import { messagesMap } from "../../utils";
+
+// Translations
 import messages from "../../locales/messagesDescriptors/elements/FilterBar";
 
+// Styles
 import css from "../../styles/elements/FilterBar.scss";
 
+// Define translations
 const filterMessages = defineMessages(messagesMap(Array.concat([], messages)));
 
+
+/**
+ * Filter bar element with input filter.
+ */
 class FilterBarCSSIntl extends Component {
     constructor (props) {
         super(props);
+        // Bind this on methods
         this.handleChange = this.handleChange.bind(this);
     }
 
+    /**
+     * Method to handle a change of filter input value.
+     *
+     * Calls the user input handler passed from parent component.
+     *
+     * @param   e   A JS event.
+     */
     handleChange (e) {
         e.preventDefault();
-
         this.props.onUserInput(this.refs.filterTextInput.value);
     }
 
     render () {
         const {formatMessage} = this.props.intl;
+
         return (
             <div styleName="filter">
                 <p className="col-xs-12 col-sm-6 col-md-4 col-md-offset-1" styleName="legend" id="filterInputDescription">
@@ -39,11 +57,9 @@ class FilterBarCSSIntl extends Component {
         );
     }
 }
-
 FilterBarCSSIntl.propTypes = {
     onUserInput: PropTypes.func,
     filterText: PropTypes.string,
     intl: intlShape.isRequired
 };
-
 export default injectIntl(CSSModules(FilterBarCSSIntl, css));

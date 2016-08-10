@@ -1,7 +1,14 @@
 /**
+ * Miscellaneous helper functions.
+ */
+
+
+/**
  * Strict int checking function.
  *
  * @param   value   The value to check for int.
+ * @return  Either NaN if the string was not a valid int representation, or the
+ *          int.
  */
 export function filterInt (value) {
     if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value)) {
@@ -9,6 +16,7 @@ export function filterInt (value) {
     }
     return NaN;
 }
+
 
 /**
  * Helper to format song length.

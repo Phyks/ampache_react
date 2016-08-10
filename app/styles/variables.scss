@@ -1,6 +1,10 @@
-// Make variables and mixins available when using CSS modules.
+/**
+ * Global variables used across all CSS modules.
+ */
+
+/* Make Bootstrap variables and mixins available when using CSS modules. */
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap/_variables";
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap/_mixins";
 
-$blue: #3e90fa;
-$orange: #faa83e;
+$blue: #3e90fa;  // Blue color from the logo
+$orange: #faa83e;  // Orange color from the logo

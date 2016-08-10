@@ -1,3 +1,6 @@
+/**
+ * Root component to render, setting locale, messages, Router and Store.
+ */
 import React, { Component, PropTypes } from "react";
 import { Provider } from "react-redux";
 import { Router } from "react-router";

@@ -39,7 +39,6 @@ module.exports = {
     "app.sidebarLayout.home": "Home",  // Home
     "app.sidebarLayout.logout": "Logout",  // Logout
     "app.sidebarLayout.mainNavigationMenu": "Main navigation menu",  // ARIA label for the main navigation menu
-    "app.sidebarLayout.search": "Search",  // Search
     "app.sidebarLayout.settings": "Settings",  // Settings
     "app.sidebarLayout.toggleNavigation": "Toggle navigation",  // Screen reader description of toggle navigation button
     "app.songs.genre": "Genre",  // Genre (song)

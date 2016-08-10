@@ -1,3 +1,4 @@
+// TODO: Discover view is not done
 import React, { Component } from "react";
 import CSSModules from "react-css-modules";
 import FontAwesome from "react-fontawesome";

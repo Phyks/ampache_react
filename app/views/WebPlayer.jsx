@@ -1,3 +1,4 @@
+// TODO: This file is not finished
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -101,8 +102,7 @@ const mapStateToProps = (state) => ({
     isRepeat: state.webplayer.isRepeat,
     isMute: state.webplayer.isMute,
     currentIndex: state.webplayer.currentIndex,
-    playlist: state.webplayer.playlist,
-    entities: state.webplayer.entities
+    playlist: state.webplayer.playlist
 });
 
 const mapDispatchToProps = (dispatch) => ({

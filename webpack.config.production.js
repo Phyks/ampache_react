@@ -10,14 +10,16 @@ config.profile = false;
 config.devtool = "#source-map";
 
 config.plugins = config.plugins.concat([
-    new webpack.NoErrorsPlugin(),
-    new webpack.DefinePlugin({
+    new webpack.NoErrorsPlugin(),  // Any error is considered a failure
+    new webpack.DefinePlugin({  // Set production environment variable
         'process.env': {
             'NODE_ENV': JSON.stringify('production')
         }
     }),
+    // Optimizations
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.DedupePlugin(),
+    // Minifications
     new webpack.optimize.UglifyJsPlugin({
         output: {
             comments: false

@@ -6,6 +6,7 @@ import thunkMiddleware from "redux-thunk";
 import rootReducer from "../reducers";
 import apiMiddleware from "../middleware/api";
 
+// Use history
 const historyMiddleware = routerMiddleware(hashHistory);
 
 export default function configureStore(preloadedState) {

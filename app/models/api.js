@@ -1,22 +1,28 @@
+/**
+ * This file defines API related models.
+ */
+
+// NPM imports
 import { Schema, arrayOf } from "normalizr";
 
-export const artist = new Schema("artist");
-export const album = new Schema("album");
-export const track = new Schema("track");
-export const tag = new Schema("tag");
 
-artist.define({
+// Define normalizr schemas for major entities returned by the API
+export const artist = new Schema("artist");  /** Artist schema */
+export const album = new Schema("album");  /** Album schema */
+export const song = new Schema("song");  /** Song schema */
+
+// Explicit relations between them
+artist.define({  // Artist has albums and songs (tracks)
     albums: arrayOf(album),
-    songs: arrayOf(track)
+    songs: arrayOf(song)
 });
 
-album.define({
+album.define({  // Album has artist, tracks and tags
     artist: artist,
-    tracks: arrayOf(track),
-    tag: arrayOf(tag)
+    tracks: arrayOf(song)
 });
 
-track.define({
+song.define({  // Track has artist and album
     artist: artist,
     album: album
 });

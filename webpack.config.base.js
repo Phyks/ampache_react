@@ -13,8 +13,11 @@ module.exports = {
             "babel-polyfill",
             "bootstrap-loader",
             "font-awesome-webpack",
-            "./app/styles/common/index.js",
-            "./app/utils/common/index.js",
+            // Add global style hacks
+            "./app/common/styles/index.js",
+            // Add utils in entry for prototypes modification
+            "./app/common/utils/index.js",
+            // Main entry point
             "./index.js"],
         "fix.ie9": "./fix.ie9.js"
     },
@@ -37,6 +40,7 @@ module.exports = {
                 },
                 include: __dirname
             },
+            // Handle CSS files
             {
                 test: /\.css$/,
                 loader: ExtractTextPlugin.extract(
@@ -45,6 +49,7 @@ module.exports = {
                     "!postcss-loader"
                 )
             },
+            // Handle SASS files
             {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract(
@@ -55,6 +60,7 @@ module.exports = {
                     "!sass-resources-loader"
                 )
             },
+            // Fonts
             {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
                 loader: "file"
@@ -67,6 +73,7 @@ module.exports = {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
                 loader: "url?limit=10000&mimetype=application/octet-stream"
             },
+            // SVG
             {
                 test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
                 loader: "url?limit=10000&mimetype=image/svg+xml"
@@ -75,18 +82,27 @@ module.exports = {
     },
 
     plugins: [
+        // Copy some useful files to the output path
         new CopyWebpackPlugin([
             { from: "./index.html" },
-            { from: "./app/assets" }
+            { from: "./favicon.ico" },
+            { from: "./app/assets" },
+            { from: "./app/vendor" }
         ]),
+        // Provide jQuery
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery"
         }),
+        // Extract CSS
         new ExtractTextPlugin("style.css", { allChunks: true })
     ],
 
-    postcss: [autoprefixer({ browsers: browsers }), postcssReporter({ throwError: true, clearMessages: true })],
+    // PostCSS config
+    postcss: [
+        autoprefixer({ browsers: browsers }),
+        postcssReporter({ throwError: true, clearMessages: true })
+    ],
 
     sassResources: "./app/styles/variables.scss",
 

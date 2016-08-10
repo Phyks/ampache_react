@@ -7,6 +7,7 @@ import createLogger from "redux-logger";
 import rootReducer from "../reducers";
 import apiMiddleware from "../middleware/api";
 
+// Use history and log everything during dev
 const historyMiddleware = routerMiddleware(hashHistory);
 const loggerMiddleware = createLogger();
 

@@ -1,18 +1,36 @@
+/**
+ * Album component style.
+ */
+
+/** Variables */
 $rowMarginTop: 30px;
 $rowMarginBottom: 10px;
+$artMarginBottom: 10px;
 
+/* Style for an album row */
 .row {
     margin-top: $rowMarginTop;
 }
 
+/* Style for album arts */
 .art {
-    composes: art from "./elements/Grid.scss";
+    display: inline-block;
+    margin-bottom: $artMarginBottom;
+    width: 75%;
+    height: auto;
+
+    /* doiuse-disable viewport-units */
+
+    max-width: 25vw;
+
+    /* doiuse-enable viewport-units */
 }
 
 .art:hover {
-    cursor: initial;
+    transform: scale(1.1);
 }
 
+/* Play button is based on the one in Songs list. */
 .play {
     composes: play from "./Songs.scss";
 }

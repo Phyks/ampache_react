@@ -1,15 +1,31 @@
+/**
+ * This implements the auth reducer, storing and updating authentication state.
+ */
+
+// NPM imports
 import Cookies from "js-cookie";
 
-import { LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, LOGIN_USER_EXPIRED, LOGOUT_USER } from "../actions";
+// Local imports
 import { createReducer } from "../utils";
+
+// Models
 import { i18nRecord } from "../models/i18n";
 import { tokenRecord, stateRecord } from "../models/auth";
 
-/**
- * Initial state
- */
+// Actions
+import {
+    LOGIN_USER_REQUEST,
+    LOGIN_USER_SUCCESS,
+    LOGIN_USER_FAILURE,
+    LOGIN_USER_EXPIRED,
+    LOGOUT_USER } from "../actions";
 
+
+/**
+ * Initial state, load data from cookies if set
+ */
 var initialState = new stateRecord();
+// Get token
 const initialToken = Cookies.getJSON("token");
 if (initialToken) {
     initialToken.expires = new Date(initialToken.expires);
@@ -18,6 +34,7 @@ if (initialToken) {
         new tokenRecord({ token: initialToken.token, expires: new Date(initialToken.expires) })
     );
 }
+// Get username
 const initialUsername = Cookies.get("username");
 if (initialUsername) {
     initialState = initialState.set(
@@ -25,6 +42,7 @@ if (initialUsername) {
         initialUsername
     );
 }
+// Get endpoint
 const initialEndpoint = Cookies.get("endpoint");
 if (initialEndpoint) {
     initialState = initialState.set(
@@ -32,6 +50,7 @@ if (initialEndpoint) {
         initialEndpoint
     );
 }
+// Set remember me
 if (initialUsername && initialEndpoint) {
     initialState = initialState.set(
         "rememberMe",
@@ -39,10 +58,10 @@ if (initialUsername && initialEndpoint) {
     );
 }
 
+
 /**
  * Reducers
  */
-
 export default createReducer(initialState, {
     [LOGIN_USER_REQUEST]: () => {
         return new stateRecord({

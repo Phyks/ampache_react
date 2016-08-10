@@ -1,6 +1,13 @@
+/**
+ * This script extracts all the translations in the messagesDescriptors files
+ * in the app, and generates a complete locale file for English.
+ *
+ * This script is meant to be run through `npm run extractTranslations`.
+ */
 import * as fs from 'fs';
 import {sync as globSync} from 'glob';
 
+// Path to look for
 const MESSAGES_PATTERN = './app/locales/messagesDescriptors/**/*.js';
 
 // Aggregates the default messages that were extracted from the example app's
@@ -30,6 +37,7 @@ defaultMessages = defaultMessages.sort(function (item1, item2) {
     return item1.id.localeCompare(item2.id);
 });
 
+// Output the English translation file
 console.log("module.exports = {");
 defaultMessages.forEach(function (item) {
     console.log("    " + JSON.stringify(item.id) + ": " + JSON.stringify(item.defaultMessage) + ",  // " + item.description);

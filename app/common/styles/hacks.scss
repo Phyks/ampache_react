@@ -1,5 +1,8 @@
+/**
+ * Hacks for specific browsers and bugfixes.
+ */
 :global {
-    /* Firefox hack for responsive table */
+    /* Firefox hack for responsive table in Bootstrap */
     @-moz-document url-prefix() {
         fieldset {
             display: table-cell;

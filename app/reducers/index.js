@@ -1,24 +1,32 @@
+/**
+ *
+ */
+
+// NPM imports
 import { routerReducer as routing } from "react-router-redux";
 import { combineReducers } from "redux";
 
+// Import all the available reducers
 import auth from "./auth";
-import paginate from "./paginate";
+import entities from "./entities";
+import paginatedMaker from "./paginated";
 import webplayer from "./webplayer";
 
+// Actions
 import * as ActionTypes from "../actions";
 
-// Updates the pagination data for different actions.
-const api = paginate([
+// Build paginated reducer
+const paginated = paginatedMaker([
     ActionTypes.API_REQUEST,
     ActionTypes.API_SUCCESS,
     ActionTypes.API_FAILURE
 ]);
 
-const rootReducer = combineReducers({
+// Export the combined reducers
+export default combineReducers({
     routing,
     auth,
-    api,
+    entities,
+    paginated,
     webplayer
 });
-
-export default rootReducer;
