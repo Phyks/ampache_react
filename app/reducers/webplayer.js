@@ -1,16 +1,32 @@
-// TODO: This is a WIP
+/**
+ * This implements the webplayer reducers.
+ */
+
+// NPM imports
 import Immutable from "immutable";
 
+// Local imports
+import { createReducer } from "../utils";
+
+// Models
+import { stateRecord } from "../models/webplayer";
+
+// Actions
 import {
-    PUSH_PLAYLIST,
-    CHANGE_TRACK,
     PLAY_PAUSE,
+    STOP_PLAYBACK,
+    SET_PLAYLIST,
+    PUSH_SONG,
+    POP_SONG,
+    JUMP_TO_SONG,
+    PLAY_PREVIOUS,
+    PLAY_NEXT,
     TOGGLE_RANDOM,
     TOGGLE_REPEAT,
     TOGGLE_MUTE,
+    SET_VOLUME,
     INVALIDATE_STORE } from "../actions";
-import { createReducer } from "../utils";
-import { stateRecord } from "../models/webplayer";
+
 
 /**
  * Initial state
@@ -20,26 +36,78 @@ var initialState = new stateRecord();
 
 
 /**
+ * Helper functions
+ */
+
+/**
+ * Stop playback in reducer helper.
+ *
+ * @param   state   Current state to update.
+ */
+function stopPlayback(state) {
+    return (
+        state
+        .set("isPlaying", false)
+        .set("currentIndex", 0)
+        .set("playlist", new Immutable.List())
+    );
+}
+
+
+/**
  * Reducers
  */
 
 export default createReducer(initialState, {
     [PLAY_PAUSE]: (state, payload) => {
+        // Force play or pause
         return state.set("isPlaying", payload.isPlaying);
     },
-    [CHANGE_TRACK]: (state, payload) => {
-        return state.set("currentIndex", payload.index);
+    [STOP_PLAYBACK]: (state) => {
+        // Clear the playlist
+        return stopPlayback(state);
     },
-    [PUSH_PLAYLIST]: (state, payload) => {
+    [SET_PLAYLIST]: (state, payload) => {
+        // Set current playlist, reset playlist index
         return (
             state
             .set("playlist", new Immutable.List(payload.playlist))
-            .setIn(["entities", "artists"], new Immutable.Map(payload.artists))
-            .setIn(["entities", "albums"], new Immutable.Map(payload.albums))
-            .setIn(["entities", "tracks"], new Immutable.Map(payload.tracks))
             .set("currentIndex", 0)
-            .set("isPlaying", true)
         );
+    },
+    [PUSH_SONG]: (state, payload) => {
+        // Push song to playlist
+        const newPlaylist = state.get("playlist").insert(payload.index, payload.song);
+        return state.set("playlist", newPlaylist);
+    },
+    [POP_SONG]: (state, payload) => {
+        // Pop song from playlist
+        return state.deleteIn(["playlist", payload.index]);
+    },
+    [JUMP_TO_SONG]: (state, payload) => {
+        // Set current index
+        const newCurrentIndex = state.get("playlist").findKey(x => x == payload.song);
+        return state.set("currentIndex", newCurrentIndex);
+    },
+    [PLAY_PREVIOUS]: (state) => {
+        const newIndex = state.get("currentIndex") - 1;
+        if (newIndex < 0) {
+            // If there is an overlow on the left of the playlist, just stop
+            // playback
+            return stopPlayback(state);
+        } else {
+            return state.set("currentIndex", newIndex);
+        }
+    },
+    [PLAY_NEXT]: (state) => {
+        const newIndex = state.get("currentIndex") + 1;
+        if (newIndex > state.get("playlist").size) {
+            // If there is an overflow, just stop playback
+            return stopPlayback(state);
+        } else {
+            // Else, play next item
+            return state.set("currentIndex", newIndex);
+        }
     },
     [TOGGLE_RANDOM]: (state) => {
         return state.set("isRandom", !state.get("isRandom"));
@@ -50,7 +118,10 @@ export default createReducer(initialState, {
     [TOGGLE_MUTE]: (state) => {
         return state.set("isMute", !state.get("isMute"));
     },
+    [SET_VOLUME]: (state, payload) => {
+        return state.set("volume", payload.volume);
+    },
     [INVALIDATE_STORE]: () => {
         return new stateRecord();
-    }
+    },
 });

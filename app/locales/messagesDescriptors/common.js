@@ -2,52 +2,52 @@ const messages = [
     {
         id: "app.common.close",
         defaultMessage: "Close",
-        description: "Close"
+        description: "Close",
     },
     {
         id: "app.common.cancel",
         description: "Cancel",
-        defaultMessage: "Cancel"
+        defaultMessage: "Cancel",
     },
     {
         id: "app.common.go",
         description: "Go",
-        defaultMessage: "Go"
+        defaultMessage: "Go",
     },
     {
         id: "app.common.art",
         description: "Art",
-        defaultMessage: "Art"
+        defaultMessage: "Art",
     },
     {
         id: "app.common.artist",
         description: "Artist",
-        defaultMessage: "{itemCount, plural, one {artist} other {artists}}"
+        defaultMessage: "{itemCount, plural, one {artist} other {artists}}",
     },
     {
         id: "app.common.album",
         description: "Album",
-        defaultMessage: "{itemCount, plural, one {album} other {albums}}"
+        defaultMessage: "{itemCount, plural, one {album} other {albums}}",
     },
     {
         id: "app.common.track",
         description: "Track",
-        defaultMessage: "{itemCount, plural, one {track} other {tracks}}"
+        defaultMessage: "{itemCount, plural, one {track} other {tracks}}",
     },
     {
         id: "app.common.loading",
         description: "Loading indicator",
-        defaultMessage: "Loading…"
+        defaultMessage: "Loading…",
     },
     {
         id: "app.common.play",
         description: "Play icon description",
-        defaultMessage: "Play"
+        defaultMessage: "Play",
     },
     {
         id: "app.common.pause",
         description: "Pause icon description",
-        defaultMessage: "Pause"
+        defaultMessage: "Pause",
     },
 ];
 

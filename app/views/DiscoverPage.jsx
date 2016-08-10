@@ -8,7 +8,7 @@ import Discover from "../components/Discover";
  * Discover page
  */
 export default class DiscoverPage extends Component {
-    render () {
+    render() {
         return (
             <Discover />
         );

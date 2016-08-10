@@ -25,27 +25,27 @@ const artistMessages = defineMessages(messagesMap(Array.concat([], APIMessages))
  * Single artist page.
  */
 class ArtistPageIntl extends Component {
-    componentWillMount () {
+    componentWillMount() {
         // Load the data
         this.props.actions.loadArtist({
             filter: this.props.params.id,
-            include: ["albums", "songs"]
+            include: ["albums", "songs"],
         });
     }
 
-    componentWillUnmount () {
+    componentWillUnmount() {
         this.props.actions.decrementRefCount({
-            "artist": [this.props.artist.get("id")]
+            "artist": [this.props.artist.get("id")],
         });
     }
 
-    render () {
+    render() {
         const {formatMessage} = this.props.intl;
 
         const error = handleErrorI18nObject(this.props.error, formatMessage, artistMessages);
 
         return (
-            <Artist playAction={this.props.actions.playTrack} isFetching={this.props.isFetching} error={error} artist={this.props.artist} albums={this.props.albums} songs={this.props.songs} />
+            <Artist playAction={this.props.actions.playSong} isFetching={this.props.isFetching} error={error} artist={this.props.artist} albums={this.props.albums} songs={this.props.songs} />
         );
     }
 }
@@ -82,12 +82,12 @@ const mapStateToProps = (state, ownProps) => {
         error: state.entities.error,
         artist: artist,
         albums: albums,
-        songs: songs
+        songs: songs,
     };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators(actionCreators, dispatch)
+    actions: bindActionCreators(actionCreators, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(ArtistPageIntl));

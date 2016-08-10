@@ -7,8 +7,8 @@ import { decrementRefCount } from "./entities";
 
 
 /** Define an action to invalidate results in paginated store. */
-export const CLEAR_RESULTS = "CLEAR_RESULTS";
-export function clearResults() {
+export const CLEAR_PAGINATED_RESULTS = "CLEAR_PAGINATED_RESULTS";
+export function clearPaginatedResults() {
     return (dispatch, getState) => {
         // Decrement reference counter
         const paginatedStore = getState().paginated;
@@ -18,7 +18,7 @@ export function clearResults() {
 
         // Clear results in store
         dispatch({
-            type: CLEAR_RESULTS
+            type: CLEAR_PAGINATED_RESULTS,
         });
     };
 }

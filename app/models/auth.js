@@ -9,7 +9,7 @@ import Immutable from "immutable";
 /** Record to store token parameters */
 export const tokenRecord = Immutable.Record({
     token: null,  /** Token string */
-    expires: null  /** Token expiration date */
+    expires: null,  /** Token expiration date */
 });
 
 
@@ -23,5 +23,5 @@ export const stateRecord = new Immutable.Record({
     isAuthenticating: false,  /** Whether authentication is in progress or not */
     error: null,  /** An error string */
     info: null,  /** An info string */
-    timerID: null  /** Timer ID for setInterval calls to revive API session */
+    timerID: null,  /** Timer ID for setInterval calls to revive API session */
 });

@@ -1,112 +1,146 @@
-// TODO: This file is not finished
+// NPM imports
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Howl } from "howler";
-import Immutable from "immutable";
 
+// Actions
 import * as actionCreators from "../actions";
 
+// Components
 import WebPlayerComponent from "../components/elements/WebPlayer";
 
+
+/**
+ * Webplayer container.
+ */
 class WebPlayer extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
-        this.play = this.play.bind(this);
-
+        // Data attributes
         this.howl = null;
+
+        // Bind this
+        this.startPlaying = this.startPlaying.bind(this);
     }
 
-    componentDidMount () {
-        this.play(this.props.isPlaying);
+    componentDidMount() {
+        // Start playback upon component mount
+        this.startPlaying(this.props);
     }
 
-    componentWillUpdate (nextProps) {
+    componentWillUpdate(nextProps) {
+        // Handle stop
+        if (!nextProps.currentSong || nextProps.playlist.size < 1) {
+            if (this.howl) {
+                this.howl.stop();
+            }
+        }
+
         // Toggle play / pause
         if (nextProps.isPlaying != this.props.isPlaying) {
-            // This check ensure we do not start multiple times the same music.
-            this.play(nextProps);
+            // This check ensure we do not start playing multiple times the
+            // same song
+            this.startPlaying(nextProps);
         }
 
-        // Toggle mute / unmute
+        // If something is playing back
         if (this.howl) {
+            // Set mute / unmute
             this.howl.mute(nextProps.isMute);
+            // Set volume
+            this.howl.volume(nextProps.volume / 100);
         }
     }
 
-    getCurrentTrackPath (props) {
-        return [
-            "tracks",
-            props.playlist.get(props.currentIndex)
-        ];
-    }
-
-    play (props) {
-        if (props.isPlaying) {
+    /**
+     * Handle playback through Howler and Web Audio API.
+     *
+     * @params  props   A set of props to use for setting play parameters.
+     */
+    startPlaying(props) {
+        if (props.isPlaying && props.currentSong) {
+            // If it should be playing any song
             if (!this.howl) {
-                const url = props.entities.getIn(
-                    Array.concat([], this.getCurrentTrackPath(props), ["url"])
-                );
+                // Build a new Howler object with current song to play
+                const url = props.currentSong.get("url");
                 if (!url) {
                     // TODO: Error handling
+                    console.error("URL not found.");
                     return;
                 }
                 this.howl = new Howl({
                     src: [url],
-                    html5: true,
-                    loop: false,
+                    html5: true,  // Use HTML5 by default to allow streaming
                     mute: props.isMute,
-                    autoplay: false,
+                    volume: props.volume / 100,  // Set current volume
+                    autoplay: false,  // No autoplay, we handle it manually
                 });
+            } else {
+                // Else, something is playing
+                // TODO If it is not the expected song, change it
             }
+            // Start playing
             this.howl.play();
         }
         else {
+            // If it should not be playing
             if (this.howl) {
+                // Pause any running music
                 this.howl.pause();
             }
         }
     }
 
-    render () {
-        const currentTrack = this.props.entities.getIn(this.getCurrentTrackPath(this.props));
-        let currentArtist = new Immutable.Map();
-        if (currentTrack) {
-            currentArtist = this.props.entities.getIn(["artists", currentTrack.get("artist")]);
-        }
-
+    render() {
         const webplayerProps = {
             isPlaying: this.props.isPlaying,
             isRandom: this.props.isRandom,
             isRepeat: this.props.isRepeat,
             isMute: this.props.isMute,
-            currentTrack: currentTrack,
-            currentArtist: currentArtist,
+            volume: this.props.volume,
+            currentIndex: this.props.currentIndex,
+            playlist: this.props.playlist,
+            currentSong: this.props.currentSong,
+            currentArtist: this.props.currentArtist,
+            // Use a lambda to ensure no first argument is passed to
+            // togglePlaying
             onPlayPause: (() => this.props.actions.togglePlaying()),
             onPrev: this.props.actions.playPrevious,
             onSkip: this.props.actions.playNext,
             onRandom: this.props.actions.toggleRandom,
             onRepeat: this.props.actions.toggleRepeat,
-            onMute: this.props.actions.toggleMute
+            onMute: this.props.actions.toggleMute,
         };
         return (
             <WebPlayerComponent {...webplayerProps} />
         );
     }
 }
+const mapStateToProps = (state) => {
+    const currentIndex = state.webplayer.currentIndex;
+    const playlist = state.webplayer.playlist;
 
-const mapStateToProps = (state) => ({
-    isPlaying: state.webplayer.isPlaying,
-    isRandom: state.webplayer.isRandom,
-    isRepeat: state.webplayer.isRepeat,
-    isMute: state.webplayer.isMute,
-    currentIndex: state.webplayer.currentIndex,
-    playlist: state.webplayer.playlist
-});
-
+    // Get current song and artist from entities store
+    const currentSong = state.entities.getIn(["entities", "song", playlist.get(currentIndex)]);
+    let currentArtist = undefined;
+    if (currentSong) {
+        currentArtist = state.entities.getIn(["entities", "artist", currentSong.get("artist")]);
+    }
+    return {
+        isPlaying: state.webplayer.isPlaying,
+        isRandom: state.webplayer.isRandom,
+        isRepeat: state.webplayer.isRepeat,
+        isMute: state.webplayer.isMute,
+        volume: state.webplayer.volume,
+        currentIndex: currentIndex,
+        playlist: playlist,
+        currentSong: currentSong,
+        currentArtist: currentArtist,
+    };
+};
 const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators(actionCreators, dispatch)
+    actions: bindActionCreators(actionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(WebPlayer);

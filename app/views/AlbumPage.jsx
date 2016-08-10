@@ -10,16 +10,16 @@ import Album from "../components/Album";
 // TODO: AlbumPage should be scrolled ArtistPage
 
 export class AlbumPage extends Component {
-    componentWillMount () {
+    componentWillMount() {
         // Load the data
         this.props.actions.loadAlbums({
             pageNumber: 1,
             filter: this.props.params.id,
-            include: ["songs"]
+            include: ["songs"],
         });
     }
 
-    render () {
+    render() {
         if (this.props.album) {
             return (
                 <Album album={this.props.album} songs={this.props.songs} />
@@ -52,12 +52,12 @@ const mapStateToProps = (state, ownProps) => {
     }
     return {
         album: album,
-        songs: songs
+        songs: songs,
     };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators(actionCreators, dispatch)
+    actions: bindActionCreators(actionCreators, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlbumPage);

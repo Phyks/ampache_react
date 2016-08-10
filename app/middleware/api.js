@@ -29,7 +29,7 @@ class APIError extends Error {}
  * @param   response    A XHR response object.
  * @return  The response or a rejected Promise if the check failed.
  */
-function _checkHTTPStatus (response) {
+function _checkHTTPStatus(response) {
     if (response.status >= 200 && response.status < 300) {
         return response;
     } else {
@@ -44,17 +44,17 @@ function _checkHTTPStatus (response) {
  * @param   responseText    The text from the API response.
  * @return  The response as a JS object or a rejected Promise on error.
  */
-function _parseToJSON (responseText) {
+function _parseToJSON(responseText) {
     let x2js = new X2JS({
         attributePrefix: "",  // No prefix for attributes
-        keepCData: false  // Do not store __cdata and toString functions
+        keepCData: false,  // Do not store __cdata and toString functions
     });
     if (responseText) {
         return x2js.xml_str2json(responseText).root;
     }
     return Promise.reject(new i18nRecord({
         id: "app.api.invalidResponse",
-        values: {}
+        values: {},
     }));
 }
 
@@ -65,14 +65,14 @@ function _parseToJSON (responseText) {
  * @param   jsonData  A JS object representing the API response.
  * @return  The input data or a rejected Promise if errors are present.
  */
-function _checkAPIErrors (jsonData) {
+function _checkAPIErrors(jsonData) {
     if (jsonData.error) {
         return Promise.reject(jsonData.error);
     } else if (!jsonData) {
         // No data returned
         return Promise.reject(new i18nRecord({
             id: "app.api.emptyResponse",
-            values: {}
+            values: {},
         }));
     }
     return jsonData;
@@ -85,7 +85,7 @@ function _checkAPIErrors (jsonData) {
  * @param   jsonData    A JS object representing the API response.
  * @return  A fixed JS object.
  */
-function _uglyFixes (jsonData) {
+function _uglyFixes(jsonData) {
     // Fix songs array
     let _uglyFixesSongs = function (songs) {
         return songs.map(function (song) {
@@ -201,7 +201,7 @@ function _uglyFixes (jsonData) {
  *
  * @return  A fetching Promise.
  */
-function doAPICall (endpoint, action, auth, username, extraParams) {
+function doAPICall(endpoint, action, auth, username, extraParams) {
     // Translate the API action to real API action
     const APIAction = extraParams.filter ? action.rstrip("s") : action;
     // Set base params
@@ -209,7 +209,7 @@ function doAPICall (endpoint, action, auth, username, extraParams) {
         version: API_VERSION,
         action: APIAction,
         auth: auth,
-        user: username
+        user: username,
     };
     // Extend with extraParams
     const params = Object.assign({}, baseParams, extraParams);

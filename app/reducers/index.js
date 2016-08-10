@@ -19,7 +19,7 @@ import * as ActionTypes from "../actions";
 const paginated = paginatedMaker([
     ActionTypes.API_REQUEST,
     ActionTypes.API_SUCCESS,
-    ActionTypes.API_FAILURE
+    ActionTypes.API_FAILURE,
 ]);
 
 // Export the combined reducers
@@ -28,5 +28,5 @@ export default combineReducers({
     auth,
     entities,
     paginated,
-    webplayer
+    webplayer,
 });

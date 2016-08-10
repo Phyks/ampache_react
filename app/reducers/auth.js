@@ -68,8 +68,8 @@ export default createReducer(initialState, {
             isAuthenticating: true,
             info: new i18nRecord({
                 id: "app.login.connecting",
-                values: {}
-            })
+                values: {},
+            }),
         });
     },
     [LOGIN_USER_SUCCESS]: (state, payload) => {
@@ -81,28 +81,28 @@ export default createReducer(initialState, {
             "rememberMe": payload.rememberMe,
             "info": new i18nRecord({
                 id: "app.login.success",
-                values: {username: payload.username}
+                values: {username: payload.username},
             }),
-            "timerID": payload.timerID
+            "timerID": payload.timerID,
         });
     },
     [LOGIN_USER_FAILURE]: (state, payload) => {
         return new stateRecord({
-            "error": payload.error
+            "error": payload.error,
         });
     },
     [LOGIN_USER_EXPIRED]: (state, payload) => {
         return new stateRecord({
             "isAuthenticated": false,
-            "error": payload.error
+            "error": payload.error,
         });
     },
     [LOGOUT_USER]: () => {
         return new stateRecord({
             info: new i18nRecord({
                 id: "app.login.byebye",
-                values: {}
-            })
+                values: {},
+            }),
         });
-    }
+    },
 });

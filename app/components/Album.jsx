@@ -22,7 +22,7 @@ const albumMessages = defineMessages(messagesMap(Array.concat([], commonMessages
  * Track row in an album tracks table.
  */
 class AlbumTrackRowCSSIntl extends Component {
-    render () {
+    render() {
         const { formatMessage } = this.props.intl;
         const length = formatLength(this.props.track.get("time"));
         return (
@@ -45,7 +45,7 @@ class AlbumTrackRowCSSIntl extends Component {
 AlbumTrackRowCSSIntl.propTypes = {
     playAction: PropTypes.func.isRequired,
     track: PropTypes.instanceOf(Immutable.Map).isRequired,
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
 };
 export let AlbumTrackRow = injectIntl(CSSModules(AlbumTrackRowCSSIntl, css));
 
@@ -54,7 +54,7 @@ export let AlbumTrackRow = injectIntl(CSSModules(AlbumTrackRowCSSIntl, css));
  * Tracks table of an album.
  */
 class AlbumTracksTableCSS extends Component {
-    render () {
+    render() {
         let rows = [];
         // Build rows for each track
         const playAction = this.props.playAction;
@@ -72,7 +72,7 @@ class AlbumTracksTableCSS extends Component {
 }
 AlbumTracksTableCSS.propTypes = {
     playAction: PropTypes.func.isRequired,
-    tracks: PropTypes.instanceOf(Immutable.List).isRequired
+    tracks: PropTypes.instanceOf(Immutable.List).isRequired,
 };
 export let AlbumTracksTable = CSSModules(AlbumTracksTableCSS, css);
 
@@ -81,7 +81,7 @@ export let AlbumTracksTable = CSSModules(AlbumTracksTableCSS, css);
  * An entire album row containing art and tracks table.
  */
 class AlbumRowCSS extends Component {
-    render () {
+    render() {
         return (
             <div className="row" styleName="row">
                 <div className="col-sm-offset-2 col-xs-9 col-sm-10" styleName="nameRow">
@@ -104,6 +104,6 @@ class AlbumRowCSS extends Component {
 AlbumRowCSS.propTypes = {
     playAction: PropTypes.func.isRequired,
     album: PropTypes.instanceOf(Immutable.Map).isRequired,
-    songs: PropTypes.instanceOf(Immutable.List).isRequired
+    songs: PropTypes.instanceOf(Immutable.List).isRequired,
 };
 export let AlbumRow = CSSModules(AlbumRowCSS, css);

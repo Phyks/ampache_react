@@ -10,7 +10,7 @@
  * @param   b   Second Immutable object.
  * @returns     An Immutable object equal to a except for the items in b.
  */
-export function immutableDiff (a, b) {
+export function immutableDiff(a, b) {
     return a.filter(function (i) {
         return b.indexOf(i) < 0;
     });

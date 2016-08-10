@@ -30,7 +30,7 @@ const songsMessages = defineMessages(messagesMap(Array.concat([], commonMessages
  * A single row for a single song in the songs table.
  */
 class SongsTableRowCSSIntl extends Component {
-    render () {
+    render() {
         const { formatMessage } = this.props.intl;
 
         const length = formatLength(this.props.song.get("time"));
@@ -59,7 +59,7 @@ class SongsTableRowCSSIntl extends Component {
 SongsTableRowCSSIntl.propTypes = {
     playAction: PropTypes.func.isRequired,
     song: PropTypes.instanceOf(Immutable.Map).isRequired,
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
 };
 export let SongsTableRow = injectIntl(CSSModules(SongsTableRowCSSIntl, css));
 
@@ -68,7 +68,7 @@ export let SongsTableRow = injectIntl(CSSModules(SongsTableRowCSSIntl, css));
  * The songs table.
  */
 class SongsTableCSS extends Component {
-    render () {
+    render() {
         // Handle filtering
         let displayedSongs = this.props.songs;
         if (this.props.filterText) {
@@ -78,7 +78,7 @@ class SongsTableCSS extends Component {
                 {
                     "keys": ["name"],
                     "threshold": 0.4,
-                    "include": ["score"]
+                    "include": ["score"],
                 }).search(this.props.filterText);
             // Keep only items in results
             displayedSongs = displayedSongs.map(function (item) { return new Immutable.Map(item.item); });
@@ -135,7 +135,7 @@ class SongsTableCSS extends Component {
 SongsTableCSS.propTypes = {
     playAction: PropTypes.func.isRequired,
     songs: PropTypes.instanceOf(Immutable.List).isRequired,
-    filterText: PropTypes.string
+    filterText: PropTypes.string,
 };
 export let SongsTable = CSSModules(SongsTableCSS, css);
 
@@ -144,10 +144,10 @@ export let SongsTable = CSSModules(SongsTableCSS, css);
  * Complete songs table view with filter and pagination
  */
 export default class FilterablePaginatedSongsTable extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.state = {
-            filterText: ""  // Initial state, no filter text
+            filterText: "",  // Initial state, no filter text
         };
 
         this.handleUserInput = this.handleUserInput.bind(this);  // Bind this on user input handling
@@ -160,13 +160,13 @@ export default class FilterablePaginatedSongsTable extends Component {
      *
      * @param   filterText  Content of the filter input.
      */
-    handleUserInput (filterText) {
+    handleUserInput(filterText) {
         this.setState({
-            filterText: filterText
+            filterText: filterText,
         });
     }
 
-    render () {
+    render() {
         // Handle error
         let error = null;
         if (this.props.error) {
@@ -176,13 +176,13 @@ export default class FilterablePaginatedSongsTable extends Component {
         // Set props
         const filterProps = {
             filterText: this.state.filterText,
-            onUserInput: this.handleUserInput
+            onUserInput: this.handleUserInput,
         };
         const songsTableProps = {
             playAction: this.props.playAction,
             isFetching: this.props.isFetching,
             songs: this.props.songs,
-            filterText: this.state.filterText
+            filterText: this.state.filterText,
         };
 
         return (
@@ -200,5 +200,5 @@ FilterablePaginatedSongsTable.propTypes = {
     isFetching: PropTypes.bool.isRequired,
     error: PropTypes.string,
     songs: PropTypes.instanceOf(Immutable.List).isRequired,
-    pagination: PropTypes.object.isRequired
+    pagination: PropTypes.object.isRequired,
 };

@@ -43,6 +43,14 @@ module.exports = {
         "strict": [
             "error",
         ],
+        "comma-dangle": [
+            "error",
+            "always-multiline"
+        ],
+        "space-before-function-paren": [
+            "error",
+            { "anonymous": "always", "named": "never" }
+        ],
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error",
 

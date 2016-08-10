@@ -8,7 +8,7 @@ import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-i
 import { messagesMap } from "../../utils";
 
 // Other components
-/* import WebPlayer from "../../views/WebPlayer"; TODO */
+import WebPlayer from "../../views/WebPlayer";
 
 // Translations
 import commonMessages from "../../locales/messagesDescriptors/common";
@@ -25,7 +25,7 @@ const sidebarLayoutMessages = defineMessages(messagesMap(Array.concat([], common
  * Sidebar layout component, putting children next to the sidebar menu.
  */
 class SidebarLayoutIntl extends Component {
-    render () {
+    render() {
         const { formatMessage } = this.props.intl;
 
         // Check active links
@@ -35,7 +35,7 @@ class SidebarLayoutIntl extends Component {
             artists: (this.props.location.pathname == "/artists") ? "active" : "link",
             albums: (this.props.location.pathname == "/albums") ? "active" : "link",
             songs: (this.props.location.pathname == "/songs") ? "active" : "link",
-            search: (this.props.location.pathname == "/search") ? "active" : "link"
+            search: (this.props.location.pathname == "/search") ? "active" : "link",
         };
 
         // Hamburger collapsing function
@@ -146,7 +146,7 @@ class SidebarLayoutIntl extends Component {
                                 </li>
                             </ul>
                         </nav>
-                        { /** TODO <WebPlayer /> */ }
+                        <WebPlayer />
                     </div>
                 </div>
 
@@ -159,6 +159,6 @@ class SidebarLayoutIntl extends Component {
 }
 SidebarLayoutIntl.propTypes = {
     children: PropTypes.node,
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
 };
 export default injectIntl(CSSModules(SidebarLayoutIntl, css));

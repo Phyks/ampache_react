@@ -11,7 +11,7 @@
  *
  * @return  A string with the full URL with GET params.
  */
-export function assembleURLAndParams (endpoint, params) {
+export function assembleURLAndParams(endpoint, params) {
     let url = endpoint + "?";
     Object.keys(params).forEach(
         key => {
@@ -34,7 +34,7 @@ export function assembleURLAndParams (endpoint, params) {
  * @param   An URL
  * @return  The cleaned URL
  */
-export function cleanURL (endpoint) {
+export function cleanURL(endpoint) {
     if (
         !endpoint.startsWith("//") &&
             !endpoint.startsWith("http://") &&

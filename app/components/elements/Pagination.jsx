@@ -22,7 +22,7 @@ const paginationMessages = defineMessages(messagesMap(Array.concat([], commonMes
  * Pagination button bar
  */
 class PaginationCSSIntl extends Component {
-    constructor (props) {
+    constructor(props) {
         super (props);
 
         // Bind this
@@ -74,7 +74,7 @@ class PaginationCSSIntl extends Component {
         $(this.refs.paginationModal).modal("hide");
     }
 
-    render () {
+    render() {
         const { formatMessage } = this.props.intl;
 
         // Get bounds

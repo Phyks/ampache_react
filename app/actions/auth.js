@@ -41,13 +41,13 @@ export function loginKeepAlive(username, token, endpoint) {
                 null,
                 error => dispatch => {
                     dispatch(loginUserFailure(error || new i18nRecord({ id: "app.login.expired", values: {}})));
-                }
+                },
             ],
             action: "ping",
             auth: token,
             username: username,
-            extraParams: {}
-        }
+            extraParams: {},
+        },
     };
 }
 
@@ -72,8 +72,8 @@ export function loginUserSuccess(username, token, endpoint, rememberMe, timerID)
             token: token,
             endpoint: endpoint,
             rememberMe: rememberMe,
-            timerID: timerID
-        }
+            timerID: timerID,
+        },
     };
 }
 
@@ -94,8 +94,8 @@ export function loginUserFailure(error) {
     return {
         type: LOGIN_USER_FAILURE,
         payload: {
-            error: error
-        }
+            error: error,
+        },
     };
 }
 
@@ -111,8 +111,8 @@ export function loginUserExpired(error) {
     return {
         type: LOGIN_USER_EXPIRED,
         payload: {
-            error: error
-        }
+            error: error,
+        },
     };
 }
 
@@ -125,7 +125,7 @@ export const LOGIN_USER_REQUEST = "LOGIN_USER_REQUEST";
  */
 export function loginUserRequest() {
     return {
-        type: LOGIN_USER_REQUEST
+        type: LOGIN_USER_REQUEST,
     };
 }
 
@@ -152,7 +152,7 @@ export function logout() {
         Cookies.remove("token");
         Cookies.remove("endpoint");
         dispatch({
-            type: LOGOUT_USER
+            type: LOGOUT_USER,
         });
     };
 }
@@ -223,7 +223,7 @@ export function loginUser(username, passwordOrToken, endpoint, rememberMe, redir
                     // Get token from the API
                     const token = {
                         token: jsonData.auth,
-                        expires: new Date(jsonData.sessionExpire)
+                        expires: new Date(jsonData.sessionExpire),
                     };
                     // Handle session keep alive timer
                     const timerID = setInterval(
@@ -242,12 +242,12 @@ export function loginUser(username, passwordOrToken, endpoint, rememberMe, redir
                     // Redirect
                     dispatch(push(redirect));
                 },
-                loginUserFailure
+                loginUserFailure,
             ],
             action: "handshake",
             auth: passphrase,
             username: username,
-            extraParams: {timestamp: time}
-        }
+            extraParams: {timestamp: time},
+        },
     };
 }

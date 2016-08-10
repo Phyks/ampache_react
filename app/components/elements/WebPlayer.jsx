@@ -1,47 +1,66 @@
-// TODO: This file is to review
+// NPM imports
 import React, { Component, PropTypes } from "react";
 import CSSModules from "react-css-modules";
 import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-intl";
-import FontAwesome from "react-fontawesome";
 import Immutable from "immutable";
+import FontAwesome from "react-fontawesome";
 
+// Local imports
 import { messagesMap } from "../../utils";
 
+// Styles
 import css from "../../styles/elements/WebPlayer.scss";
 
+// Translations
 import commonMessages from "../../locales/messagesDescriptors/common";
 import messages from "../../locales/messagesDescriptors/elements/WebPlayer";
 
+// Define translations
 const webplayerMessages = defineMessages(messagesMap(Array.concat([], commonMessages, messages)));
 
+
+/**
+ * Webplayer component.
+ */
 class WebPlayerCSSIntl extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
+        // Bind this
         this.artOpacityHandler = this.artOpacityHandler.bind(this);
     }
 
-    artOpacityHandler (ev) {
+    /**
+     * Handle opacity on album art.
+     *
+     * Set opacity on mouseover / mouseout.
+     *
+     * @param   ev      A JS event.
+     */
+    artOpacityHandler(ev) {
         if (ev.type == "mouseover") {
+            // On mouse over, reduce opacity
             this.refs.art.style.opacity = "1";
             this.refs.artText.style.display = "none";
         } else {
+            // On mouse out, set opacity back
             this.refs.art.style.opacity = "0.75";
             this.refs.artText.style.display = "block";
         }
     }
 
-    render () {
+    render() {
         const { formatMessage } = this.props.intl;
 
-        const song = this.props.currentTrack;
-        if (!song) {
-            return (<div></div>);
-        }
+        // Get current song (eventually undefined)
+        const song = this.props.currentSong;
 
+        // Current status (play or pause) for localization
         const playPause = this.props.isPlaying ? "pause" : "play";
-        const volumeMute = this.props.isMute ? "volume-off" : "volume-up";
+        // Volume fontawesome icon
+        const volumeIcon = this.props.isMute ? "volume-off" : "volume-up";
 
+        // Get classes for random and repeat buttons
         const randomBtnStyles = ["randomBtn"];
         const repeatBtnStyles = ["repeatBtn"];
         if (this.props.isRandom) {
@@ -51,18 +70,30 @@ class WebPlayerCSSIntl extends Component {
             repeatBtnStyles.push("active");
         }
 
+        // Check if a song is currently playing
+        let art = null;
+        let songTitle = null;
+        let artistName = null;
+        if (song) {
+            art = song.get("art");
+            songTitle = song.get("title");
+            if (this.props.currentArtist) {
+                artistName = this.props.currentArtist.get("name");
+            }
+        }
+
         return (
             <div id="row" styleName="webplayer">
                 <div className="col-xs-12">
                     <div className="row" styleName="artRow" onMouseOver={this.artOpacityHandler} onMouseOut={this.artOpacityHandler}>
                         <div className="col-xs-12">
-                            <img src={song.get("art")} width="200" height="200" alt={formatMessage(webplayerMessages["app.common.art"])} ref="art" styleName="art" />
+                            <img src={art} width="200" height="200" alt={formatMessage(webplayerMessages["app.common.art"])} ref="art" styleName="art" />
                             <div ref="artText">
-                                <h2>{song.get("title")}</h2>
+                                <h2>{songTitle}</h2>
                                 <h3>
                                     <span className="text-capitalize">
                                         <FormattedMessage {...webplayerMessages["app.webplayer.by"]} />
-                                    </span> { this.props.currentArtist.get("name") }
+                                    </span> { artistName }
                                 </h3>
                             </div>
                         </div>
@@ -82,7 +113,7 @@ class WebPlayerCSSIntl extends Component {
                         </div>
                         <div className="col-xs-12">
                             <button styleName="volumeBtn" aria-label={formatMessage(webplayerMessages["app.webplayer.volume"])} title={formatMessage(webplayerMessages["app.webplayer.volume"])} onClick={this.props.onMute}>
-                                <FontAwesome name={volumeMute} />
+                                <FontAwesome name={volumeIcon} />
                             </button>
                             <button styleName={repeatBtnStyles.join(" ")} aria-label={formatMessage(webplayerMessages["app.webplayer.repeat"])} title={formatMessage(webplayerMessages["app.webplayer.repeat"])} aria-pressed={this.props.isRepeat} onClick={this.props.onRepeat}>
                                 <FontAwesome name="repeat" />
@@ -106,7 +137,10 @@ WebPlayerCSSIntl.propTypes = {
     isRandom: PropTypes.bool.isRequired,
     isRepeat: PropTypes.bool.isRequired,
     isMute: PropTypes.bool.isRequired,
-    currentTrack: PropTypes.instanceOf(Immutable.Map),
+    volume: PropTypes.number.isRequired,
+    currentIndex: PropTypes.number.isRequired,
+    playlist: PropTypes.instanceOf(Immutable.List).isRequired,
+    currentSong: PropTypes.instanceOf(Immutable.Map),
     currentArtist: PropTypes.instanceOf(Immutable.Map),
     onPlayPause: PropTypes.func.isRequired,
     onPrev: PropTypes.func.isRequired,
@@ -114,7 +148,7 @@ WebPlayerCSSIntl.propTypes = {
     onRandom: PropTypes.func.isRequired,
     onRepeat: PropTypes.func.isRequired,
     onMute: PropTypes.func.isRequired,
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
 };
 
 export default injectIntl(CSSModules(WebPlayerCSSIntl, css, { allowMultiple: true }));

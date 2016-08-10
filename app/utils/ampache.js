@@ -15,7 +15,7 @@ import jsSHA from "jssha";
  * @remark  This builds an HMAC as expected by Ampache API, which is not a
  *          standard HMAC.
  */
-export function buildHMAC (password) {
+export function buildHMAC(password) {
     const time = Math.floor(Date.now() / 1000);
 
     let shaObj = new jsSHA("SHA-256", "TEXT");
@@ -27,6 +27,6 @@ export function buildHMAC (password) {
 
     return {
         time: time,
-        passphrase: shaObj.getHash("HEX")
+        passphrase: shaObj.getHash("HEX"),
     };
 }

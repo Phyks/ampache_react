@@ -7,12 +7,12 @@ import { connect } from "react-redux";
 
 
 export class RequireAuthentication extends Component {
-    componentWillMount () {
+    componentWillMount() {
         // Check authentication on mount
         this.checkAuth(this.props.isAuthenticated);
     }
 
-    componentWillUpdate (newProps) {
+    componentWillUpdate(newProps) {
         // Check authentication on update
         this.checkAuth(newProps.isAuthenticated);
     }
@@ -23,20 +23,20 @@ export class RequireAuthentication extends Component {
      * @param   isAuthenticated     A boolean stating whether user has a valid
      *                              session or not.
      */
-    checkAuth (isAuthenticated) {
+    checkAuth(isAuthenticated) {
         if (!isAuthenticated) {
             // Redirect to login, redirecting to the actual page after login.
             this.context.router.replace({
                 pathname: "/login",
                 state: {
                     nextPathname: this.props.location.pathname,
-                    nextQuery: this.props.location.query
-                }
+                    nextQuery: this.props.location.query,
+                },
             });
         }
     }
 
-    render () {
+    render() {
         return (
             <div>
                 {this.props.isAuthenticated === true
@@ -50,15 +50,15 @@ export class RequireAuthentication extends Component {
 
 RequireAuthentication.propTypes = {
     // Injected by React Router
-    children: PropTypes.node
+    children: PropTypes.node,
 };
 
 RequireAuthentication.contextTypes = {
-    router: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps)(RequireAuthentication);

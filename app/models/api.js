@@ -14,15 +14,15 @@ export const song = new Schema("song");  /** Song schema */
 // Explicit relations between them
 artist.define({  // Artist has albums and songs (tracks)
     albums: arrayOf(album),
-    songs: arrayOf(song)
+    songs: arrayOf(song),
 });
 
 album.define({  // Album has artist, tracks and tags
     artist: artist,
-    tracks: arrayOf(song)
+    tracks: arrayOf(song),
 });
 
 song.define({  // Track has artist and album
     artist: artist,
-    album: album
+    album: album,
 });

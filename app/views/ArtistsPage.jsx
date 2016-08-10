@@ -25,13 +25,13 @@ const artistsMessages = defineMessages(messagesMap(Array.concat([], APIMessages)
  * Grid of artists arts.
  */
 class ArtistsPageIntl extends Component {
-    componentWillMount () {
+    componentWillMount() {
         // Load the data for the current page
         const currentPage = parseInt(this.props.location.query.page) || 1;
         this.props.actions.loadPaginatedArtists({pageNumber: currentPage});
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
         // Load the data if page has changed
         const currentPage = parseInt(this.props.location.query.page) || 1;
         const nextPage = parseInt(nextProps.location.query.page) || 1;
@@ -40,12 +40,12 @@ class ArtistsPageIntl extends Component {
         }
     }
 
-    componentWillUnmount () {
+    componentWillUnmount() {
         // Unload data on page change
-        this.props.actions.clearResults();
+        this.props.actions.clearPaginatedResults();
     }
 
-    render () {
+    render() {
         const {formatMessage} = this.props.intl;
 
         const pagination = buildPaginationObject(this.props.location, this.props.currentPage, this.props.nPages, this.props.actions.goToPage);
@@ -79,7 +79,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators(actionCreators, dispatch)
+    actions: bindActionCreators(actionCreators, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(ArtistsPageIntl));

@@ -20,7 +20,7 @@ const filterMessages = defineMessages(messagesMap(Array.concat([], messages)));
  * Filter bar element with input filter.
  */
 class FilterBarCSSIntl extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         // Bind this on methods
         this.handleChange = this.handleChange.bind(this);
@@ -33,12 +33,12 @@ class FilterBarCSSIntl extends Component {
      *
      * @param   e   A JS event.
      */
-    handleChange (e) {
+    handleChange(e) {
         e.preventDefault();
         this.props.onUserInput(this.refs.filterTextInput.value);
     }
 
-    render () {
+    render() {
         const {formatMessage} = this.props.intl;
 
         return (
@@ -60,6 +60,6 @@ class FilterBarCSSIntl extends Component {
 FilterBarCSSIntl.propTypes = {
     onUserInput: PropTypes.func,
     filterText: PropTypes.string,
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
 };
 export default injectIntl(CSSModules(FilterBarCSSIntl, css));

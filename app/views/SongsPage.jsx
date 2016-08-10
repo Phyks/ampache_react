@@ -25,13 +25,13 @@ const songsMessages = defineMessages(messagesMap(Array.concat([], APIMessages)))
  * Paginated table of available songs
  */
 class SongsPageIntl extends Component {
-    componentWillMount () {
+    componentWillMount() {
         // Load the data for current page
         const currentPage = parseInt(this.props.location.query.page) || 1;
         this.props.actions.loadPaginatedSongs({pageNumber: currentPage});
     }
 
-    componentWillReceiveProps (nextProps) {
+    componentWillReceiveProps(nextProps) {
         // Load the data if page has changed
         const currentPage = parseInt(this.props.location.query.page) || 1;
         const nextPage = parseInt(nextProps.location.query.page) || 1;
@@ -40,12 +40,12 @@ class SongsPageIntl extends Component {
         }
     }
 
-    componentWillUnmount () {
+    componentWillUnmount() {
         // Unload data on page change
-        this.props.actions.clearResults();
+        this.props.actions.clearPaginatedResults();
     }
 
-    render () {
+    render() {
         const {formatMessage} = this.props.intl;
 
         const pagination = buildPaginationObject(this.props.location, this.props.currentPage, this.props.nPages, this.props.actions.goToPage);
@@ -53,7 +53,7 @@ class SongsPageIntl extends Component {
         const error = handleErrorI18nObject(this.props.error, formatMessage, songsMessages);
 
         return (
-            <Songs playAction={this.props.actions.playTrack} isFetching={this.props.isFetching} error={error} songs={this.props.songsList} pagination={pagination} />
+            <Songs playAction={this.props.actions.playSong} isFetching={this.props.isFetching} error={error} songs={this.props.songsList} pagination={pagination} />
         );
     }
 }
@@ -82,12 +82,12 @@ const mapStateToProps = (state) => {
         error: state.entities.error,
         songsList: songsList,
         currentPage: state.paginated.currentPage,
-        nPages: state.paginated.nPages
+        nPages: state.paginated.nPages,
     };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators(actionCreators, dispatch)
+    actions: bindActionCreators(actionCreators, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(SongsPageIntl));

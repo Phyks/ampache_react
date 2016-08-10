@@ -26,7 +26,7 @@ const artistMessages = defineMessages(messagesMap(Array.concat([], commonMessage
  * Single artist page
  */
 class ArtistCSS extends Component {
-    render () {
+    render() {
         // Define loading message
         let loading = null;
         if (this.props.isFetching) {
@@ -87,6 +87,6 @@ ArtistCSS.propTypes = {
     playAction: PropTypes.func.isRequired,
     artist: PropTypes.instanceOf(Immutable.Map),
     albums: PropTypes.instanceOf(Immutable.List),
-    songs: PropTypes.instanceOf(Immutable.Map)
+    songs: PropTypes.instanceOf(Immutable.Map),
 };
 export default CSSModules(ArtistCSS, css);

@@ -12,7 +12,7 @@ import { createReducer } from "../utils";
 import { stateRecord } from "../models/paginated";
 
 // Actions
-import { CLEAR_RESULTS, INVALIDATE_STORE } from "../actions";
+import { CLEAR_PAGINATED_RESULTS, INVALIDATE_STORE } from "../actions";
 
 
 /** Initial state of the reducer */
@@ -50,12 +50,12 @@ export default function paginated(types) {
         [failureType]: (state) => {
             return state;
         },
-        [CLEAR_RESULTS]: (state) => {
+        [CLEAR_PAGINATED_RESULTS]: (state) => {
             return state.set("result", new Immutable.List());
         },
         [INVALIDATE_STORE]: () => {
             // Reset state on invalidation
             return new stateRecord();
-        }
+        },
     });
 }

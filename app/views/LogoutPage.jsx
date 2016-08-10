@@ -11,12 +11,12 @@ import * as actionCreators from "../actions";
  * Logout page
  */
 export class LogoutPage extends Component {
-    componentWillMount () {
+    componentWillMount() {
         // Logout when component is mounted
         this.props.actions.logoutAndRedirect();
     }
 
-    render () {
+    render() {
         return (
             <div></div>
         );
@@ -24,7 +24,7 @@ export class LogoutPage extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators(actionCreators, dispatch)
+    actions: bindActionCreators(actionCreators, dispatch),
 });
 
 export default connect(null, mapDispatchToProps)(LogoutPage);

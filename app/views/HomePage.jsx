@@ -8,7 +8,7 @@ import ArtistsPage from "./ArtistsPage";
  * Homepage is an alias for Artists page at the moment.
  */
 export default class HomePage extends Component {
-    render () {
+    render() {
         return (
             <ArtistsPage {...this.props} />
         );

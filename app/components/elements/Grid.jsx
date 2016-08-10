@@ -31,7 +31,7 @@ const gridMessages = defineMessages(messagesMap(Array.concat([], commonMessages,
 const ISOTOPE_OPTIONS = {  /** Default options for Isotope grid layout. */
     getSortData: {
         name: ".name",
-        nSubitems: ".sub-items .n-sub-items"
+        nSubitems: ".sub-items .n-sub-items",
     },
     transitionDuration: 0,
     sortBy: "name",
@@ -40,8 +40,8 @@ const ISOTOPE_OPTIONS = {  /** Default options for Isotope grid layout. */
     layoutMode: "fitRows",
     filter: "*",
     fitRows: {
-        gutter: 0
-    }
+        gutter: 0,
+    },
 };
 
 
@@ -49,7 +49,7 @@ const ISOTOPE_OPTIONS = {  /** Default options for Isotope grid layout. */
  * A single item in the grid, art + text under the art.
  */
 class GridItemCSSIntl extends Component {
-    render () {
+    render() {
         const {formatMessage} = this.props.intl;
 
         // Get number of sub-items
@@ -85,7 +85,7 @@ GridItemCSSIntl.propTypes = {
     itemsLabel: PropTypes.string.isRequired,
     subItemsType: PropTypes.string.isRequired,
     subItemsLabel: PropTypes.string.isRequired,
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
 };
 export let GridItem = injectIntl(CSSModules(GridItemCSSIntl, css));
 
@@ -94,7 +94,7 @@ export let GridItem = injectIntl(CSSModules(GridItemCSSIntl, css));
  * A grid, formatted using Isotope.JS
  */
 export class Grid extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
         // Init grid data member
@@ -108,7 +108,7 @@ export class Grid extends Component {
     /**
      * Create an isotope container if none already exist.
      */
-    createIsotopeContainer () {
+    createIsotopeContainer() {
         if (this.iso == null) {
             this.iso = new Isotope(this.refs.grid, ISOTOPE_OPTIONS);
         }
@@ -117,7 +117,7 @@ export class Grid extends Component {
     /**
      * Handle filtering on the grid.
      */
-    handleFiltering (props) {
+    handleFiltering(props) {
         // If no query provided, drop any filter in use
         if (props.filterText == "") {
             return this.iso.arrange(ISOTOPE_OPTIONS);
@@ -129,7 +129,7 @@ export class Grid extends Component {
             {
                 "keys": ["name"],
                 "threshold": 0.4,
-                "include": ["score"]
+                "include": ["score"],
             }
         ).search(props.filterText);
 
@@ -149,9 +149,9 @@ export class Grid extends Component {
                         }
                         return p;
                     }, 0);
-                }
+                },
             },
-            sortBy: "relevance"
+            sortBy: "relevance",
         });
         this.iso.updateSortData();
         this.iso.arrange();
@@ -169,7 +169,7 @@ export class Grid extends Component {
         }
     }
 
-    componentDidMount () {
+    componentDidMount() {
         // Setup grid
         this.createIsotopeContainer();
         // Only arrange if there are elements to arrange
@@ -212,7 +212,7 @@ export class Grid extends Component {
         }
 
         // Layout again after images are loaded
-        imagesLoaded(this.refs.grid).on("progress", function() {
+        imagesLoaded(this.refs.grid).on("progress", function () {
             // Layout after each image load, fix for responsive grid
             if (!iso) {  // Grid could have been destroyed in the meantime
                 return;
@@ -221,7 +221,7 @@ export class Grid extends Component {
         });
     }
 
-    render () {
+    render() {
         // Handle loading
         let loading = null;
         if (this.props.isFetching) {
@@ -264,7 +264,7 @@ Grid.propTypes = {
     itemsLabel: PropTypes.string.isRequired,
     subItemsType: PropTypes.string.isRequired,
     subItemsLabel: PropTypes.string.isRequired,
-    filterText: PropTypes.string
+    filterText: PropTypes.string,
 };
 
 
@@ -272,11 +272,11 @@ Grid.propTypes = {
  * Full grid with pagination and filtering input.
  */
 export default class FilterablePaginatedGrid extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
         this.state = {
-            filterText: ""  // No filterText at init
+            filterText: "",  // No filterText at init
         };
 
         // Bind this
@@ -290,13 +290,13 @@ export default class FilterablePaginatedGrid extends Component {
      *
      * @param   filterText  Content of the filter input.
      */
-    handleUserInput (filterText) {
+    handleUserInput(filterText) {
         this.setState({
-            filterText: filterText
+            filterText: filterText,
         });
     }
 
-    render () {
+    render() {
         return (
             <div>
                 <FilterBar filterText={this.state.filterText} onUserInput={this.handleUserInput} />
@@ -309,5 +309,5 @@ export default class FilterablePaginatedGrid extends Component {
 
 FilterablePaginatedGrid.propTypes = {
     grid: PropTypes.object.isRequired,
-    pagination: PropTypes.object.isRequired
+    pagination: PropTypes.object.isRequired,
 };

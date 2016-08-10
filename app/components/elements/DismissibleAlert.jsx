@@ -6,7 +6,7 @@ import React, { Component, PropTypes } from "react";
  * A dismissible Bootstrap alert.
  */
 export default class DismissibleAlert extends Component {
-    render () {
+    render() {
         // Set correct alert type
         let alertType = "alert-danger";
         if (this.props.type) {
@@ -27,5 +27,5 @@ export default class DismissibleAlert extends Component {
 }
 DismissibleAlert.propTypes = {
     type: PropTypes.string,
-    text: PropTypes.string
+    text: PropTypes.string,
 };

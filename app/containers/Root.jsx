@@ -27,5 +27,5 @@ Root.propTypes = {
     render: PropTypes.func,
     locale: PropTypes.string.isRequired,
     messages: PropTypes.object.isRequired,
-    defaultLocale: PropTypes.string.isRequired
+    defaultLocale: PropTypes.string.isRequired,
 };

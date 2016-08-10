@@ -18,7 +18,7 @@ import {
     PUSH_ENTITIES,
     INCREMENT_REFCOUNT,
     DECREMENT_REFCOUNT,
-    INVALIDATE_STORE
+    INVALIDATE_STORE,
 } from "../actions";
 
 
@@ -171,9 +171,11 @@ export default createReducer(initialState, {
 
         // Increment reference counter
         payload.refCountType.forEach(function (itemName) {
-            newState.getIn(["entities", itemName]).forEach(function (entity, id) {
+            const entities = payload.entities[itemName];
+            for (let id in entities) {
+                const entity = newState.getIn(["entities", itemName, id]);
                 newState = updateEntityRefCount(newState, itemName, id, entity, 1);
-            });
+            }
         });
 
         return newState;
@@ -183,7 +185,9 @@ export default createReducer(initialState, {
 
         // Increment reference counter
         for (let itemName in payload.entities) {
-            newState.getIn(["entities", itemName]).forEach(function (entity, id) {
+            const entities = payload.entities[itemName];
+            entities.forEach(function (id) {
+                const entity = newState.getIn(["entities", itemName, id]);
                 newState = updateEntityRefCount(newState, itemName, id, entity, 1);
             });
         }
@@ -195,7 +199,9 @@ export default createReducer(initialState, {
 
         // Decrement reference counter
         for (let itemName in payload.entities) {
-            newState.getIn(["entities", itemName]).forEach(function (entity, id) {
+            const entities = payload.entities[itemName];
+            entities.forEach(function (id) {
+                const entity = newState.getIn(["entities", itemName, id]);
                 newState = updateEntityRefCount(newState, itemName, id, entity, -1);
             });
         }
@@ -207,5 +213,5 @@ export default createReducer(initialState, {
     },
     [INVALIDATE_STORE]: () => {
         return new stateRecord();
-    }
+    },
 });

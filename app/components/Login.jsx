@@ -23,7 +23,7 @@ const loginMessages = defineMessages(messagesMap(Array.concat([], APIMessages, m
  * Login form component
  */
 class LoginFormCSSIntl extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);  // bind this to handleSubmit
     }
@@ -36,7 +36,7 @@ class LoginFormCSSIntl extends Component {
      *
      * @return  True if an error is set, false otherwise
      */
-    setError (formGroup, hasError) {
+    setError(formGroup, hasError) {
         if (hasError) {
             // If error is true, then add error class
             formGroup.classList.add("has-error");
@@ -54,7 +54,7 @@ class LoginFormCSSIntl extends Component {
      *
      * @param   e   JS Event.
      */
-    handleSubmit (e) {
+    handleSubmit(e) {
         e.preventDefault();
 
         // Don't handle submit if already logging in
@@ -79,7 +79,7 @@ class LoginFormCSSIntl extends Component {
         }
     }
 
-    componentDidUpdate () {
+    componentDidUpdate() {
         if (this.props.error) {
             // On unsuccessful login, set error classes and shake the form
             $(this.refs.loginForm).shake(3, 10, 300);
@@ -89,7 +89,7 @@ class LoginFormCSSIntl extends Component {
         }
     }
 
-    render () {
+    render() {
         const {formatMessage} = this.props.intl;
 
         // Handle info message
@@ -187,7 +187,7 @@ export let LoginForm = injectIntl(CSSModules(LoginFormCSSIntl, css));
  * Main login page, including title and login form.
  */
 class LoginCSS extends Component {
-    render () {
+    render() {
         const greeting = (
             <p>
                 <FormattedMessage {...loginMessages["app.login.greeting"]} />
@@ -212,6 +212,6 @@ LoginCSS.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     isAuthenticating: PropTypes.bool,
     info: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    error: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+    error: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 export default CSSModules(LoginCSS, css);

@@ -17,14 +17,14 @@ export function buildPaginationObject(location, currentPage, nPages, goToPageAct
     const buildLinkToPage = function (pageNumber) {
         return {
             pathname: location.pathname,
-            query: Object.assign({}, location.query, { page: pageNumber })
+            query: Object.assign({}, location.query, { page: pageNumber }),
         };
     };
     return {
         currentPage: currentPage,
         nPages: nPages,
         goToPage: pageNumber => goToPageAction(buildLinkToPage(pageNumber)),
-        buildLinkToPage: buildLinkToPage
+        buildLinkToPage: buildLinkToPage,
     };
 }
 
@@ -57,6 +57,6 @@ export function computePaginationBounds(currentPage, nPages, maxNumberPagesShown
 
     return {
         lowerLimit: lowerLimit,
-        upperLimit: upperLimit + 1  // +1 to ease iteration in for with <
+        upperLimit: upperLimit + 1,  // +1 to ease iteration in for with <
     };
 }

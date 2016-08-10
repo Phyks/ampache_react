@@ -42,7 +42,7 @@ export default function (action, requestType, successType, failureType) {
             {
                 artist: arrayOf(artist),
                 album: arrayOf(album),
-                song: arrayOf(song)
+                song: arrayOf(song),
             },
             {
                 // Use custom assignEntity function to delete useless fields
@@ -52,7 +52,7 @@ export default function (action, requestType, successType, failureType) {
                     } else {
                         output[key] = value;
                     }
-                }
+                },
             }
         );
     };
@@ -80,9 +80,9 @@ export default function (action, requestType, successType, failureType) {
                     type: itemName,
                     result: jsonData.result[itemName],
                     nPages: nPages,
-                    currentPage: pageNumber
-                }
-            }
+                    currentPage: pageNumber,
+                },
+            },
         ];
     };
 
@@ -104,7 +104,7 @@ export default function (action, requestType, successType, failureType) {
         return {
             type: requestType,
             payload: {
-            }
+            },
         };
     };
 
@@ -119,8 +119,8 @@ export default function (action, requestType, successType, failureType) {
         return {
             type: failureType,
             payload: {
-                error: error
-            }
+                error: error,
+            },
         };
     };
 
@@ -144,7 +144,7 @@ export default function (action, requestType, successType, failureType) {
         // Set extra params for pagination
         let extraParams = {
             offset: offset,
-            limit: limit
+            limit: limit,
         };
 
         // Handle filter
@@ -165,13 +165,13 @@ export default function (action, requestType, successType, failureType) {
                 dispatch: [
                     fetchItemsRequest,
                     null,
-                    fetchItemsFailure
+                    fetchItemsFailure,
                 ],
                 action: action,
                 auth: passphrase,
                 username: username,
-                extraParams: extraParams
-            }
+                extraParams: extraParams,
+            },
         };
     };
 
@@ -186,7 +186,7 @@ export default function (action, requestType, successType, failureType) {
      *
      * Dispatches the CALL_API action to fetch these items.
      */
-    const loadPaginatedItems = function({ pageNumber = 1, limit = DEFAULT_LIMIT, filter = null, include = [] } = {}) {
+    const loadPaginatedItems = function ({ pageNumber = 1, limit = DEFAULT_LIMIT, filter = null, include = [] } = {}) {
         return (dispatch, getState) => {
             // Get credentials from the state
             const { auth } = getState();
@@ -222,7 +222,7 @@ export default function (action, requestType, successType, failureType) {
      *
      * Dispatches the CALL_API action to fetch this item.
      */
-    const loadItem = function({ filter = null, include = [] } = {}) {
+    const loadItem = function ({ filter = null, include = [] } = {}) {
         return (dispatch, getState) => {
             // Get credentials from the state
             const { auth } = getState();

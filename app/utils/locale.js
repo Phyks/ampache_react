@@ -6,7 +6,7 @@ import { i18nRecord } from "../models/i18n";
 /**
  * Get the preferred locales from the browser, as an array sorted by preferences.
  */
-export function getBrowserLocales () {
+export function getBrowserLocales() {
     let langs = [];
 
     if (navigator.languages) {

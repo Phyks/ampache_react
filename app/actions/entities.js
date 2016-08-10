@@ -17,8 +17,8 @@ export function pushEntities(entities, refCountType=["album", "artist", "song"])
         type: PUSH_ENTITIES,
         payload: {
             entities: entities,
-            refCountType: refCountType
-        }
+            refCountType: refCountType,
+        },
     };
 }
 
@@ -36,8 +36,8 @@ export function incrementRefCount(entities) {
     return {
         type: INCREMENT_REFCOUNT,
         payload: {
-            entities: entities
-        }
+            entities: entities,
+        },
     };
 }
 
@@ -55,7 +55,7 @@ export function decrementRefCount(entities) {
     return {
         type: DECREMENT_REFCOUNT,
         payload: {
-            entities: entities
-        }
+            entities: entities,
+        },
     };
 }

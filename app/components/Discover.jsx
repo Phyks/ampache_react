@@ -6,7 +6,7 @@ import FontAwesome from "react-fontawesome";
 import css from "../styles/Discover.scss";
 
 export default class DiscoverCSS extends Component {
-    render () {
+    render() {
         const artistsAlbumsSongsDropdown = (
             <div className="btn-group">
                 <button type="button" className="btn btn-default dropdown-toggle" styleName="h2Title" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

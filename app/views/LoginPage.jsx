@@ -14,7 +14,7 @@ import Login from "../components/Login";
  * Login page
  */
 export class LoginPage extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
         // Bind this
@@ -37,11 +37,11 @@ export class LoginPage extends Component {
         }
         return {
             pathname: redirectPathname,
-            query: redirectQuery
+            query: redirectQuery,
         };
     }
 
-    componentWillMount () {
+    componentWillMount() {
         // This checks if the user is already connected or not and redirects
         // them if it is the case.
 
@@ -67,14 +67,14 @@ export class LoginPage extends Component {
     /**
      * Handle click on submit button.
      */
-    handleSubmit (username, password, endpoint, rememberMe) {
+    handleSubmit(username, password, endpoint, rememberMe) {
         // Get page to redirect to
         const redirectTo = this._getRedirectTo();
         // Trigger login action
         this.props.actions.loginUser(username, password, endpoint, rememberMe, redirectTo);
     }
 
-    render () {
+    render() {
         return (
             <Login onSubmit={this.handleSubmit} username={this.props.username} endpoint={this.props.endpoint} rememberMe={this.props.rememberMe} isAuthenticating={this.props.isAuthenticating} error={this.props.error} info={this.props.info} />
         );
@@ -82,7 +82,7 @@ export class LoginPage extends Component {
 }
 
 LoginPage.contextTypes = {
-    router: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -93,11 +93,11 @@ const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
     token: state.auth.token,
     error: state.auth.error,
-    info: state.auth.info
+    info: state.auth.info,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators(actionCreators, dispatch)
+    actions: bindActionCreators(actionCreators, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

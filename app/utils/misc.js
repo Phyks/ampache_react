@@ -10,7 +10,7 @@
  * @return  Either NaN if the string was not a valid int representation, or the
  *          int.
  */
-export function filterInt (value) {
+export function filterInt(value) {
     if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value)) {
         return Number(value);
     }
@@ -24,7 +24,7 @@ export function filterInt (value) {
  * @param   time    Length of the song in seconds.
  * @return  Formatted length as MM:SS.
  */
-export function formatLength (time) {
+export function formatLength(time) {
     const min = Math.floor(time / 60);
     let sec = (time - 60 * min);
     if (sec < 10) {

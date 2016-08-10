@@ -12,11 +12,11 @@ export const stateRecord = new Immutable.Record({
     refCounts: new Immutable.Map({
         album: new Immutable.Map(),
         artist: new Immutable.Map(),
-        song: new Immutable.Map()
+        song: new Immutable.Map(),
     }),  /** Map of id => reference count for each object type (garbage collection) */
     entities: new Immutable.Map({
         album: new Immutable.Map(),
         artist: new Immutable.Map(),
-        song: new Immutable.Map()
-    })  /** Map of id => entity for each object type */
+        song: new Immutable.Map(),
+    }),  /** Map of id => entity for each object type */
 });

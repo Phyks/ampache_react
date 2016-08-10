@@ -12,8 +12,8 @@
  *
  * @return  The element it was applied one, for chaining.
  */
-$.fn.shake = function(intShakes, intDistance, intDuration) {
-    this.each(function() {
+$.fn.shake = function (intShakes, intDistance, intDuration) {
+    this.each(function () {
         $(this).css("position","relative");
         for (let x=1; x<=intShakes; x++) {
             $(this).animate({left:(intDistance*-1)}, (((intDuration/intShakes)/4)))

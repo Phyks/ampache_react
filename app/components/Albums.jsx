@@ -11,7 +11,7 @@ import DismissibleAlert from "./elements/DismissibleAlert";
  * Paginated albums grid
  */
 export default class Albums extends Component {
-    render () {
+    render() {
         // Handle error
         let error = null;
         if (this.props.error) {
@@ -25,7 +25,7 @@ export default class Albums extends Component {
             itemsType: "album",
             itemsLabel: "app.common.album",
             subItemsType: "tracks",
-            subItemsLabel: "app.common.track"
+            subItemsLabel: "app.common.track",
         };
 
         return (
