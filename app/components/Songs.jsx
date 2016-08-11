@@ -30,6 +30,30 @@ const songsMessages = defineMessages(messagesMap(Array.concat([], commonMessages
  * A single row for a single song in the songs table.
  */
 class SongsTableRowCSSIntl extends Component {
+    constructor(props) {
+        super(props);
+
+        // Bind this
+        this.onPlayClick = this.onPlayClick.bind(this);
+        this.onPlayNextClick = this.onPlayNextClick.bind(this);
+    }
+
+    /**
+     * Handle click on play button.
+     */
+    onPlayClick() {
+        $(this.refs.play).blur();
+        this.props.playAction(this.props.song.get("id"));
+    }
+
+    /**
+     * Handle click on play next button.
+     */
+    onPlayNextClick() {
+        $(this.refs.playNext).blur();
+        this.props.playNextAction(this.props.song.get("id"));
+    }
+
     render() {
         const { formatMessage } = this.props.intl;
 
@@ -40,11 +64,17 @@ class SongsTableRowCSSIntl extends Component {
         return (
             <tr>
                 <td>
-                    <button styleName="play" title={formatMessage(songsMessages["app.common.play"])} onClick={() => this.props.playAction(this.props.song.get("id"))}>
+                    <button styleName="play" title={formatMessage(songsMessages["app.common.play"])} onClick={this.onPlayClick} ref="play">
                         <span className="sr-only">
                             <FormattedMessage {...songsMessages["app.common.play"]} />
                         </span>
                         <FontAwesome name="play-circle-o" aria-hidden="true" />
+                    </button>&nbsp;
+                    <button styleName="playNext" title={formatMessage(songsMessages["app.common.playNext"])} onClick={this.onPlayNextClick} ref="playNext">
+                        <span className="sr-only">
+                            <FormattedMessage {...songsMessages["app.common.playNext"]} />
+                        </span>
+                        <FontAwesome name="plus-circle" aria-hidden="true" />
                     </button>
                 </td>
                 <td className="title">{this.props.song.get("name")}</td>
@@ -58,6 +88,7 @@ class SongsTableRowCSSIntl extends Component {
 }
 SongsTableRowCSSIntl.propTypes = {
     playAction: PropTypes.func.isRequired,
+    playNextAction: PropTypes.func.isRequired,
     song: PropTypes.instanceOf(Immutable.Map).isRequired,
     intl: intlShape.isRequired,
 };
@@ -86,9 +117,9 @@ class SongsTableCSS extends Component {
 
         // Build song rows
         let rows = [];
-        const { playAction } = this.props;
+        const { playAction, playNextAction } = this.props;
         displayedSongs.forEach(function (song) {
-            rows.push(<SongsTableRow playAction={playAction} song={song} key={song.get("id")} />);
+            rows.push(<SongsTableRow playAction={playAction} playNextAction={playNextAction} song={song} key={song.get("id")} />);
         });
 
         // Handle login icon
@@ -134,6 +165,7 @@ class SongsTableCSS extends Component {
 }
 SongsTableCSS.propTypes = {
     playAction: PropTypes.func.isRequired,
+    playNextAction: PropTypes.func.isRequired,
     songs: PropTypes.instanceOf(Immutable.List).isRequired,
     filterText: PropTypes.string,
 };
@@ -180,6 +212,7 @@ export default class FilterablePaginatedSongsTable extends Component {
         };
         const songsTableProps = {
             playAction: this.props.playAction,
+            playNextAction: this.props.playNextAction,
             isFetching: this.props.isFetching,
             songs: this.props.songs,
             filterText: this.state.filterText,
@@ -197,6 +230,7 @@ export default class FilterablePaginatedSongsTable extends Component {
 }
 FilterablePaginatedSongsTable.propTypes = {
     playAction: PropTypes.func.isRequired,
+    playNextAction: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     error: PropTypes.string,
     songs: PropTypes.instanceOf(Immutable.List).isRequired,

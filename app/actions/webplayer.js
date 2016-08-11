@@ -127,11 +127,12 @@ export const PUSH_SONG = "PUSH_SONG";
  *
  * @param   songID      The id of the song to push.
  * @param   index       [Optional] The position to insert at in the playlist.
- *                      If negative, counts from the end. Defaults to last.
+ *                      If negative, counts from the end. Undefined (default)
+ *                      is last position.
  *
  * @return  Dispatch a PUSH_SONG action.
  */
-export function pushSong(songID, index=-1) {
+export function pushSong(songID, index) {
     return (dispatch) => {
         // Handle reference counting
         dispatch(incrementRefCount({
@@ -197,31 +198,31 @@ export function jumpToSong(songID) {
 }
 
 
-export const PLAY_PREVIOUS = "PLAY_PREVIOUS";
+export const PLAY_PREVIOUS_SONG = "PLAY_PREVIOUS_SONG";
 /**
  * Move one song backwards in the playlist.
  *
- * @return  Dispatch a PLAY_PREVIOUS action.
+ * @return  Dispatch a PLAY_PREVIOUS_SONG action.
  */
-export function playPrevious() {
+export function playPreviousSong() {
     return (dispatch) => {
         dispatch({
-            type: PLAY_PREVIOUS,
+            type: PLAY_PREVIOUS_SONG,
         });
     };
 }
 
 
-export const PLAY_NEXT = "PLAY_NEXT";
+export const PLAY_NEXT_SONG = "PLAY_NEXT_SONG";
 /**
  * Move one song forward in the playlist.
  *
- * @return  Dispatch a PLAY_NEXT action.
+ * @return  Dispatch a PLAY_NEXT_SONG action.
  */
-export function playNext() {
+export function playNextSong() {
     return (dispatch) => {
         dispatch({
-            type: PLAY_NEXT,
+            type: PLAY_NEXT_SONG,
         });
     };
 }

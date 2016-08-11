@@ -49,6 +49,11 @@ const messages = [
         description: "Pause icon description",
         defaultMessage: "Pause",
     },
+    {
+        id: "app.common.playNext",
+        defaultMessage: "Play next",
+        description: "Play next icon descripton",
+    },
 ];
 
 export default messages;

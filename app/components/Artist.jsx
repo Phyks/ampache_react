@@ -48,13 +48,13 @@ class ArtistCSS extends Component {
 
         // Build album rows
         let albumsRows = [];
-        const { albums, songs, playAction } = this.props;
+        const { albums, songs, playAction, playNextAction } = this.props;
         if (albums && songs) {
             albums.forEach(function (album) {
                 const albumSongs = album.get("tracks").map(
                     id => songs.get(id)
                 );
-                albumsRows.push(<AlbumRow playAction={playAction} album={album} songs={albumSongs} key={album.get("id")} />);
+                albumsRows.push(<AlbumRow playAction={playAction} playNextAction={playNextAction} album={album} songs={albumSongs} key={album.get("id")} />);
             });
         }
 
@@ -85,6 +85,7 @@ ArtistCSS.propTypes = {
     error: PropTypes.string,
     isFetching: PropTypes.bool.isRequired,
     playAction: PropTypes.func.isRequired,
+    playNextAction: PropTypes.func.isRequired,
     artist: PropTypes.instanceOf(Immutable.Map),
     albums: PropTypes.instanceOf(Immutable.List),
     songs: PropTypes.instanceOf(Immutable.Map),

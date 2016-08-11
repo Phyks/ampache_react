@@ -19,8 +19,8 @@ import {
     PUSH_SONG,
     POP_SONG,
     JUMP_TO_SONG,
-    PLAY_PREVIOUS,
-    PLAY_NEXT,
+    PLAY_PREVIOUS_SONG,
+    PLAY_NEXT_SONG,
     TOGGLE_RANDOM,
     TOGGLE_REPEAT,
     TOGGLE_MUTE,
@@ -77,32 +77,66 @@ export default createReducer(initialState, {
     },
     [PUSH_SONG]: (state, payload) => {
         // Push song to playlist
-        const newPlaylist = state.get("playlist").insert(payload.index, payload.song);
-        return state.set("playlist", newPlaylist);
+        let newState = state;
+        if (payload.index) {
+            // If index is specified, insert it at this position
+            newState = newState.set(
+                "playlist",
+                newState.get("playlist").insert(payload.index, payload.song)
+            );
+            if (payload.index <= newState.get("currentIndex")) {  // "<=" because insertion is made before
+                // If we insert before the current position in the playlist, we
+                // update the current position to keep the currently played
+                // music
+                newState = newState.set(
+                    "currentIndex",
+                    Math.min(newState.get("currentIndex") + 1, newState.get("playlist").size)
+                );
+            }
+        } else {
+            // Else, push at the end of the playlist
+            newState = newState.set(
+                "playlist",
+                newState.get("playlist").push(payload.song)
+            );
+        }
+        return newState;
     },
     [POP_SONG]: (state, payload) => {
         // Pop song from playlist
-        return state.deleteIn(["playlist", payload.index]);
+        let newState = state.deleteIn(["playlist", payload.index]);
+        if (payload.index < state.get("currentIndex")) {
+            // If we delete before the current position in the playlist, we
+            // update the current position to keep the currently played
+            // music
+            newState = newState.set(
+                "currentIndex",
+                Math.max(newState.get("currentIndex") - 1, 0)
+            );
+        }
+        return newState;
     },
     [JUMP_TO_SONG]: (state, payload) => {
         // Set current index
         const newCurrentIndex = state.get("playlist").findKey(x => x == payload.song);
         return state.set("currentIndex", newCurrentIndex);
     },
-    [PLAY_PREVIOUS]: (state) => {
+    [PLAY_PREVIOUS_SONG]: (state) => {
         const newIndex = state.get("currentIndex") - 1;
         if (newIndex < 0) {
             // If there is an overlow on the left of the playlist, just stop
             // playback
+            // TODO: Behavior is not correct
             return stopPlayback(state);
         } else {
             return state.set("currentIndex", newIndex);
         }
     },
-    [PLAY_NEXT]: (state) => {
+    [PLAY_NEXT_SONG]: (state) => {
         const newIndex = state.get("currentIndex") + 1;
         if (newIndex > state.get("playlist").size) {
             // If there is an overflow, just stop playback
+            // TODO: Behavior is not correct
             return stopPlayback(state);
         } else {
             // Else, play next item

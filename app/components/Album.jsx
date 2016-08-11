@@ -22,17 +22,47 @@ const albumMessages = defineMessages(messagesMap(Array.concat([], commonMessages
  * Track row in an album tracks table.
  */
 class AlbumTrackRowCSSIntl extends Component {
+    constructor(props) {
+        super(props);
+
+        // Bind this
+        this.onPlayClick = this.onPlayClick.bind(this);
+        this.onPlayNextClick = this.onPlayNextClick.bind(this);
+    }
+
+    /**
+     * Handle click on play button.
+     */
+    onPlayClick() {
+        $(this.refs.play).blur();
+        this.props.playAction(this.props.song.get("id"));
+    }
+
+    /**
+     * Handle click on play next button.
+     */
+    onPlayNextClick() {
+        $(this.refs.playNext).blur();
+        this.props.playNextAction(this.props.song.get("id"));
+    }
+
     render() {
         const { formatMessage } = this.props.intl;
         const length = formatLength(this.props.track.get("time"));
         return (
             <tr>
                 <td>
-                    <button styleName="play" title={formatMessage(albumMessages["app.common.play"])} onClick={() => this.props.playAction(this.props.track.get("id"))}>
+                    <button styleName="play" title={formatMessage(albumMessages["app.common.play"])} onClick={this.onPlayClick}>
                         <span className="sr-only">
                             <FormattedMessage {...albumMessages["app.common.play"]} />
                         </span>
                         <FontAwesome name="play-circle-o" aria-hidden="true" />
+                    </button>&nbsp;
+                    <button styleName="playNext" title={formatMessage(albumMessages["app.common.playNext"])} onClick={this.onPlayNextClick} ref="playNext">
+                        <span className="sr-only">
+                            <FormattedMessage {...albumMessages["app.common.playNext"]} />
+                        </span>
+                        <FontAwesome name="plus-circle" aria-hidden="true" />
                     </button>
                 </td>
                 <td>{this.props.track.get("track")}</td>
@@ -44,6 +74,7 @@ class AlbumTrackRowCSSIntl extends Component {
 }
 AlbumTrackRowCSSIntl.propTypes = {
     playAction: PropTypes.func.isRequired,
+    playNextAction: PropTypes.func.isRequired,
     track: PropTypes.instanceOf(Immutable.Map).isRequired,
     intl: intlShape.isRequired,
 };
@@ -57,9 +88,9 @@ class AlbumTracksTableCSS extends Component {
     render() {
         let rows = [];
         // Build rows for each track
-        const playAction = this.props.playAction;
+        const { playAction, playNextAction } = this.props;
         this.props.tracks.forEach(function (item) {
-            rows.push(<AlbumTrackRow playAction={playAction} track={item} key={item.get("id")} />);
+            rows.push(<AlbumTrackRow playAction={playAction} playNextAction={playNextAction} track={item} key={item.get("id")} />);
         });
         return (
             <table className="table table-hover" styleName="songs">
@@ -72,6 +103,7 @@ class AlbumTracksTableCSS extends Component {
 }
 AlbumTracksTableCSS.propTypes = {
     playAction: PropTypes.func.isRequired,
+    playNextAction: PropTypes.func.isRequired,
     tracks: PropTypes.instanceOf(Immutable.List).isRequired,
 };
 export let AlbumTracksTable = CSSModules(AlbumTracksTableCSS, css);
@@ -93,7 +125,7 @@ class AlbumRowCSS extends Component {
                 <div className="col-xs-9 col-sm-10 table-responsive">
                     {
                         this.props.songs.size > 0 ?
-                            <AlbumTracksTable playAction={this.props.playAction} tracks={this.props.songs} /> :
+                            <AlbumTracksTable playAction={this.props.playAction} playNextAction={this.props.playNextAction} tracks={this.props.songs} /> :
                             null
                     }
                 </div>
@@ -103,6 +135,7 @@ class AlbumRowCSS extends Component {
 }
 AlbumRowCSS.propTypes = {
     playAction: PropTypes.func.isRequired,
+    playNextAction: PropTypes.func.isRequired,
     album: PropTypes.instanceOf(Immutable.Map).isRequired,
     songs: PropTypes.instanceOf(Immutable.List).isRequired,
 };

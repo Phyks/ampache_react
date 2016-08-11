@@ -11,6 +11,7 @@ module.exports = {
     "app.common.loading": "Chargement…",  // Loading indicator
     "app.common.pause": "Pause",  // Pause icon description
     "app.common.play": "Jouer",  // PLay icon description
+    "app.common.playNext": "Jouer après",  // "Play next icon descripton"
     "app.common.track": "{itemCount, plural, one {piste} other {pistes}}",  // Track
     "app.filter.filter": "Filtrer…",  // Filtering input placeholder
     "app.filter.whatAreWeListeningToToday": "Que voulez-vous écouter aujourd'hui\u00a0?",  // Description for the filter bar

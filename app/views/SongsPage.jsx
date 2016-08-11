@@ -56,7 +56,7 @@ class SongsPageIntl extends Component {
         const error = handleErrorI18nObject(this.props.error, formatMessage, songsMessages);
 
         return (
-            <Songs playAction={this.props.actions.playSong} isFetching={this.props.isFetching} error={error} songs={this.props.songsList} pagination={pagination} />
+            <Songs playAction={this.props.actions.playSong} playNextAction={this.props.actions.pushSong} isFetching={this.props.isFetching} error={error} songs={this.props.songsList} pagination={pagination} />
         );
     }
 }

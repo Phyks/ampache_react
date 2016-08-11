@@ -102,8 +102,8 @@ class WebPlayer extends Component {
             // Use a lambda to ensure no first argument is passed to
             // togglePlaying
             onPlayPause: (() => this.props.actions.togglePlaying()),
-            onPrev: this.props.actions.playPrevious,
-            onSkip: this.props.actions.playNext,
+            onPrev: this.props.actions.playPreviousSong,
+            onSkip: this.props.actions.playNextSong,
             onRandom: this.props.actions.toggleRandom,
             onRepeat: this.props.actions.toggleRepeat,
             onMute: this.props.actions.toggleMute,

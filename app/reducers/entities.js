@@ -167,7 +167,7 @@ export default createReducer(initialState, {
         newState = state.set("isFetching", false).set("error", payload.error);
 
         // Merge entities
-        newState = newState.mergeIn(["entities"], payload.entities);
+        newState = newState.mergeDeepIn(["entities"], payload.entities);
 
         // Increment reference counter
         payload.refCountType.forEach(function (itemName) {

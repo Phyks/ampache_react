@@ -82,6 +82,32 @@ class WebPlayerCSSIntl extends Component {
             }
         }
 
+        // Click handlers
+        const onPrev = (function () {
+            $(this.refs.prevBtn).blur();
+            this.props.onPrev();
+        }).bind(this);
+        const onPlayPause = (function () {
+            $(this.refs.playPauseBtn).blur();
+            this.props.onPlayPause();
+        }).bind(this);
+        const onSkip = (function () {
+            $(this.refs.nextBtn).blur();
+            this.props.onSkip();
+        }).bind(this);
+        const onMute = (function () {
+            $(this.refs.volumeBtn).blur();
+            this.props.onMute();
+        }).bind(this);
+        const onRepeat = (function () {
+            $(this.refs.repeatBtn).blur();
+            this.props.onRepeat();
+        }).bind(this);
+        const onRandom = (function () {
+            $(this.refs.randomBtn).blur();
+            this.props.onRandom();
+        }).bind(this);
+
         return (
             <div id="row" styleName="webplayer">
                 <div className="col-xs-12">
@@ -109,24 +135,24 @@ class WebPlayerCSSIntl extends Component {
 
                     <div className="row text-center" styleName="controls">
                         <div className="col-xs-12">
-                            <button styleName="prevBtn" aria-label={formatMessage(webplayerMessages["app.webplayer.previous"])} title={formatMessage(webplayerMessages["app.webplayer.previous"])} onClick={this.props.onPrev}>
+                            <button styleName="prevBtn" aria-label={formatMessage(webplayerMessages["app.webplayer.previous"])} title={formatMessage(webplayerMessages["app.webplayer.previous"])} onClick={onPrev} ref="prevBtn">
                                 <FontAwesome name="step-backward" />
                             </button>
-                            <button className="play" styleName="playPauseBtn" aria-label={formatMessage(webplayerMessages["app.common." + playPause])} title={formatMessage(webplayerMessages["app.common." + playPause])} onClick={this.props.onPlayPause}>
+                            <button className="play" styleName="playPauseBtn" aria-label={formatMessage(webplayerMessages["app.common." + playPause])} title={formatMessage(webplayerMessages["app.common." + playPause])} onClick={onPlayPause.bind(this)} ref="playPauseBtn">
                                 <FontAwesome name={playPause} />
                             </button>
-                            <button styleName="nextBtn" aria-label={formatMessage(webplayerMessages["app.webplayer.next"])} title={formatMessage(webplayerMessages["app.webplayer.next"])} onClick={this.props.onSkip}>
+                            <button styleName="nextBtn" aria-label={formatMessage(webplayerMessages["app.webplayer.next"])} title={formatMessage(webplayerMessages["app.webplayer.next"])} onClick={onSkip} ref="nextBtn">
                                 <FontAwesome name="step-forward" />
                             </button>
                         </div>
                         <div className="col-xs-12">
-                            <button styleName="volumeBtn" aria-label={formatMessage(webplayerMessages["app.webplayer.volume"])} title={formatMessage(webplayerMessages["app.webplayer.volume"])} onClick={this.props.onMute}>
+                            <button styleName="volumeBtn" aria-label={formatMessage(webplayerMessages["app.webplayer.volume"])} title={formatMessage(webplayerMessages["app.webplayer.volume"])} onClick={onMute} ref="volumeBtn">
                                 <FontAwesome name={volumeIcon} />
                             </button>
-                            <button styleName={repeatBtnStyles.join(" ")} aria-label={formatMessage(webplayerMessages["app.webplayer.repeat"])} title={formatMessage(webplayerMessages["app.webplayer.repeat"])} aria-pressed={this.props.isRepeat} onClick={this.props.onRepeat}>
+                            <button styleName={repeatBtnStyles.join(" ")} aria-label={formatMessage(webplayerMessages["app.webplayer.repeat"])} title={formatMessage(webplayerMessages["app.webplayer.repeat"])} aria-pressed={this.props.isRepeat} onClick={onRepeat} ref="repeatBtn">
                                 <FontAwesome name="repeat" />
                             </button>
-                            <button styleName={randomBtnStyles.join(" ")} aria-label={formatMessage(webplayerMessages["app.webplayer.random"])} title={formatMessage(webplayerMessages["app.webplayer.random"])} aria-pressed={this.props.isRandom} onClick={this.props.onRandom}>
+                            <button styleName={randomBtnStyles.join(" ")} aria-label={formatMessage(webplayerMessages["app.webplayer.random"])} title={formatMessage(webplayerMessages["app.webplayer.random"])} aria-pressed={this.props.isRandom} onClick={onRandom} ref="randomBtn">
                                 <FontAwesome name="random" />
                             </button>
                             <button styleName="playlistBtn" aria-label={formatMessage(webplayerMessages["app.webplayer.playlist"])} title={formatMessage(webplayerMessages["app.webplayer.playlist"])}>

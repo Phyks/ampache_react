@@ -35,6 +35,11 @@ $artMarginBottom: 10px;
     composes: play from "./Songs.scss";
 }
 
+/* Play next button is based on the one in Songs list. */
+.playNext {
+    composes: playNext from "./Songs.scss";
+}
+
 @media (max-width: 767px) {
     .nameRow h2 {
         margin-top: 0;
