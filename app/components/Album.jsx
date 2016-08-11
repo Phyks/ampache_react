@@ -35,7 +35,7 @@ class AlbumTrackRowCSSIntl extends Component {
      */
     onPlayClick() {
         $(this.refs.play).blur();
-        this.props.playAction(this.props.song.get("id"));
+        this.props.playAction(this.props.track.get("id"));
     }
 
     /**
@@ -43,7 +43,7 @@ class AlbumTrackRowCSSIntl extends Component {
      */
     onPlayNextClick() {
         $(this.refs.playNext).blur();
-        this.props.playNextAction(this.props.song.get("id"));
+        this.props.playNextAction(this.props.track.get("id"));
     }
 
     render() {
