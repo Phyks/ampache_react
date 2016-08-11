@@ -124,20 +124,25 @@ export default createReducer(initialState, {
     [PLAY_PREVIOUS_SONG]: (state) => {
         const newIndex = state.get("currentIndex") - 1;
         if (newIndex < 0) {
-            // If there is an overlow on the left of the playlist, just stop
-            // playback
-            // TODO: Behavior is not correct
-            return stopPlayback(state);
+            // If there is an overlow on the left of the playlist, just play
+            // first music again
+            // TODO: Should seek to beginning of music
+            return state;
         } else {
             return state.set("currentIndex", newIndex);
         }
     },
     [PLAY_NEXT_SONG]: (state) => {
         const newIndex = state.get("currentIndex") + 1;
-        if (newIndex > state.get("playlist").size) {
-            // If there is an overflow, just stop playback
-            // TODO: Behavior is not correct
-            return stopPlayback(state);
+        if (newIndex >= state.get("playlist").size) {
+            // If there is an overflow
+            if (state.get("isRepeat")) {
+                // TODO: Handle repeat
+                return state;
+            } else {
+                // Just stop playback
+                return state.set("isPlaying", false);
+            }
         } else {
             // Else, play next item
             return state.set("currentIndex", newIndex);

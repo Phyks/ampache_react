@@ -75,21 +75,16 @@ class WebPlayer extends Component {
     startPlaying(props) {
         if (props.isPlaying && props.currentSong) {
             // If it should be playing any song
-            if (!this.howl) {
-                // Build a new Howler object with current song to play
-                const url = props.currentSong.get("url");
-                this.howl = new Howl({
-                    src: [url],
-                    html5: true,  // Use HTML5 by default to allow streaming
-                    mute: props.isMute,
-                    volume: props.volume / 100,  // Set current volume
-                    autoplay: false,  // No autoplay, we handle it manually
-                    onend: () => props.actions.playNextSong(),  // Play next song at the end
-                });
-            } else {
-                // Else, something is playing
-                // TODO If it is not the expected song, change it
-            }
+            // Build a new Howler object with current song to play
+            const url = props.currentSong.get("url");
+            this.howl = new Howl({
+                src: [url],
+                html5: true,  // Use HTML5 by default to allow streaming
+                mute: props.isMute,
+                volume: props.volume / 100,  // Set current volume
+                autoplay: false,  // No autoplay, we handle it manually
+                onend: () => props.actions.playNextSong(),  // Play next song at the end
+            });
             // Start playing
             this.howl.play();
         }
