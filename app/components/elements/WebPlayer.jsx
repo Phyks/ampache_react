@@ -89,12 +89,20 @@ class WebPlayerCSSIntl extends Component {
                         <div className="col-xs-12">
                             <img src={art} width="200" height="200" alt={formatMessage(webplayerMessages["app.common.art"])} ref="art" styleName="art" />
                             <div ref="artText">
-                                <h2>{songTitle}</h2>
-                                <h3>
-                                    <span className="text-capitalize">
-                                        <FormattedMessage {...webplayerMessages["app.webplayer.by"]} />
-                                    </span> { artistName }
-                                </h3>
+                                {
+                                    (artistName && songTitle)
+                                        ? (
+                                            <div>
+                                                <h2>{songTitle}</h2>
+                                                <h3>
+                                                    <span className="text-capitalize">
+                                                        <FormattedMessage {...webplayerMessages["app.webplayer.by"]} />
+                                                    </span> { artistName }
+                                                </h3>
+                                            </div>
+                                            )
+                                        : null
+                                }
                             </div>
                         </div>
                     </div>

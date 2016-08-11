@@ -65,11 +65,6 @@ class WebPlayer extends Component {
             if (!this.howl) {
                 // Build a new Howler object with current song to play
                 const url = props.currentSong.get("url");
-                if (!url) {
-                    // TODO: Error handling
-                    console.error("URL not found.");
-                    return;
-                }
                 this.howl = new Howl({
                     src: [url],
                     html5: true,  // Use HTML5 by default to allow streaming
@@ -114,7 +109,9 @@ class WebPlayer extends Component {
             onMute: this.props.actions.toggleMute,
         };
         return (
-            <WebPlayerComponent {...webplayerProps} />
+            (this.props.playlist.size > 0)
+            ? <WebPlayerComponent {...webplayerProps} />
+            : <div></div>
         );
     }
 }
