@@ -23,6 +23,8 @@ class WebPlayer extends Component {
 
         // Bind this
         this.startPlaying = this.startPlaying.bind(this);
+        this.stopPlaying = this.stopPlaying.bind(this);
+        this.isPlaying = this.isPlaying.bind(this);
     }
 
     componentDidMount() {
@@ -32,16 +34,27 @@ class WebPlayer extends Component {
 
     componentWillUpdate(nextProps) {
         // Handle stop
-        if (!nextProps.currentSong || nextProps.playlist.size < 1) {
+        if (
+            // No current song in updated props
+            !nextProps.currentSong ||
+            // No playlist in updated props
+            nextProps.playlist.size < 1 ||
+            // Song played is not the song currently played
+            (this.props.currentSong && nextProps.currentSong.get("id") != this.props.currentSong.get("id"))
+        ) {
             if (this.howl) {
-                this.howl.stop();
+                this.stopPlaying();
             }
         }
 
         // Toggle play / pause
-        if (nextProps.isPlaying != this.props.isPlaying) {
+        if (
             // This check ensure we do not start playing multiple times the
             // same song
+            (nextProps.isPlaying != this.props.isPlaying) ||
+            // Or we should be playing but there is no howl object playing
+            (nextProps.isPlaying && !this.isPlaying())
+        ) {
             this.startPlaying(nextProps);
         }
 
@@ -71,6 +84,7 @@ class WebPlayer extends Component {
                     mute: props.isMute,
                     volume: props.volume / 100,  // Set current volume
                     autoplay: false,  // No autoplay, we handle it manually
+                    onend: () => props.actions.playNextSong(),  // Play next song at the end
                 });
             } else {
                 // Else, something is playing
@@ -86,6 +100,28 @@ class WebPlayer extends Component {
                 this.howl.pause();
             }
         }
+    }
+
+    /**
+     * Stop playback through Howler and Web Audio API.
+     */
+    stopPlaying() {
+        // Stop music playback
+        this.howl.stop();
+        // Reset howl object
+        this.howl = null;
+    }
+
+    /**
+     * Check whether some music is currently playing or not.
+     *
+     * @return  True / False whether music is playing.
+     */
+    isPlaying() {
+        if (this.howl) {
+            return this.howl.playing();
+        }
+        return false;
     }
 
     render() {
