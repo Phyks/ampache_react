@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from "react";
 import CSSModules from "react-css-modules";
 import { defineMessages, injectIntl, intlShape, FormattedMessage } from "react-intl";
+import { Link } from "react-router";
 import Immutable from "immutable";
 import FontAwesome from "react-fontawesome";
 
@@ -63,11 +64,15 @@ class WebPlayerCSSIntl extends Component {
         // Get classes for random and repeat buttons
         const randomBtnStyles = ["randomBtn"];
         const repeatBtnStyles = ["repeatBtn"];
+        const playlistBtnStyles = ["playlistBtn"];
         if (this.props.isRandom) {
             randomBtnStyles.push("active");
         }
         if (this.props.isRepeat) {
             repeatBtnStyles.push("active");
+        }
+        if (this.props.isPlaylistViewActive) {
+            playlistBtnStyles.push("active");
         }
 
         // Check if a song is currently playing
@@ -155,9 +160,9 @@ class WebPlayerCSSIntl extends Component {
                             <button styleName={randomBtnStyles.join(" ")} aria-label={formatMessage(webplayerMessages["app.webplayer.random"])} title={formatMessage(webplayerMessages["app.webplayer.random"])} aria-pressed={this.props.isRandom} onClick={onRandom} ref="randomBtn">
                                 <FontAwesome name="random" />
                             </button>
-                            <button styleName="playlistBtn" aria-label={formatMessage(webplayerMessages["app.webplayer.playlist"])} title={formatMessage(webplayerMessages["app.webplayer.playlist"])}>
+                            <Link to="/playlist" styleName={playlistBtnStyles.join(" ")} aria-label={formatMessage(webplayerMessages["app.webplayer.playlist"])} title={formatMessage(webplayerMessages["app.webplayer.playlist"])}>
                                 <FontAwesome name="list" />
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -182,6 +187,7 @@ WebPlayerCSSIntl.propTypes = {
     onRandom: PropTypes.func.isRequired,
     onRepeat: PropTypes.func.isRequired,
     onMute: PropTypes.func.isRequired,
+    isPlaylistViewActive: PropTypes.bool,
     intl: intlShape.isRequired,
 };
 

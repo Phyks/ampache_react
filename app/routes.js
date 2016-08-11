@@ -8,16 +8,17 @@ import RequireAuthentication from "./containers/RequireAuthentication";
 import App from "./containers/App";
 import SimpleLayout from "./components/layouts/Simple";
 import SidebarLayout from "./components/layouts/Sidebar";
+import ArtistPage from "./views/ArtistPage";
+import ArtistsPage from "./views/ArtistsPage";
+import AlbumPage from "./views/AlbumPage";
+import AlbumsPage from "./views/AlbumsPage";
 import BrowsePage from "./views/BrowsePage";
 import DiscoverPage from "./views/DiscoverPage";
 import HomePage from "./views/HomePage";
 import LoginPage from "./views/LoginPage";
 import LogoutPage from "./views/LogoutPage";
-import ArtistsPage from "./views/ArtistsPage";
-import AlbumsPage from "./views/AlbumsPage";
+import PlaylistPage from "./views/PlaylistPage";
 import SongsPage from "./views/SongsPage";
-import ArtistPage from "./views/ArtistPage";
-import AlbumPage from "./views/AlbumPage";
 
 export default (
     <Route path="/" component={App}>  // Main container is App
@@ -34,6 +35,7 @@ export default (
                 <Route path="albums" component={AlbumsPage} />
                 <Route path="album/:id" component={AlbumPage} />
                 <Route path="songs" component={SongsPage} />
+                <Route path="playlist" component={PlaylistPage} />
                 <IndexRoute component={HomePage} />
             </Route>
         </Route>

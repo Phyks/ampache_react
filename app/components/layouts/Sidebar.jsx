@@ -146,7 +146,7 @@ class SidebarLayoutIntl extends Component {
                                 </li>
                             </ul>
                         </nav>
-                        <WebPlayer />
+                        <WebPlayer location={this.props.location} />
                     </div>
                 </div>
 

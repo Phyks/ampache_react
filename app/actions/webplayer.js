@@ -69,21 +69,28 @@ export const SET_PLAYLIST = "SET_PLAYLIST";
  * @return  Dispatch a SET_PLAYLIST action.
  */
 export function setPlaylist(playlist) {
+    // Attention, order of actions *do* matter in this method. We should first
+    // set the playlist and then handle the reference counting.
+    // We should first increment and then increment to avoid garbage collecting
+    // items that would stay in the playlist.
     return (dispatch, getState) => {
-        // Handle reference counting
-        dispatch(decrementRefCount({
-            song: getState().webplayer.get("playlist").toArray(),
-        }));
-        dispatch(incrementRefCount({
-            song: playlist,
-        }));
-        // Set playlist
+        const oldPlaylist = getState().webplayer.get("playlist").toArray();
+
+        // Set new playlist
         dispatch ({
             type: SET_PLAYLIST,
             payload: {
                 playlist: playlist,
             },
         });
+
+        // Handle reference counting
+        dispatch(incrementRefCount({
+            song: playlist,
+        }));
+        dispatch(decrementRefCount({
+            song: oldPlaylist,
+        }));
     };
 }
 
@@ -98,14 +105,14 @@ export function setPlaylist(playlist) {
  * @return  Dispatch a SET_PLAYLIST action to play this song and start playing.
  */
 export function playSong(songID) {
+    // Attention, order of actions *do* matter in this method. We should first
+    // set the playlist and then handle the reference counting.
+    // We should first increment and then increment to avoid garbage collecting
+    // items that would stay in the playlist.
     return (dispatch, getState) => {
-        // Handle reference counting
-        dispatch(decrementRefCount({
-            song: getState().webplayer.get("playlist").toArray(),
-        }));
-        dispatch(incrementRefCount({
-            song: [songID],
-        }));
+        // Get old and new playlists
+        const oldPlaylist = getState().webplayer.get("playlist").toArray();
+
         // Set new playlist
         dispatch({
             type: SET_PLAYLIST,
@@ -113,6 +120,15 @@ export function playSong(songID) {
                 playlist: [songID],
             },
         });
+
+        // Handle reference counting
+        dispatch(incrementRefCount({
+            song: [songID],
+        }));
+        dispatch(decrementRefCount({
+            song: oldPlaylist,
+        }));
+
         // Force playing
         dispatch(togglePlaying(true));
     };

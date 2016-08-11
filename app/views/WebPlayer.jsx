@@ -1,5 +1,5 @@
 // NPM imports
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { Howl } from "howler";
@@ -138,6 +138,11 @@ class WebPlayer extends Component {
             onRandom: this.props.actions.toggleRandom,
             onRepeat: this.props.actions.toggleRepeat,
             onMute: this.props.actions.toggleMute,
+            isPlaylistViewActive: (
+                (this.props.location && this.props.location.pathname == "/playlist")
+                ? true
+                : false
+            ),
         };
         return (
             (this.props.playlist.size > 0)
@@ -146,6 +151,9 @@ class WebPlayer extends Component {
         );
     }
 }
+WebPlayer.propTypes = {
+    location: PropTypes.object,
+};
 const mapStateToProps = (state) => {
     const currentIndex = state.webplayer.currentIndex;
     const playlist = state.webplayer.playlist;
