@@ -40,10 +40,18 @@ class PaginationCSSIntl extends Component {
 
         // Parse and check page number
         const pageNumber = filterInt(this.refs.pageInput.value);
-        if (pageNumber && !isNaN(pageNumber)) {
+        if (pageNumber && !isNaN(pageNumber) && pageNumber > 0 && pageNumber <= this.props.nPages) {
+            // Remove error class from input form
+            this.refs.pageFormGroup.classList.remove("has-error");
+            this.refs.pageFormGroup.classList.add("has-success");
             // Hide the modal and go to page
             $(this.refs.paginationModal).modal("hide");
             this.props.goToPage(pageNumber);
+        } else {
+            // Set error class on input form
+            this.refs.pageFormGroup.classList.add("has-error");
+            this.refs.pageFormGroup.classList.remove("has-success");
+            return;
         }
     }
 
@@ -164,7 +172,9 @@ class PaginationCSSIntl extends Component {
                                 </div>
                                 <div className="modal-body">
                                     <form onSubmit={this.goToPage}>
-                                        <input className="form-control" autoComplete="off" type="number" ref="pageInput" aria-label={formatMessage(paginationMessages["app.pagination.pageToGoTo"])} autoFocus />
+                                        <div className="form-group" ref="pageFormGroup">
+                                            <input className="form-control" autoComplete="off" type="number" ref="pageInput" aria-label={formatMessage(paginationMessages["app.pagination.pageToGoTo"])} min="1" max={this.props.nPages} step="1" defaultValue={this.props.currentPage} autoFocus />
+                                        </div>
                                     </form>
                                 </div>
                                 <div className="modal-footer">

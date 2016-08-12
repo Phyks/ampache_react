@@ -16,7 +16,9 @@ Or you can use the [hosted version](https://phyks.github.io/ampache_react/).
 ## Requirements
 
 To use this interface, you need:
-* An Ampache server on which you have an account.
+* An Ampache server on which you have an account, serving the [XML
+  API](https://github.com/ampache/ampache/wiki/XML-API). Ensures your server
+  has correct [CORS header](https://www.w3.org/wiki/CORS_Enabled) set.
 * A modern browser.
 
 For now, this is a work in progress and as such, the [hosted
