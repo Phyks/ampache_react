@@ -1,5 +1,6 @@
 // NPM imports
 import React, { Component, PropTypes } from "react";
+import ReactDOM from "react-dom";
 import CSSModules from "react-css-modules";
 import { defineMessages, FormattedMessage } from "react-intl";
 import FontAwesome from "react-fontawesome";
@@ -26,6 +27,28 @@ const artistMessages = defineMessages(messagesMap(Array.concat([], commonMessage
  * Single artist page
  */
 class ArtistCSS extends Component {
+    constructor(props) {
+        super(props);
+
+        // Set state
+        this.state = {
+            hasScrolled: false,  // Not scrolled initially
+        };
+    }
+
+    componentDidUpdate() {
+        // After each update, check if we need to scroll to a given element
+        // State prevents scrolling at each and every update
+        if (this.refs.scroll && !this.state.hasScrolled) {
+            console.log("scroll!");
+            console.log($(ReactDOM.findDOMNode(this.refs.scroll)).offset().top);
+            $("html, body").animate({ scrollTop: $(ReactDOM.findDOMNode(this.refs.scroll)).offset().top }, 600);
+            this.setState({
+                hasScrolled: true,
+            });
+        }
+    }
+
     render() {
         // Define loading message
         let loading = null;
@@ -48,13 +71,17 @@ class ArtistCSS extends Component {
 
         // Build album rows
         let albumsRows = [];
-        const { albums, songs, playAction, playNextAction } = this.props;
+        const { albums, songs, playAction, playNextAction, scrollToAlbum } = this.props;
         if (albums && songs) {
             albums.forEach(function (album) {
+                // Get songs of this album
                 const albumSongs = album.get("tracks").map(
                     id => songs.get(id)
                 );
-                albumsRows.push(<AlbumRow playAction={playAction} playNextAction={playNextAction} album={album} songs={albumSongs} key={album.get("id")} />);
+                // Handle scrolling to a specific album by applying a given ref
+                const ref = (scrollToAlbum == album.get("id")) ? "scroll" : null;
+
+                albumsRows.push(<AlbumRow playAction={playAction} playNextAction={playNextAction} album={album} songs={albumSongs} key={album.get("id")} ref={ref}/>);
             });
         }
 
@@ -89,5 +116,6 @@ ArtistCSS.propTypes = {
     artist: PropTypes.instanceOf(Immutable.Map),
     albums: PropTypes.instanceOf(Immutable.List),
     songs: PropTypes.instanceOf(Immutable.Map),
+    scrollToAlbum: PropTypes.number,
 };
 export default CSSModules(ArtistCSS, css);

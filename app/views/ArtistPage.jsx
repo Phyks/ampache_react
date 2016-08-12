@@ -1,3 +1,6 @@
+/**
+ * TODO: Scroll to album if /album/:id is passed.
+ */
 // NPM imports
 import React, { Component, PropTypes } from "react";
 import { bindActionCreators } from "redux";
@@ -52,7 +55,7 @@ class ArtistPageIntl extends Component {
         const error = handleErrorI18nObject(this.props.error, formatMessage, artistMessages);
 
         return (
-            <Artist playAction={this.props.actions.playSong} playNextAction={this.props.actions.pushSong} isFetching={this.props.isFetching} error={error} artist={this.props.artist} albums={this.props.albums} songs={this.props.songs} />
+            <Artist playAction={this.props.actions.playSong} playNextAction={this.props.actions.pushSong} isFetching={this.props.isFetching} error={error} artist={this.props.artist} albums={this.props.albums} songs={this.props.songs} scrollToAlbum={parseInt(this.props.params.album)} />
         );
     }
 }
