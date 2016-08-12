@@ -91,7 +91,11 @@ function _uglyFixes(jsonData) {
         return songs.map(function (song) {
             // Fix for cdata left in artist and album
             song.artist.name = song.artist.cdata;
+            delete(song.artist.cdata);
+            delete(song.artist.toString);
             song.album.name = song.album.cdata;
+            delete(song.album.cdata);
+            delete(song.album.toString);
             return song;
         });
     };
@@ -104,6 +108,11 @@ function _uglyFixes(jsonData) {
             if (album.disk > 1) {
                 album.name = album.name + " [Disk " + album.disk + "]";
             }
+
+            // Fix for cdata left in artist
+            album.artist.name = album.artist.cdata;
+            delete(album.artist.cdata);
+            delete(album.artist.toString);
 
             // Move songs one node top
             if (album.tracks.song) {

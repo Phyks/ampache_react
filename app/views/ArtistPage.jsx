@@ -26,7 +26,7 @@ const artistMessages = defineMessages(messagesMap(Array.concat([], APIMessages))
  */
 class ArtistPageIntl extends Component {
     componentWillMount() {
-        const id = filterInt(this.props.params.id.split("-")[0]);
+        const id = filterInt(this.props.params.artist.split("-")[0]);
         if (isNaN(id)) {
             // Redirect to homepage
             this.context.router.replace({
@@ -65,7 +65,7 @@ ArtistPageIntl.contextTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-    const id = ownProps.params.id.split("-")[0];
+    const id = ownProps.params.artist.split("-")[0];
     // Get artist
     let artist = state.entities.getIn(["entities", "artist", id]);
     let albums = new Immutable.List();

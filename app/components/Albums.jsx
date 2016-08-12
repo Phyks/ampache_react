@@ -19,6 +19,7 @@ export default class Albums extends Component {
         }
 
         // Set grid props
+        const artists = this.props.artists;
         const grid = {
             isFetching: this.props.isFetching,
             items: this.props.albums,
@@ -26,6 +27,14 @@ export default class Albums extends Component {
             itemsLabel: "app.common.album",
             subItemsType: "tracks",
             subItemsLabel: "app.common.track",
+            buildLinkTo: (itemType, item) => {
+                let artist = encodeURIComponent(item.get("artist"));
+                if (artists && artists.size > 0) {
+                    const id = item.get("artist");
+                    artist = encodeURIComponent(id + "-" + artists.getIn([id, "name"]));
+                }
+                return "/artist/" + artist + "/album/" + item.get("id") + "-" + encodeURIComponent(item.get("name"));
+            },
         };
 
         return (
@@ -40,5 +49,6 @@ Albums.propTypes = {
     error: PropTypes.string,
     isFetching: PropTypes.bool.isRequired,
     albums: PropTypes.instanceOf(Immutable.List).isRequired,
+    artists: PropTypes.instanceOf(Immutable.Map),
     pagination: PropTypes.object.isRequired,
 };

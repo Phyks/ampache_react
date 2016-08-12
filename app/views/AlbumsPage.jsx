@@ -56,7 +56,7 @@ class AlbumsPageIntl extends Component {
         const error = handleErrorI18nObject(this.props.error, formatMessage, albumsMessages);
 
         return (
-            <Albums isFetching={this.props.isFetching} error={error} albums={this.props.albumsList} pagination={pagination} />
+            <Albums isFetching={this.props.isFetching} error={error} albums={this.props.albumsList} artists={this.props.artistsList} pagination={pagination} />
         );
     }
 }
@@ -67,15 +67,21 @@ AlbumsPageIntl.propTypes = {
 
 const mapStateToProps = (state) => {
     let albumsList = new Immutable.List();
+    let artistsList = new Immutable.Map();
     if (state.paginated.type == "album" && state.paginated.result.size > 0) {
         albumsList = state.paginated.result.map(
             id => state.entities.getIn(["entities", "album", id])
         );
+        albumsList.forEach(function (album) {
+            const albumArtist = album.get("artist");
+            artistsList = artistsList.set(albumArtist, state.entities.getIn(["entities", "artist", albumArtist]));
+        });
     }
     return {
         isFetching: state.entities.isFetching,
         error: state.entities.error,
         albumsList: albumsList,
+        artistsList: artistsList,
         currentPage: state.paginated.currentPage,
         nPages: state.paginated.nPages,
     };

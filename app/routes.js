@@ -10,7 +10,6 @@ import SimpleLayout from "./components/layouts/Simple";
 import SidebarLayout from "./components/layouts/Sidebar";
 import ArtistPage from "./views/ArtistPage";
 import ArtistsPage from "./views/ArtistsPage";
-import AlbumPage from "./views/AlbumPage";
 import AlbumsPage from "./views/AlbumsPage";
 import BrowsePage from "./views/BrowsePage";
 import DiscoverPage from "./views/DiscoverPage";
@@ -31,9 +30,9 @@ export default (
                 <Route path="discover" component={DiscoverPage} />
                 <Route path="browse" component={BrowsePage} />
                 <Route path="artists" component={ArtistsPage} />
-                <Route path="artist/:id" component={ArtistPage} />
+                <Route path="artist/:artist" component={ArtistPage} />
                 <Route path="albums" component={AlbumsPage} />
-                <Route path="album/:id" component={AlbumPage} />
+                <Route path="artist/:artist/album/:album" component={ArtistPage} />
                 <Route path="songs" component={SongsPage} />
                 <Route path="playlist" component={PlaylistPage} />
                 <IndexRoute component={HomePage} />
