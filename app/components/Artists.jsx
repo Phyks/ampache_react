@@ -26,6 +26,9 @@ export default class Artists extends Component {
             itemsLabel: "app.common.artist",
             subItemsType: "albums",
             subItemsLabel: "app.common.album",
+            buildLinkTo: (itemType, item) => {
+                return "/" + itemType + "/" + item.get("id") + "-" + encodeURIComponent(item.get("name"));
+            },
         };
 
         return (

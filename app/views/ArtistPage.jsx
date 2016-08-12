@@ -1,12 +1,12 @@
 // NPM imports
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { defineMessages, injectIntl, intlShape } from "react-intl";
 import Immutable from "immutable";
 
 // Local imports
-import { messagesMap, handleErrorI18nObject } from "../utils";
+import { messagesMap, handleErrorI18nObject, filterInt } from "../utils";
 
 // Actions
 import * as actionCreators from "../actions";
@@ -26,9 +26,16 @@ const artistMessages = defineMessages(messagesMap(Array.concat([], APIMessages))
  */
 class ArtistPageIntl extends Component {
     componentWillMount() {
+        const id = filterInt(this.props.params.id.split("-")[0]);
+        if (isNaN(id)) {
+            // Redirect to homepage
+            this.context.router.replace({
+                pathname: "/",
+            });
+        }
         // Load the data
         this.props.actions.loadArtist({
-            filter: this.props.params.id,
+            filter: id,
             include: ["albums", "songs"],
         });
     }
@@ -53,10 +60,14 @@ class ArtistPageIntl extends Component {
 ArtistPageIntl.propTypes = {
     intl: intlShape.isRequired,
 };
+ArtistPageIntl.contextTypes = {
+    router: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = (state, ownProps) => {
+    const id = ownProps.params.id.split("-")[0];
     // Get artist
-    let artist = state.entities.getIn(["entities", "artist", ownProps.params.id]);
+    let artist = state.entities.getIn(["entities", "artist", id]);
     let albums = new Immutable.List();
     let songs = new Immutable.Map();
     if (artist) {

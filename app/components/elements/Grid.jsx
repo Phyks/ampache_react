@@ -64,7 +64,10 @@ class GridItemCSSIntl extends Component {
             { itemCount: nSubItems }
         );
 
-        const to = "/" + this.props.itemsType + "/" + this.props.item.get("id");
+        let to = "/" + this.props.itemsType + "/" + this.props.item.get("id");
+        if (this.props.buildLinkTo) {
+            to = this.props.buildLinkTo(this.props.itemsType, this.props.item);
+        }
         const id = "grid-item-" + this.props.itemsType + "/" + this.props.item.get("id");
         const title = formatMessage(gridMessages["app.grid.goTo" + this.props.itemsType.capitalize() + "Page"]);
 
@@ -85,6 +88,7 @@ GridItemCSSIntl.propTypes = {
     itemsLabel: PropTypes.string.isRequired,
     subItemsType: PropTypes.string.isRequired,
     subItemsLabel: PropTypes.string.isRequired,
+    buildLinkTo: PropTypes.func,
     intl: intlShape.isRequired,
 };
 export let GridItem = injectIntl(CSSModules(GridItemCSSIntl, css));
@@ -237,9 +241,9 @@ export class Grid extends Component {
 
         // Build grid items
         let gridItems = [];
-        const { itemsType, itemsLabel, subItemsType, subItemsLabel } = this.props;
+        const { itemsType, itemsLabel, subItemsType, subItemsLabel, buildLinkTo } = this.props;
         this.props.items.forEach(function (item) {
-            gridItems.push(<GridItem item={item} itemsType={itemsType} itemsLabel={itemsLabel} subItemsType={subItemsType} subItemsLabel={subItemsLabel} key={item.get("id")} />);
+            gridItems.push(<GridItem item={item} itemsType={itemsType} itemsLabel={itemsLabel} subItemsType={subItemsType} subItemsLabel={subItemsLabel} buildLinkTo={buildLinkTo} key={item.get("id")} />);
         });
 
         return (
@@ -264,6 +268,7 @@ Grid.propTypes = {
     itemsLabel: PropTypes.string.isRequired,
     subItemsType: PropTypes.string.isRequired,
     subItemsLabel: PropTypes.string.isRequired,
+    buildLinkTo: PropTypes.func,
     filterText: PropTypes.string,
 };
 

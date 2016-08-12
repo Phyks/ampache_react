@@ -46,3 +46,10 @@ homogeneous.
 ## Hooks
 
 Usefuls Git hooks are located in `hooks` folder.
+
+
+## Notes on URLs
+
+Text after any dash in a URL parameter is considered as a comment and
+discarded. In `/artist/1-foobar`, the artist ID is `1` and the `foobar` text
+is simply considered as a comment for human readable URLs.
