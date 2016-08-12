@@ -2,7 +2,11 @@
 import React, { Component, PropTypes } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { Howl } from "howler";
+import { defineMessages, injectIntl, intlShape } from "react-intl";
+import { Howler, Howl } from "howler";
+
+// Local imports
+import { messagesMap, handleErrorI18nObject } from "../utils";
 
 // Actions
 import * as actionCreators from "../actions";
@@ -10,11 +14,17 @@ import * as actionCreators from "../actions";
 // Components
 import WebPlayerComponent from "../components/elements/WebPlayer";
 
+// Translations
+import messages from "../locales/messagesDescriptors/elements/WebPlayer";
+
+// Define translations
+const webplayerMessages = defineMessages(messagesMap(Array.concat([], messages)));
+
 
 /**
  * Webplayer container.
  */
-class WebPlayer extends Component {
+class WebPlayerIntl extends Component {
     constructor(props) {
         super(props);
 
@@ -75,18 +85,22 @@ class WebPlayer extends Component {
     startPlaying(props) {
         if (props.isPlaying && props.currentSong) {
             // If it should be playing any song
-            // Build a new Howler object with current song to play
             const url = props.currentSong.get("url");
-            this.howl = new Howl({
-                src: [url],
-                html5: true,  // Use HTML5 by default to allow streaming
-                mute: props.isMute,
-                volume: props.volume / 100,  // Set current volume
-                autoplay: false,  // No autoplay, we handle it manually
-                onend: () => props.actions.playNextSong(),  // Play next song at the end
-            });
-            // Start playing
-            this.howl.play();
+            if (Howler.codecs(url.split(".").pop())) {
+                // Build a new Howler object with current song to play
+                this.howl = new Howl({
+                    src: [url],
+                    html5: true,  // Use HTML5 by default to allow streaming
+                    mute: props.isMute,
+                    volume: props.volume / 100,  // Set current volume
+                    autoplay: false,  // No autoplay, we handle it manually
+                    onend: () => props.actions.playNextSong(),  // Play next song at the end
+                });
+                // Start playing
+                this.howl.play();
+            } else {
+                this.props.actions.unsupportedMediaType();
+            }
         }
         else {
             // If it should not be playing
@@ -120,6 +134,8 @@ class WebPlayer extends Component {
     }
 
     render() {
+        const { formatMessage } = this.props.intl;
+
         const webplayerProps = {
             isPlaying: this.props.isPlaying,
             isRandom: this.props.isRandom,
@@ -128,6 +144,7 @@ class WebPlayer extends Component {
             volume: this.props.volume,
             currentIndex: this.props.currentIndex,
             playlist: this.props.playlist,
+            error: handleErrorI18nObject(this.props.error, formatMessage, webplayerMessages),
             currentSong: this.props.currentSong,
             currentArtist: this.props.currentArtist,
             // Use a lambda to ensure no first argument is passed to
@@ -151,8 +168,9 @@ class WebPlayer extends Component {
         );
     }
 }
-WebPlayer.propTypes = {
+WebPlayerIntl.propTypes = {
     location: PropTypes.object,
+    intl: intlShape.isRequired,
 };
 const mapStateToProps = (state) => {
     const currentIndex = state.webplayer.currentIndex;
@@ -172,6 +190,7 @@ const mapStateToProps = (state) => {
         volume: state.webplayer.volume,
         currentIndex: currentIndex,
         playlist: playlist,
+        error: state.webplayer.error,
         currentSong: currentSong,
         currentArtist: currentArtist,
     };
@@ -179,4 +198,4 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators(actionCreators, dispatch),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(WebPlayer);
+export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(WebPlayerIntl));

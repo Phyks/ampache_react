@@ -34,6 +34,11 @@ const messages = [
         defaultMessage: "Playlist",
         description: "Playlist button description",
     },
+    {
+        "id": "app.webplayer.unsupported",
+        "description": "Unsupported media type",
+        "defaultMessage": "Unsupported media type",
+    },
 ];
 
 export default messages;

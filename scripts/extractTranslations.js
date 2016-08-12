@@ -3,6 +3,8 @@
  * in the app, and generates a complete locale file for English.
  *
  * This script is meant to be run through `npm run extractTranslations`.
+ *
+ * TODO: Check that every identifier is actually used in the code.
  */
 import * as fs from 'fs';
 import {sync as globSync} from 'glob';

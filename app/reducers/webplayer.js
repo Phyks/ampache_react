@@ -25,6 +25,7 @@ import {
     TOGGLE_REPEAT,
     TOGGLE_MUTE,
     SET_VOLUME,
+    SET_ERROR,
     INVALIDATE_STORE } from "../actions";
 
 
@@ -36,36 +37,27 @@ var initialState = new stateRecord();
 
 
 /**
- * Helper functions
- */
-
-/**
- * Stop playback in reducer helper.
- *
- * @param   state   Current state to update.
- */
-function stopPlayback(state) {
-    return (
-        state
-        .set("isPlaying", false)
-        .set("currentIndex", 0)
-        .set("playlist", new Immutable.List())
-    );
-}
-
-
-/**
  * Reducers
  */
 
 export default createReducer(initialState, {
     [PLAY_PAUSE]: (state, payload) => {
         // Force play or pause
-        return state.set("isPlaying", payload.isPlaying);
+        return (
+            state
+            .set("isPlaying", payload.isPlaying)
+            .set("error", null)
+        );
     },
     [STOP_PLAYBACK]: (state) => {
         // Clear the playlist
-        return stopPlayback(state);
+        return (
+            state
+            .set("isPlaying", false)
+            .set("currentIndex", 0)
+            .set("playlist", new Immutable.List())
+            .set("error", null)
+        );
     },
     [SET_PLAYLIST]: (state, payload) => {
         // Set current playlist, reset playlist index
@@ -73,6 +65,7 @@ export default createReducer(initialState, {
             state
             .set("playlist", new Immutable.List(payload.playlist))
             .set("currentIndex", 0)
+            .set("error", null)
         );
     },
     [PUSH_SONG]: (state, payload) => {
@@ -113,6 +106,9 @@ export default createReducer(initialState, {
                 "currentIndex",
                 Math.max(newState.get("currentIndex") - 1, 0)
             );
+        } else if (payload.index == state.get("currentIndex")) {
+            // If we remove current song, clear the error as well
+            newState = newState.set("error", null);
         }
         return newState;
     },
@@ -127,9 +123,13 @@ export default createReducer(initialState, {
             // If there is an overlow on the left of the playlist, just play
             // first music again
             // TODO: Should seek to beginning of music
-            return state;
+            return state.set("error", null);
         } else {
-            return state.set("currentIndex", newIndex);
+            return (
+                state
+                .set("currentIndex", newIndex)
+                .set("error", null)
+            );
         }
     },
     [PLAY_NEXT_SONG]: (state) => {
@@ -138,14 +138,22 @@ export default createReducer(initialState, {
             // If there is an overflow
             if (state.get("isRepeat")) {
                 // TODO: Handle repeat
-                return state;
+                return state.set("error", null);
             } else {
                 // Just stop playback
-                return state.set("isPlaying", false);
+                return (
+                    state
+                    .set("isPlaying", false)
+                    .set("error", null)
+                );
             }
         } else {
             // Else, play next item
-            return state.set("currentIndex", newIndex);
+            return (
+                state
+                .set("currentIndex", newIndex)
+                .set("error", null)
+            );
         }
     },
     [TOGGLE_RANDOM]: (state) => {
@@ -159,6 +167,13 @@ export default createReducer(initialState, {
     },
     [SET_VOLUME]: (state, payload) => {
         return state.set("volume", payload.volume);
+    },
+    [SET_ERROR]: (state, payload) => {
+        return (
+            state
+            .set("isPlaying", false)
+            .set("error", payload.error)
+        );
     },
     [INVALIDATE_STORE]: () => {
         return new stateRecord();

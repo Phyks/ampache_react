@@ -138,6 +138,12 @@ class WebPlayerCSSIntl extends Component {
                         </div>
                     </div>
 
+                    {
+                        this.props.error
+                            ? <div className="row text-center"><p>{this.props.error}</p></div>
+                            : null
+                    }
+
                     <div className="row text-center" styleName="controls">
                         <div className="col-xs-12">
                             <button styleName="prevBtn" aria-label={formatMessage(webplayerMessages["app.webplayer.previous"])} title={formatMessage(webplayerMessages["app.webplayer.previous"])} onClick={onPrev} ref="prevBtn">
@@ -179,6 +185,7 @@ WebPlayerCSSIntl.propTypes = {
     volume: PropTypes.number.isRequired,
     currentIndex: PropTypes.number.isRequired,
     playlist: PropTypes.instanceOf(Immutable.List).isRequired,
+    error: PropTypes.string,
     currentSong: PropTypes.instanceOf(Immutable.Map),
     currentArtist: PropTypes.instanceOf(Immutable.Map),
     onPlayPause: PropTypes.func.isRequired,

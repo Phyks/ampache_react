@@ -51,5 +51,6 @@ module.exports = {
     "app.webplayer.previous": "Précédent",  // Previous button description
     "app.webplayer.random": "Aléatoire",  // Random button description
     "app.webplayer.repeat": "Répéter",  // Repeat button description
+    "app.webplayer.unsupported": "Format non supporté",  // "Unsupported media type",
     "app.webplayer.volume": "Volume",  // Volume button description
 };

@@ -4,6 +4,7 @@
 
 // Other actions
 import { decrementRefCount, incrementRefCount } from "./entities";
+import { i18nRecord } from "../models/i18n";
 
 
 export const PLAY_PAUSE = "PLAY_PAUSE";
@@ -251,8 +252,10 @@ export const TOGGLE_RANDOM = "TOGGLE_RANDOM";
  * @return  Dispatch a TOGGLE_RANDOM action.
  */
 export function toggleRandom() {
-    return {
-        type: TOGGLE_RANDOM,
+    return (dispatch) => {
+        dispatch({
+            type: TOGGLE_RANDOM,
+        });
     };
 }
 
@@ -264,8 +267,10 @@ export const TOGGLE_REPEAT = "TOGGLE_REPEAT";
  * @return  Dispatch a TOGGLE_REPEAT action.
  */
 export function toggleRepeat() {
-    return {
-        type: TOGGLE_REPEAT,
+    return (dispatch) => {
+        dispatch({
+            type: TOGGLE_REPEAT,
+        });
     };
 }
 
@@ -277,8 +282,10 @@ export const TOGGLE_MUTE = "TOGGLE_MUTE";
  * @return  Dispatch a TOGGLE_MUTE action.
  */
 export function toggleMute() {
-    return {
-        type: TOGGLE_MUTE,
+    return (dispatch) => {
+        dispatch({
+            type: TOGGLE_MUTE,
+        });
     };
 }
 
@@ -292,10 +299,33 @@ export const SET_VOLUME = "SET_VOLUME";
  * @return  Dispatch a SET_VOLUME action.
  */
 export function setVolume(volume) {
-    return {
-        type: SET_VOLUME,
-        payload: {
-            volume: volume,
-        },
+    return (dispatch) => {
+        dispatch({
+            type: SET_VOLUME,
+            payload: {
+                volume: volume,
+            },
+        });
+    };
+}
+
+
+export const SET_ERROR = "SET_ERROR";
+/**
+ * Set an error in case a song is not in a supported format.
+ *
+ * @return  Dispatch a SET_ERROR action.
+ */
+export function unsupportedMediaType() {
+    return (dispatch) => {
+        dispatch({
+            type: SET_ERROR,
+            payload: {
+                error: new i18nRecord({
+                    id: "app.webplayer.unsupported",
+                    values: {},
+                }),
+            },
+        });
     };
 }
