@@ -71,7 +71,7 @@ const mapStateToProps = (state) => {
         songsList = state.paginated.result.map(function (id) {
             let song = state.entities.getIn(["entities", "song", id]);
             // Add artist and album infos to song
-            const artist = state.entities.getIn(["entities", "artist", song.get("artist")]);
+            const artist = state.entities.getIn(["entities", "artist", song.get("artist")]);  // TODO: get on undefined
             const album = state.entities.getIn(["entities", "album", song.get("album")]);
             return (
                 song

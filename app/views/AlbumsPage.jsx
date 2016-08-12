@@ -39,7 +39,7 @@ class AlbumsPageIntl extends Component {
             // Unload data on page change
             this.props.actions.clearPaginatedResults();
             // Load new data
-            this.props.actions.loadAlbums({pageNumber: nextPage});
+            this.props.actions.loadPaginatedAlbums({pageNumber: nextPage});
         }
     }
 
@@ -73,7 +73,7 @@ const mapStateToProps = (state) => {
             id => state.entities.getIn(["entities", "album", id])
         );
         albumsList.forEach(function (album) {
-            const albumArtist = album.get("artist");
+            const albumArtist = album.get("artist");  // TODO: get on undefined
             artistsList = artistsList.set(albumArtist, state.entities.getIn(["entities", "artist", albumArtist]));
         });
     }
