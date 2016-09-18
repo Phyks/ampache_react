@@ -73,8 +73,10 @@ const mapStateToProps = (state) => {
             id => state.entities.getIn(["entities", "album", id])
         );
         albumsList.forEach(function (album) {
-            const albumArtist = album.get("artist");  // TODO: get on undefined
-            artistsList = artistsList.set(albumArtist, state.entities.getIn(["entities", "artist", albumArtist]));
+            if (album) {
+                const albumArtist = album.get("artist");
+                artistsList = artistsList.set(albumArtist, state.entities.getIn(["entities", "artist", albumArtist]));
+            }
         });
     }
     return {
