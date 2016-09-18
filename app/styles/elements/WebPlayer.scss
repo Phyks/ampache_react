@@ -17,6 +17,7 @@ $controlsMarginTop: 10px;
 
 .artRow {
     min-height: 200px;
+    position: relative;
 }
 
 .artTimer {
@@ -26,6 +27,13 @@ $controlsMarginTop: 10px;
     background-color: black;
     opacity: 0.75;
     z-index: -9;
+}
+
+.artDuration {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    text-align: right;
 }
 
 /**

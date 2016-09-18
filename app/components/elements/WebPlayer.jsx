@@ -7,7 +7,7 @@ import Immutable from "immutable";
 import FontAwesome from "react-fontawesome";
 
 // Local imports
-import { messagesMap } from "../../utils";
+import { formatLength, messagesMap } from "../../utils";
 
 // Styles
 import css from "../../styles/elements/WebPlayer.scss";
@@ -43,10 +43,12 @@ class WebPlayerCSSIntl extends Component {
             // On mouse over, reduce opacity
             this.refs.art.style.opacity = "1";
             this.refs.artText.style.display = "none";
+            this.refs.artDuration.style.display = "none";
         } else {
             // On mouse out, set opacity back
             this.refs.art.style.opacity = "0.75";
             this.refs.artText.style.display = "block";
+            this.refs.artDuration.style.display = "block";
         }
     }
 
@@ -79,12 +81,14 @@ class WebPlayerCSSIntl extends Component {
         let art = null;
         let songTitle = null;
         let artistName = null;
+        let length = null;
         if (song) {
             art = song.get("art");
             songTitle = song.get("title");
             if (this.props.currentArtist) {
                 artistName = this.props.currentArtist.get("name");
             }
+            length = formatLength(song.get("time"));
         }
 
         // Click handlers
@@ -136,6 +140,9 @@ class WebPlayerCSSIntl extends Component {
                                         : null
                                 }
                             </div>
+                        </div>
+                        <div className="col-xs-12" styleName="artDuration" ref="artDuration">
+                            <p>{ length }</p>
                         </div>
                     </div>
 
