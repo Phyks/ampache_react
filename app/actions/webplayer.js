@@ -47,14 +47,14 @@ export const STOP_PLAYBACK = "STOP_PLAYBACK";
  */
 export function stopPlayback() {
     return (dispatch, getState) => {
-        // Handle reference counting
-        dispatch(decrementRefCount({
-            song: getState().webplayer.get("playlist").toArray(),
-        }));
         // Stop playback
         dispatch ({
             type: STOP_PLAYBACK,
         });
+        // Handle reference counting
+        dispatch(decrementRefCount({
+            song: getState().webplayer.get("playlist").toArray(),
+        }));
     };
 }
 

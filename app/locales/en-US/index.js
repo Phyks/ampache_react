@@ -11,7 +11,7 @@ module.exports = {
     "app.common.loading": "Loading…",  // Loading indicator
     "app.common.pause": "Pause",  // Pause icon description
     "app.common.play": "Play",  // Play icon description
-    "app.common.playNext": "Play next",  // "Play next icon descripton"
+    "app.common.playNext": "Play next",  // Play next icon descripton
     "app.common.track": "{itemCount, plural, one {track} other {tracks}}",  // Track
     "app.filter.filter": "Filter…",  // Filtering input placeholder
     "app.filter.whatAreWeListeningToToday": "What are we listening to today?",  // Description for the filter bar
@@ -32,10 +32,11 @@ module.exports = {
     "app.pagination.goToPageWithoutMarkup": "Go to page {pageNumber}",  // Link title to go to page N
     "app.pagination.pageNavigation": "Page navigation",  // ARIA label for the nav block containing pagination
     "app.pagination.pageToGoTo": "Page to go to?",  // Title of the pagination modal
-    "app.playlist.currentSongPlaying": "Current song playing",  // "Current song playing"
-    "app.playlist.emptyPlaylist": "Empty playlist",  // "Empty playlist message"
-    "app.playlist.fullPlaylist": "Full playlist",  // "Full playlist"
-    "app.playlist.playlist": "Playlist",  // "Playlist translation"
+    "app.playlist.currentSongPlaying": "Current song playing",  // Current song playing
+    "app.playlist.emptyPlaylist": "Empty playlist",  // Empty playlist message
+    "app.playlist.flushPlaylist": "Empty the playlist",  // Empty the playlist link label
+    "app.playlist.fullPlaylist": "Full playlist",  // Full playlist
+    "app.playlist.playlist": "Playlist",  // Playlist translation
     "app.sidebarLayout.browse": "Browse",  // Browse
     "app.sidebarLayout.browseAlbums": "Browse albums",  // Browse albums
     "app.sidebarLayout.browseArtists": "Browse artists",  // Browse artists
@@ -56,6 +57,6 @@ module.exports = {
     "app.webplayer.previous": "Previous",  // Previous button description
     "app.webplayer.random": "Random",  // Random button description
     "app.webplayer.repeat": "Repeat",  // Repeat button description
-    "app.webplayer.unsupported": "Unsupported media type",  // "Unsupported media type",
+    "app.webplayer.unsupported":"Unsupported media type",  // Unsupported media type
     "app.webplayer.volume": "Volume",  // Volume button description
 };

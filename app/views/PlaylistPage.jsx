@@ -17,7 +17,7 @@ import Playlist from "../components/Playlist";
 class PlaylistPage extends Component {
     render() {
         return (
-            <Playlist playAction={this.props.actions.jumpToSong} playNextAction={null} songs={this.props.songsList} currentIndex={this.props.currentIndex} />
+            <Playlist playAction={this.props.actions.jumpToSong} playNextAction={null} flushAction={this.props.actions.stopPlayback} songs={this.props.songsList} currentIndex={this.props.currentIndex} />
         );
     }
 }

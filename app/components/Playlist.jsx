@@ -1,3 +1,4 @@
+// TODO: Styling
 // NPM import
 import React, { Component, PropTypes } from "react";
 import Immutable from "immutable";
@@ -36,6 +37,12 @@ class PlaylistIntl extends Component {
             };
             playlistText = (
                 <div>
+                    <p className="text-center">
+                        <button onClick={() => this.props.flushAction() }>
+                            <FormattedMessage {...playlistMessages["app.playlist.flushPlaylist"]} />
+                        </button>
+                    </p>
+
                     <h3>
                         <FormattedMessage {...playlistMessages["app.playlist.currentSongPlaying"]} />
                     </h3>
@@ -68,7 +75,8 @@ class PlaylistIntl extends Component {
 }
 PlaylistIntl.propTypes = {
     playAction: PropTypes.func.isRequired,
-    playNextAction: PropTypes.func.isRequired,
+    playNextAction: PropTypes.func,
+    flushAction: PropTypes.func.isRequired,
     songs: PropTypes.instanceOf(Immutable.List).isRequired,
     currentIndex: PropTypes.number.isRequired,
     intl: intlShape.isRequired,

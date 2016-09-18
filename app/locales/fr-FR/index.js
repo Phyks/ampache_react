@@ -11,7 +11,7 @@ module.exports = {
     "app.common.loading": "Chargement…",  // Loading indicator
     "app.common.pause": "Pause",  // Pause icon description
     "app.common.play": "Jouer",  // PLay icon description
-    "app.common.playNext": "Jouer après",  // "Play next icon descripton"
+    "app.common.playNext": "Jouer après",  // Play next icon descripton
     "app.common.track": "{itemCount, plural, one {piste} other {pistes}}",  // Track
     "app.filter.filter": "Filtrer…",  // Filtering input placeholder
     "app.filter.whatAreWeListeningToToday": "Que voulez-vous écouter aujourd'hui\u00a0?",  // Description for the filter bar
@@ -32,10 +32,11 @@ module.exports = {
     "app.pagination.goToPageWithoutMarkup": "Aller à la page {pageNumber}",  // Link title to go to page N
     "app.pagination.pageNavigation": "Navigation entre les pages",  // ARIA label for the nav block containing pagination
     "app.pagination.pageToGoTo": "Page à laquelle aller\u00a0?",  // Title of the pagination modal
-    "app.playlist.currentSongPlaying": "Piste en cours de lecture",  // "Current song playing",
-    "app.playlist.emptyPlaylist": "Liste de lecture vide",  // "Empty playlist message"
-    "app.playlist.fullPlaylist": "Playlist complète",  // "Full playlist",
-    "app.playlist.playlist": "Liste de lecture",  // "Playlist translation"
+    "app.playlist.currentSongPlaying": "Piste en cours de lecture",  // Current song playing
+    "app.playlist.emptyPlaylist": "Liste de lecture vide",  // Empty playlist message
+    "app.playlist.flushPlaylist": "Vider la playlist",  // Empty the playlist link label
+    "app.playlist.fullPlaylist": "Playlist complète",  // Full playlist
+    "app.playlist.playlist": "Liste de lecture",  // Playlist translation
     "app.sidebarLayout.browse": "Explorer",  // Browse
     "app.sidebarLayout.browseAlbums": "Parcourir les albums",  // Browse albums
     "app.sidebarLayout.browseArtists": "Parcourir les artistes",  // Browse artists
@@ -56,6 +57,6 @@ module.exports = {
     "app.webplayer.previous": "Précédent",  // Previous button description
     "app.webplayer.random": "Aléatoire",  // Random button description
     "app.webplayer.repeat": "Répéter",  // Repeat button description
-    "app.webplayer.unsupported": "Format non supporté",  // "Unsupported media type",
+    "app.webplayer.unsupported": "Format non supporté",  // Unsupported media type
     "app.webplayer.volume": "Volume",  // Volume button description
 };

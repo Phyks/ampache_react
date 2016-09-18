@@ -19,6 +19,11 @@ const messages = [
         "defaultMessage": "Empty playlist",
         "description": "Empty playlist message",
     },
+    {
+        "id": "app.playlist.flushPlaylist",
+        "defaultMessage": "Empty the playlist",
+        "description": "Empty the playlist link label",
+    },
 ];
 
 export default messages;
