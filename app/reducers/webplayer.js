@@ -133,12 +133,13 @@ export default createReducer(initialState, {
         }
     },
     [PLAY_NEXT_SONG]: (state) => {
-        const newIndex = state.get("currentIndex") + 1;
+        let newIndex = state.get("currentIndex") + 1;
         if (newIndex >= state.get("playlist").size) {
             // If there is an overflow
             if (state.get("isRepeat")) {
-                // TODO: Handle repeat
-                return state.set("error", null);
+                // If we are at the end of the playlist and repeat mode is on,
+                // just play back first song.
+                newIndex = 0;
             } else {
                 // Just stop playback
                 return (

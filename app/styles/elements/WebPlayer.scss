@@ -19,6 +19,15 @@ $controlsMarginTop: 10px;
     min-height: 200px;
 }
 
+.artTimer {
+    position: absolute;
+    width: 50px;
+    height: 200px;
+    background-color: black;
+    opacity: 0.75;
+    z-index: -9;
+}
+
 /**
  * Controls
  */

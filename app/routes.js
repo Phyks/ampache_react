@@ -18,6 +18,7 @@ import LoginPage from "./views/LoginPage";
 import LogoutPage from "./views/LogoutPage";
 import PlaylistPage from "./views/PlaylistPage";
 import SongsPage from "./views/SongsPage";
+import SettingsPage from "./views/SettingsPage";
 
 export default (
     <Route path="/" component={App}>  // Main container is App
@@ -35,6 +36,7 @@ export default (
                 <Route path="artist/:artist/album/:album" component={ArtistPage} />
                 <Route path="songs" component={SongsPage} />
                 <Route path="playlist" component={PlaylistPage} />
+                <Route path="settings" component={SettingsPage} />
                 <IndexRoute component={HomePage} />
             </Route>
         </Route>

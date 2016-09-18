@@ -58,8 +58,8 @@ class SongsTableRowCSSIntl extends Component {
         const { formatMessage } = this.props.intl;
 
         const length = formatLength(this.props.song.get("time"));
-        const linkToArtist = "/artist/" + this.props.song.getIn(["artist", "id"]);
-        const linkToAlbum = "/album/" + this.props.song.getIn(["album", "id"]);
+        const linkToArtist =  "/artist/" + this.props.song.getIn(["artist", "id"]) + "-" + encodeURIComponent(this.props.song.getIn(["artist", "name"]));
+        const linkToAlbum = linkToArtist + "/album/" + this.props.song.getIn(["album", "id"]) + "-" + encodeURIComponent(this.props.song.getIn(["album", "name"]));
 
         return (
             <tr>

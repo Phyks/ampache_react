@@ -118,6 +118,7 @@ class WebPlayerCSSIntl extends Component {
                 <div className="col-xs-12">
                     <div className="row" styleName="artRow" onMouseOver={this.artOpacityHandler} onMouseOut={this.artOpacityHandler}>
                         <div className="col-xs-12">
+                            <div styleName="artTimer"></div>
                             <img src={art} width="200" height="200" alt={formatMessage(webplayerMessages["app.common.art"])} ref="art" styleName="art" />
                             <div ref="artText">
                                 {
@@ -166,6 +167,7 @@ class WebPlayerCSSIntl extends Component {
                             <button styleName={randomBtnStyles.join(" ")} aria-label={formatMessage(webplayerMessages["app.webplayer.random"])} title={formatMessage(webplayerMessages["app.webplayer.random"])} aria-pressed={this.props.isRandom} onClick={onRandom} ref="randomBtn">
                                 <FontAwesome name="random" />
                             </button>
+                            { /* TODO: If already on playlist page, should go back. */ }
                             <Link to="/playlist" styleName={playlistBtnStyles.join(" ")} aria-label={formatMessage(webplayerMessages["app.webplayer.playlist"])} title={formatMessage(webplayerMessages["app.webplayer.playlist"])}>
                                 <FontAwesome name="list" />
                             </Link>

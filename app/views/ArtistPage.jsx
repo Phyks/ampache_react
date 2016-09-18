@@ -1,6 +1,3 @@
-/**
- * TODO: Scroll to album if /album/:id is passed.
- */
 // NPM imports
 import React, { Component, PropTypes } from "react";
 import { bindActionCreators } from "redux";
