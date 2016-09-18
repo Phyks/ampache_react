@@ -32,6 +32,10 @@ module.exports = {
     "app.pagination.goToPageWithoutMarkup": "Aller à la page {pageNumber}",  // Link title to go to page N
     "app.pagination.pageNavigation": "Navigation entre les pages",  // ARIA label for the nav block containing pagination
     "app.pagination.pageToGoTo": "Page à laquelle aller\u00a0?",  // Title of the pagination modal
+    "app.playlist.currentSongPlaying": "Piste en cours de lecture",  // "Current song playing",
+    "app.playlist.emptyPlaylist": "Liste de lecture vide",  // "Empty playlist message"
+    "app.playlist.fullPlaylist": "Playlist complète",  // "Full playlist",
+    "app.playlist.playlist": "Liste de lecture",  // "Playlist translation"
     "app.sidebarLayout.browse": "Explorer",  // Browse
     "app.sidebarLayout.browseAlbums": "Parcourir les albums",  // Browse albums
     "app.sidebarLayout.browseArtists": "Parcourir les artistes",  // Browse artists
