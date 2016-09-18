@@ -40,8 +40,6 @@ class ArtistCSS extends Component {
         // After each update, check if we need to scroll to a given element
         // State prevents scrolling at each and every update
         if (this.refs.scroll && !this.state.hasScrolled) {
-            console.log("scroll!");
-            console.log($(ReactDOM.findDOMNode(this.refs.scroll)).offset().top);
             $("html, body").animate({ scrollTop: $(ReactDOM.findDOMNode(this.refs.scroll)).offset().top }, 600);
             this.setState({
                 hasScrolled: true,
