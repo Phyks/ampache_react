@@ -47,6 +47,7 @@ module.exports = {
     "app.songs.title": "Title",  // Title (song)
     "app.webplayer.by": "by",  // Artist affiliation of a song
     "app.webplayer.next": "Next",  // Next button description
+    "app.webplayer.onLoadError": "Unable to load song",  // Error message in case a song could not be loaded
     "app.webplayer.playlist": "Playlist",  // Playlist button description
     "app.webplayer.previous": "Previous",  // Previous button description
     "app.webplayer.random": "Random",  // Random button description

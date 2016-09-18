@@ -7,6 +7,7 @@ import { Howler, Howl } from "howler";
 
 // Local imports
 import { messagesMap, handleErrorI18nObject } from "../utils";
+import { UNSUPPORTED_MEDIA_TYPE, ONLOAD_ERROR } from "../actions/webplayer";
 
 // Actions
 import * as actionCreators from "../actions";
@@ -86,7 +87,9 @@ class WebPlayerIntl extends Component {
         if (props.isPlaying && props.currentSong) {
             // If it should be playing any song
             const url = props.currentSong.get("url");
-            if (Howler.codecs(url.split(".").pop())) {
+            const format = url.split(".").pop();
+            const isPlayable = Howler.codecs(format);
+            if (isPlayable) {
                 // Build a new Howler object with current song to play
                 this.howl = new Howl({
                     src: [url],
@@ -94,12 +97,18 @@ class WebPlayerIntl extends Component {
                     mute: props.isMute,
                     volume: props.volume / 100,  // Set current volume
                     autoplay: false,  // No autoplay, we handle it manually
+                    format: format,  // Specify format as Howler is unable to fetch it from URL
+                    onloaderror: () => props.actions.setError(ONLOAD_ERROR),  // Display error if song cannot be loaded
                     onend: () => props.actions.playNextSong(),  // Play next song at the end
                 });
                 // Start playing
                 this.howl.play();
             } else {
-                this.props.actions.unsupportedMediaType();
+                // Howler already performs this check on his own, but we have
+                // to do it ourselves to be able to display localized errors
+                // for every possible error.
+                // TODO: This could most likely be simplified.
+                props.actions.setError(UNSUPPORTED_MEDIA_TYPE);
             }
         }
         else {

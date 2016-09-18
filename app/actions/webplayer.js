@@ -311,20 +311,38 @@ export function setVolume(volume) {
 
 
 export const SET_ERROR = "SET_ERROR";
+export const UNSUPPORTED_MEDIA_TYPE = "UNSUPPORTED_MEDIA_TYPE";
+export const ONLOAD_ERROR = "ONLOAD_ERROR";
 /**
- * Set an error in case a song is not in a supported format.
+ * Set an error appearing in the webplayer component.
  *
- * @return  Dispatch a SET_ERROR action.
+ * @note   Does not do anything in case an invalid error identifier is passed.
+ *
+ * @return Dispatch the matching SET_ERROR action.
  */
-export function unsupportedMediaType() {
+export function setError(errorType) {
+    let dispatchedError;
+    switch (errorType) {
+        case UNSUPPORTED_MEDIA_TYPE:
+            dispatchedError = new i18nRecord({
+                id: "app.webplayer.unsupported",
+                values: {},
+            });
+            break;
+        case ONLOAD_ERROR:
+            dispatchedError = new i18nRecord({
+                id: "app.webplayer.onLoadError",
+                values: {},
+            });
+            break;
+        default:
+            return;
+    }
     return (dispatch) => {
         dispatch({
             type: SET_ERROR,
             payload: {
-                error: new i18nRecord({
-                    id: "app.webplayer.unsupported",
-                    values: {},
-                }),
+                error: dispatchedError,
             },
         });
     };

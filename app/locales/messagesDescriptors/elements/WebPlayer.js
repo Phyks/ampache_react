@@ -39,6 +39,11 @@ const messages = [
         "description": "Unsupported media type",
         "defaultMessage": "Unsupported media type",
     },
+    {
+        "id": "app.webplayer.onLoadError",
+        "description": "Error message in case a song could not be loaded",
+        "defaultMessage": "Unable to load song",
+    },
 ];
 
 export default messages;
