@@ -51,7 +51,9 @@ class SongsTableRowCSSIntl extends Component {
      */
     onPlayNextClick() {
         $(this.refs.playNext).blur();
-        this.props.playNextAction(this.props.song.get("id"));
+        if (this.props.playNextAction) {
+            this.props.playNextAction(this.props.song.get("id"));
+        }
     }
 
     render() {
@@ -60,6 +62,18 @@ class SongsTableRowCSSIntl extends Component {
         const length = formatLength(this.props.song.get("time"));
         const linkToArtist =  "/artist/" + this.props.song.getIn(["artist", "id"]) + "-" + encodeURIComponent(this.props.song.getIn(["artist", "name"]));
         const linkToAlbum = linkToArtist + "/album/" + this.props.song.getIn(["album", "id"]) + "-" + encodeURIComponent(this.props.song.getIn(["album", "name"]));
+
+        let playNextButton = null;
+        if (this.props.playNextAction) {
+            playNextButton = (
+                <button styleName="playNext" title={formatMessage(songsMessages["app.common.playNext"])} onClick={this.onPlayNextClick} ref="playNext">
+                    <span className="sr-only">
+                        <FormattedMessage {...songsMessages["app.common.playNext"]} />
+                    </span>
+                    <FontAwesome name="plus-circle" aria-hidden="true" />
+                </button>
+            );
+        }
 
         return (
             <tr>
@@ -70,12 +84,7 @@ class SongsTableRowCSSIntl extends Component {
                         </span>
                         <FontAwesome name="play-circle-o" aria-hidden="true" />
                     </button>&nbsp;
-                    <button styleName="playNext" title={formatMessage(songsMessages["app.common.playNext"])} onClick={this.onPlayNextClick} ref="playNext">
-                        <span className="sr-only">
-                            <FormattedMessage {...songsMessages["app.common.playNext"]} />
-                        </span>
-                        <FontAwesome name="plus-circle" aria-hidden="true" />
-                    </button>
+                    { playNextButton }
                 </td>
                 <td className="title">{this.props.song.get("name")}</td>
                 <td className="artist"><Link to={linkToArtist}>{this.props.song.getIn(["artist", "name"])}</Link></td>
@@ -88,7 +97,7 @@ class SongsTableRowCSSIntl extends Component {
 }
 SongsTableRowCSSIntl.propTypes = {
     playAction: PropTypes.func.isRequired,
-    playNextAction: PropTypes.func.isRequired,
+    playNextAction: PropTypes.func,
     song: PropTypes.instanceOf(Immutable.Map).isRequired,
     intl: intlShape.isRequired,
 };
@@ -165,7 +174,7 @@ class SongsTableCSS extends Component {
 }
 SongsTableCSS.propTypes = {
     playAction: PropTypes.func.isRequired,
-    playNextAction: PropTypes.func.isRequired,
+    playNextAction: PropTypes.func,
     songs: PropTypes.instanceOf(Immutable.List).isRequired,
     filterText: PropTypes.string,
 };
@@ -230,7 +239,7 @@ export default class FilterablePaginatedSongsTable extends Component {
 }
 FilterablePaginatedSongsTable.propTypes = {
     playAction: PropTypes.func.isRequired,
-    playNextAction: PropTypes.func.isRequired,
+    playNextAction: PropTypes.func,
     isFetching: PropTypes.bool.isRequired,
     error: PropTypes.string,
     songs: PropTypes.instanceOf(Immutable.List).isRequired,
