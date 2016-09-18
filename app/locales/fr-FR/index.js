@@ -37,6 +37,7 @@ module.exports = {
     "app.playlist.flushPlaylist": "Vider la playlist",  // Empty the playlist link label
     "app.playlist.fullPlaylist": "Playlist complète",  // Full playlist
     "app.playlist.playlist": "Liste de lecture",  // Playlist translation
+    "app.settings.settings": "Préférences",  // Settings translation
     "app.sidebarLayout.browse": "Explorer",  // Browse
     "app.sidebarLayout.browseAlbums": "Parcourir les albums",  // Browse albums
     "app.sidebarLayout.browseArtists": "Parcourir les artistes",  // Browse artists

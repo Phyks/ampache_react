@@ -131,7 +131,7 @@ class LoginFormCSSIntl extends Component {
                         : null
                 }
                 <div className="row">
-                    <form className="col-sm-9 col-sm-offset-1 col-md-6 col-md-offset-3 text-left form-horizontal login" onSubmit={this.handleSubmit} ref="loginForm" aria-describedby="loginFormInfo loginFormError">
+                    <form className="col-xs-9 col-xs-offset-1 col-md-6 col-md-offset-3 text-left form-horizontal login" onSubmit={this.handleSubmit} ref="loginForm" aria-describedby="loginFormInfo loginFormError">
                         <div className="row">
                             <div className="form-group" ref="usernameFormGroup">
                                 <div className="col-xs-12">
@@ -198,7 +198,7 @@ class LoginCSS extends Component {
                 <h1><img styleName="titleImage" src="./img/ampache-blue.png" alt="A"/>mpache</h1>
                 <hr/>
                 {(!this.props.error && !this.props.info) ? greeting : null}
-                <div className="col-sm-9 col-sm-offset-2 col-md-6 col-md-offset-3">
+                <div className="col-xs-9 col-xs-offset-2 col-md-6 col-md-offset-3">
                     <LoginForm onSubmit={this.props.onSubmit} username={this.props.username} endpoint={this.props.endpoint} rememberMe={this.props.rememberMe} isAuthenticating={this.props.isAuthenticating} error={this.props.error} info={this.props.info} />
                 </div>
             </div>

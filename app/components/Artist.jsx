@@ -87,16 +87,16 @@ class ArtistCSS extends Component {
             <div>
                 { error }
                 <div className="row" styleName="name">
-                    <div className="col-sm-12">
+                    <div className="col-xs-12">
                         <h1>{this.props.artist.get("name")}</h1>
                         <hr/>
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-sm-9">
+                    <div className="col-xs-9">
                         <p>{this.props.artist.get("summary")}</p>
                     </div>
-                    <div className="col-sm-3 text-center">
+                    <div className="col-xs-3 text-center">
                         <p><img src={this.props.artist.get("art")} width="200" height="200" className="img-responsive img-circle" styleName="art" alt={this.props.artist.get("name")}/></p>
                     </div>
                 </div>

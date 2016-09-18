@@ -116,7 +116,7 @@ class AlbumRowCSS extends Component {
     render() {
         return (
             <div className="row" styleName="row">
-                <div className="col-sm-offset-2 col-xs-9 col-sm-10" styleName="nameRow">
+                <div className="col-xs-9 col-sm-offset-2 col-sm-10" styleName="nameRow">
                     <h2>{this.props.album.get("name")}</h2>
                 </div>
                 <div className="col-xs-3 col-sm-2" styleName="artRow">

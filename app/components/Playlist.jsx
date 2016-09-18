@@ -62,12 +62,21 @@ class PlaylistIntl extends Component {
             );
         }
         return (
-            <div className="row">
-                <h2 className="text-center">
-                    <FormattedMessage {...playlistMessages["app.playlist.playlist"]} />
-                </h2>
+            <div>
+                <div className="row">
+                    <div className="col-xs-12">
+                        <h2>
+                            <FormattedMessage {...playlistMessages["app.playlist.playlist"]} />
+                        </h2>
+                        <hr />
+                    </div>
+                </div>
 
-                { playlistText }
+                <div className="row">
+                    <div className="col-xs-12">
+                        { playlistText }
+                    </div>
+                </div>
             </div>
         );
 

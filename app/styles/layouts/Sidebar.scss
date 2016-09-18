@@ -37,15 +37,16 @@ $condensedNavPadding: 5px;
     text-decoration: none;
 }
 
-.link:hover {
-    color: $foreground;
-    background-color: $hoverBackground !important;
-    text-decoration: none;
-}
-
 .link:focus {
     color: $foreground;
     background-color: transparent !important;
+    text-decoration: none;
+}
+
+/** Note: Keep hover after focus pseudo-class so that hover overloads focus. */
+.link:hover {
+    color: $foreground;
+    background-color: $hoverBackground !important;
     text-decoration: none;
 }
 
