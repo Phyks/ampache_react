@@ -5,7 +5,7 @@ import FontAwesome from "react-fontawesome";
 
 import css from "../styles/Discover.scss";
 
-export default class DiscoverCSS extends Component {
+export class DiscoverCSS extends Component {
     render() {
         const artistsAlbumsSongsDropdown = (
             <div className="btn-group">
