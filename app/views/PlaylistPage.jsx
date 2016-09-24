@@ -16,8 +16,13 @@ import Playlist from "../components/Playlist";
  */
 class PlaylistPage extends Component {
     render() {
+        const actions = this.props.actions;
+        const playAction = function (id) {
+            actions.jumpToSong(id);
+            actions.togglePlaying(true);
+        };
         return (
-            <Playlist playAction={this.props.actions.jumpToSong} playNextAction={null} flushAction={this.props.actions.stopPlayback} songs={this.props.songsList} currentIndex={this.props.currentIndex} />
+            <Playlist playAction={playAction} playNextAction={null} flushAction={actions.stopPlayback} songs={this.props.songsList} currentIndex={this.props.currentIndex} />
         );
     }
 }
