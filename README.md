@@ -10,7 +10,7 @@ React.
 Just drop this repo in a location served by a webserver, make your webserver
 serve the `public` folder and head your browser to the correct URL :)
 
-Or you can use the [hosted version](https://phyks.github.io/ampache_react/).
+Or you can use the [hosted version](https://phyks.github.io/ampache_react/public/).
 
 
 ## Requirements
@@ -22,7 +22,7 @@ To use this interface, you need:
 * A modern browser.
 
 For now, this is a work in progress and as such, the [hosted
-version](https://phyks.github.io/ampache_react/) (or `gh-pages` branch) always
+version](https://phyks.github.io/ampache_react/public/) (or `gh-pages` branch) always
 require the latest `develop` branch of Ampache. As soon as this is stabilized
 and Ampache gets a new version, this note will be updated with the required
 Ampache version.
